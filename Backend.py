@@ -24,7 +24,9 @@ def get_user_profiles():
             "age": user["age"],
             "dietary_restrictions": user["dietary_restrictions"],
             "allergies": user["allergies"],
-            "daily_calories": user["daily_calories"]
+            "daily_calories": user["daily_calories"],
+            "cooking_skill": user["cooking_skill"],
+            "preferred_cuisines": user["preferred_cuisines"]
         } for user in users]
     except Exception as e:
         print(f"Error loading users: {e}")
@@ -43,7 +45,6 @@ def get_meal_recommendations(user_id, meal_time):
     if not user or not foods:
         return []
 
-    # get 3 meal options
     meals = []
     for i in range(3):
         meal = generate_meal(user, foods, meal_time)
@@ -53,8 +54,7 @@ def get_meal_recommendations(user_id, meal_time):
     return meals
 
 def generate_meal(user, foods, meal_time):
-    """Generate a simple meal for the user"""
-    # safe foods
+    """Generate a simple meal for the user from safe foods""" 
     safe_foods = [food for food in foods if not any(allergy.lower() in food["name"].lower() for allergy in user["allergies"])]
 
     if len(safe_foods) < 2:
@@ -64,7 +64,7 @@ def generate_meal(user, foods, meal_time):
     num_foods = min(random.randint(2, 3), len(safe_foods))
     selected_foods = random.sample(safe_foods, num_foods)
 
-    # calories
+    
     total_calories = sum(food["calories"] for food in selected_foods)
 
     # meal name
