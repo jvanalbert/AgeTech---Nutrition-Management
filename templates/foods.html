@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Foods</h2>
+
+{% for food in foods %}
+<div class="card">
+    <strong>{{ food.name }}</strong><br>
+    Category: {{ food.category }}<br>
+    Calories: {{ food.calories }}
+</div>
+{% endfor %}
+
+{% endblock %}
