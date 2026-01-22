@@ -6,11 +6,12 @@ import random
 # dietary restrictions to food preferences
 DIETARY_FOOD_PREFERENCES = {
     "low sodium": ["fruit", "vegetable", "protein"], #restriction
-    "low salt": ["fruit", "vegetable", "protein", "dairy", "grain"], #preference
     "gluten free": ["fruit", "vegetable", "protein"], #restriction
     "heart healthy": ["fruit", "vegetable", "grain", "protein", "dairy"], #preference
     "diabetic": ["vegetable", "grain", "protein"], #restriction
-    "high cholesterol": ["fruit", "vegetable", "grain"] #restriction
+    "high cholesterol": ["fruit", "vegetable", "grain"], #restriction
+    "vegetarian": ["fruit", "vegetable", "grain", "dairy"], #preference
+    "lactose intolerant": ["fruit", "vegetable", "grain", "protein"] #restriction
 }
 
 def get_user_profiles():
