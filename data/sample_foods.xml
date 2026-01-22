@@ -58,4 +58,12 @@
         <name>Cheese</name>
         <calories>113</calories>
     </dairy>
+    <protein>
+        <name>Chicken</name>
+        <calories>335</calories>
+    </protein>
+    <protein>
+        <name>Tofu</name>
+        <calories>144</calories>
+    </protein>
 </foods>

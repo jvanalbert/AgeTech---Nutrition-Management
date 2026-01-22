@@ -5,13 +5,12 @@ import random
 
 # dietary restrictions to food preferences
 DIETARY_FOOD_PREFERENCES = {
-    "low sodium": ["fruit", "vegetable"],
-    "low salt": ["fruit", "vegetable"],
-    "heart healthy": ["fruit", "vegetable", "grain"],
-    "diabetic": ["vegetable", "grain"],
-    "diabetes": ["vegetable", "grain"],
-    "cholesterol": ["fruit", "vegetable", "grain"],
-    "high cholesterol": ["fruit", "vegetable", "grain"]
+    "low sodium": ["fruit", "vegetable", "protein"], #restriction
+    "low salt": ["fruit", "vegetable", "protein", "dairy", "grain"], #preference
+    "gluten free": ["fruit", "vegetable", "protein"], #restriction
+    "heart healthy": ["fruit", "vegetable", "grain", "protein", "dairy"], #preference
+    "diabetic": ["vegetable", "grain", "protein"], #restriction
+    "high cholesterol": ["fruit", "vegetable", "grain"] #restriction
 }
 
 def get_user_profiles():
@@ -46,7 +45,7 @@ def get_meal_recommendations(user_id, meal_time):
         return []
 
     meals = []
-    for i in range(3):
+    for i in range(3): # look into "_" for unused var
         meal = generate_meal(user, foods, meal_time)
         if meal:
             meals.append(meal)
@@ -72,12 +71,10 @@ def generate_meal(user, foods, meal_time):
     meal_name = f"{meal_time.title()}: {', '.join(food_names)}"
 
     return {
-        "id": random.randint(1000, 9999),
         "name": meal_name,
-        "description": f"A simple {meal_time.lower()} meal",
+        "description": f"A {meal_time.lower()} meal",
         "foods": [{"name": food["name"], "category": food["category"]} for food in selected_foods],
         "total_calories": total_calories,
-        "categories": list(set(food["category"] for food in selected_foods))
     }
 
 def get_meal_times():
