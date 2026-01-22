@@ -34,7 +34,11 @@ def get_user_profiles():
 def get_user_profile(user_id):
     """Get a specific user profile by ID"""
     profiles = get_user_profiles()
-    return next((profile for profile in profiles if profile["id"] == user_id), None)
+    for profile in profiles:
+        if profile["id"] == user_id:
+            return profile
+
+    return None  # none if no profile found
 
 def get_meal_recommendations(user_id, meal_time):
     """Get 3 meal recommendations for a user at a specific meal time"""
@@ -53,8 +57,16 @@ def get_meal_recommendations(user_id, meal_time):
     return meals
 
 def generate_meal(user, foods, meal_time):
-    """Generate a simple meal for the user from safe foods""" 
-    safe_foods = [food for food in foods if not any(allergy.lower() in food["name"].lower() for allergy in user["allergies"])]
+    """Generate a simple meal for the user from safe foods"""
+    # check if food is safe
+    def is_food_safe(food):
+        food_name = food["name"].lower()
+        for allergy in user["allergies"]:
+            if allergy.lower() in food_name:
+                return False
+        return True
+
+    safe_foods = [food for food in foods if is_food_safe(food)]
 
     if len(safe_foods) < 2:
         return None
@@ -62,8 +74,6 @@ def generate_meal(user, foods, meal_time):
     # 2-3 random foods
     num_foods = min(random.randint(2, 3), len(safe_foods))
     selected_foods = random.sample(safe_foods, num_foods)
-
-    
     total_calories = sum(food["calories"] for food in selected_foods)
 
     # meal name
