@@ -1,5 +1,6 @@
 # app.py
 from flask import Flask, render_template, request, redirect, session, url_for
+from flask_bcrypt import Bcrypt
 from Backend.food_loader import load_foods
 from Backend.user_loader import (
     load_user_data,
@@ -10,6 +11,7 @@ from Backend.user_loader import (
 )
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 app.secret_key = "supersecretkey"  # Required for sessions. Change in production.
 
 # Load static food data
@@ -20,7 +22,7 @@ def check_login(username, password):
     """Return user dict if credentials match, else None."""
     data = load_user_data()
     for user in data.get("elderly_users", []) + data.get("caretaker_users", []):
-        if user["account"]["username"] == username and user["account"]["password"] == password:
+        if user["account"]["username"] == username and bcrypt.check_password_hash(user["account"]["password"], password):
             return user
     return None
 
@@ -83,7 +85,7 @@ def register_elderly():
             "daily_calories": 1800,
             "cooking_skill": int(request.form["cooking_skill"]),
             "preferred_cuisines": request.form.getlist("cuisines"),
-            "account": {"username": username, "password": request.form["password"]},
+            "account": {"username": username, "password": bcrypt.generate_password_hash(request.form["password"]).decode('utf-8')},
             "contact_information": {"phone": request.form["phone"], "email": request.form["email"]},
             "caretaker_id": None
         }
@@ -112,7 +114,7 @@ def register_caretaker():
             "id": new_id,
             "name": request.form["name"],
             "association": request.form["association"],
-            "account": {"username": username, "password": request.form["password"]},
+            "account": {"username": username, "password": bcrypt.generate_password_hash(request.form["password"]).decode('utf-8')},
             "contact_information": {"phone": request.form["phone"], "email": request.form["email"]},
             "elderly_user_ids": selected_elderly_ids
         }

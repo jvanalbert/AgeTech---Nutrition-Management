@@ -1,5 +1,4 @@
-
- {
+{
     "elderly_users": [
         {
             "id": 1,
@@ -8,19 +7,27 @@
             "age": 76,
             "weight_lbs": 150,
             "height_in": 64,
-
-            "medications": ["Lisinopril","Metformin"],
-            "allergies": ["peanuts","shellfish"],
-            "dietary_restrictions": ["low sodium"],
+            "medications": [
+                "Lisinopril",
+                "Metformin"
+            ],
+            "allergies": [
+                "peanuts",
+                "shellfish"
+            ],
+            "dietary_restrictions": [
+                "low sodium"
+            ],
             "daily_calories": 1800,
             "cooking_skill": 2,
-            "preferred_cuisines": ["american","italian"],
-
+            "preferred_cuisines": [
+                "american",
+                "italian"
+            ],
             "account": {
                 "username": "margaret_t",
-                "password": "1234"
+                "password": "$2b$12$DPhxFfv50nOziTyO8ZhJ3uQHNuUBWK9.cXNvq2TrCuNXOI77c7Om2"
             },
-            
             "contact_information": {
                 "phone": "412-123-4567",
                 "email": "margaret.thompson@example.com"
@@ -28,23 +35,19 @@
             "caretaker_id": 100
         }
     ],
-
     "caretaker_users": [
         {
             "id": 100,
             "name": "Laura Thompson",
             "association": "daughter",
-
             "account": {
                 "username": "laura_t",
-                "password": "password"
+                "password": "$2b$12$VYIDT1H2n5RYCt0BRLMWBO5Hlkem34VQPpliVL0hRZNOYjXWR4Ivi"
             },
-
             "contact_information": {
                 "phone": "555-123-4567",
                 "email": "laura.thompson@example.com"
             },
-
             "elderly_user_id": 1
         }
     ]
