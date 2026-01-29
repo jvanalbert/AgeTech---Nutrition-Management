@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Scan Barcode</h2>
+<form method="post">
+    <label for="barcode">Barcode:</label>
+    <input type="text" id="barcode" name="barcode" required>
+    <button type="submit">Scan</button>
+</form>
+{% if message %}<p>{{ message }}</p>{% endif %}
+{% if product %}
+<h3>Product Details:</h3>
+<p>Name: {{ product.name }}</p>
+<p>Brand: {{ product.brand }}</p>
+<p>Category: {{ product.category }}</p>
+<p>Scanned At: {{ scanned_at }}</p>
+{% endif %}
+{% endblock %}

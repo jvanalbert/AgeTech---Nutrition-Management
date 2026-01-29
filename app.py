@@ -1,6 +1,7 @@
 # app.py
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_bcrypt import Bcrypt
+from datetime import datetime
 from Backend.food_loader import load_foods
 from Backend.user_loader import (
     load_user_data,
@@ -9,6 +10,7 @@ from Backend.user_loader import (
     username_exists,
     load_elderly_users_with_caretakers
 )
+from Backend.scanner import lookup_product, add_item_to_inventory
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -151,6 +153,24 @@ def food_list():
     if not session.get("user"):
         return redirect("/login")
     return render_template("foods.html", foods=foods)
+
+
+@app.route("/scan", methods=["GET", "POST"])
+def scan():
+    if not session.get("user"):
+        return redirect("/login")
+    
+    if request.method == "POST":
+        barcode = request.form["barcode"]
+        product = lookup_product(barcode)
+        if product:
+            add_item_to_inventory(barcode, product)
+            scanned_at = datetime.now().isoformat()
+            return render_template("scan.html", message=f"Added {product['name']} to inventory.", product=product, scanned_at=scanned_at)
+        else:
+            return render_template("scan.html", message="Product not found.")
+    
+    return render_template("scan.html")
 
 
 # ------------------ Run App ------------------
