@@ -1,0 +1,51 @@
+
+ {
+    "elderly_users": [
+        {
+            "id": 1,
+            "role": "elderly",
+            "name": "Margaret Thompson",
+            "age": 76,
+            "weight_lbs": 150,
+            "height_in": 64,
+
+            "medications": ["Lisinopril","Metformin"],
+            "allergies": ["peanuts","shellfish"],
+            "dietary_restrictions": ["low sodium"],
+            "daily_calories": 1800,
+            "cooking_skill": 2,
+            "preferred_cuisines": ["american","italian"],
+
+            "account": {
+                "username": "margaret_t",
+                "password": "1234"
+            },
+            
+            "contact_information": {
+                "phone": "412-123-4567",
+                "email": "margaret.thompson@example.com"
+            },
+            "caretaker_id": 100
+        }
+    ],
+
+    "caretaker_users": [
+        {
+            "id": 100,
+            "name": "Laura Thompson",
+            "association": "daughter",
+
+            "account": {
+                "username": "laura_t",
+                "password": "password"
+            },
+
+            "contact_information": {
+                "phone": "555-123-4567",
+                "email": "laura.thompson@example.com"
+            },
+
+            "elderly_user_id": 1
+        }
+    ]
+}

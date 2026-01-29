@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Caretaker Registration</h2>
+
+<form method="POST">
+
+  <fieldset>
+    <legend>Caretaker Information</legend>
+
+    <label>Name</label>
+    <input name="name" required>
+
+    <label>Association</label>
+    <select name="association">
+      <option value="son">Son</option>
+      <option value="daughter">Daughter</option>
+      <option value="caretaker">Caretaker</option>
+      <option value="neighbor">Neighbor</option>
+      <option value="other">Other</option>
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <legend>Link Elderly Residents</legend>
+
+    {% for elder in elderly_users %}
+      <label>
+        <input type="checkbox" name="elderly_ids" value="{{ elder.id }}">
+        {{ elder.name }} (Age {{ elder.age }})
+      </label><br>
+    {% endfor %}
+  </fieldset>
+
+  <fieldset>
+    <legend>Account Information</legend>
+
+    <label>Username</label>
+    <input name="username" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <label>Phone</label>
+    <input name="phone">
+
+    <label>Email</label>
+    <input type="email" name="email">
+  </fieldset>
+
+  <button type="submit">Create Caretaker Account</button>
+
+</form>
+
+{% endblock %}

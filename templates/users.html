@@ -4,25 +4,52 @@
 <h2>Users</h2>
 
 {% for user in users %}
-<div class="card">
-    <strong>{{ user.name }}</strong><br>
-    Age: {{ user.age }}<br>
-    Gender: {{ user.gender }}<br>
-    Height: {{ user.height }}cm<br>
-    Weight: {{ user.weight }}lbs<br>
-    Cooking Skill:
-    {% if user.cooking_skill == 1 %}
-        <span class="stars">&#9733 &#9734 &#9734 &#9734 &#9734</span>
-    {% elif user.cooking_skill == 2 %}
-        <span class="stars">&#9733 &#9733 &#9734 &#9734 &#9734</span>
-    {% elif user.cooking_skill == 3 %}
-        <span class="stars">&#9733 &#9733 &#9733 &#9734 &#9734</span>
-    {% elif user.cooking_skill == 4 %}
-        <span class="stars">&#9733 &#9733 &#9733 &#9733 &#9734</span>
-    {% elif user.cooking_skill == 5 %}
-        <span class="stars">&#9733 &#9733 &#9733 &#9733 &#9733</span>
-    {% endif %}<br>
-    Daily Calories: {{ user.daily_calories }}
+<div class="card" style="padding: 10px; margin-bottom: 15px; border: 1px solid #ccc;">
+    <h3>{{ user.name }}</h3>
+    <p>
+        Age: {{ user.age }}<br>
+        {% if user.gender %}Gender: {{ user.gender }}<br>{% endif %}
+        Height: {{ user.height_in }} in<br>
+        Weight: {{ user.weight_lbs }} lbs<br>
+    </p>
+    
+    <p>
+        <strong>Cooking Skill:</strong>
+        {% if user.cooking_skill == 1 %}
+            <span class="stars">&#9733;&#9734;&#9734;&#9734;&#9734;</span>
+        {% elif user.cooking_skill == 2 %}
+            <span class="stars">&#9733;&#9733;&#9734;&#9734;&#9734;</span>
+        {% elif user.cooking_skill == 3 %}
+            <span class="stars">&#9733;&#9733;&#9733;&#9734;&#9734;</span>
+        {% elif user.cooking_skill == 4 %}
+            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+        {% elif user.cooking_skill == 5 %}
+            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        {% endif %}
+    </p>
+    
+    <p>
+        <strong>Daily Calories:</strong> {{ user.daily_calories }}<br>
+        <strong>Medications:</strong> {{ user.medications | join(', ') }}<br>
+        <strong>Allergies:</strong> {{ user.allergies | join(', ') }}<br>
+        <strong>Dietary Restrictions:</strong> {{ user.dietary_restrictions | join(', ') }}<br>
+        <strong>Preferred Cuisines:</strong> {{ user.preferred_cuisines | join(', ') }}<br>
+    </p>
+    
+    <p>
+        <strong>Account:</strong><br>
+        Username: {{ user.account.username }}<br>
+        Password: {{ user.account.password }}
+    </p>
+    
+    {% if user.caretaker %}
+    <p>
+        <strong>Caretaker Info:</strong><br>
+        Name: {{ user.caretaker.name }}<br>
+        Phone: {{ user.caretaker.contact_information.phone }}<br>
+        Email: {{ user.caretaker.contact_information.email }}
+    </p>
+    {% endif %}
 </div>
 {% endfor %}
 

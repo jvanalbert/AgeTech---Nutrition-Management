@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Elderly Account Registration</h2>
+
+<form method="POST">
+
+  <!-- ================= BASIC INFO ================= -->
+  <fieldset>
+    <legend>Basic Information</legend>
+
+    <label>First Name</label>
+    <input name="first_name" required>
+
+    <label>Last Name</label>
+    <input name="last_name" required>
+
+    <label>Age</label>
+    <input type="number" name="age" min="50" required>
+
+    <label>Height (inches)</label>
+    <input type="number" name="height_in" required>
+
+    <label>Weight (lbs)</label>
+    <input type="number" name="weight_lbs" required>
+  </fieldset>
+
+
+  <!-- ================= ACCOUNT INFO ================= -->
+  <fieldset>
+    <legend>Account Information</legend>
+
+    <label>Username</label>
+    <input name="username" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <label>Phone</label>
+    <input name="phone">
+
+    <label>Email</label>
+    <input type="email" name="email">
+  </fieldset>
+
+
+  <!-- ================= HEALTH INFO ================= -->
+  <fieldset>
+    <legend>Health Information</legend>
+
+    <label>Medications (comma-separated)</label>
+    <input name="medications">
+
+    <label>Allergies (comma-separated)</label>
+    <input name="allergies">
+
+    <label>Dietary Restrictions</label>
+    <input name="dietary_restrictions">
+  </fieldset>
+
+
+  <!-- ================= PREFERENCES ================= -->
+  <fieldset>
+    <legend>Preferences</legend>
+
+    <label>Cooking Skill (1 = very basic, 5 = advanced)</label>
+    <input type="range" min="1" max="5" name="cooking_skill" value="3">
+
+    <p>Preferred Cuisines</p>
+    <label><input type="checkbox" name="cuisines" value="american"> American</label>
+    <label><input type="checkbox" name="cuisines" value="italian"> Italian</label>
+    <label><input type="checkbox" name="cuisines" value="mexican"> Mexican</label>
+    <label><input type="checkbox" name="cuisines" value="chinese"> Chinese</label>
+    <label><input type="checkbox" name="cuisines" value="indian"> Indian</label>
+    <label><input type="checkbox" name="cuisines" value="japanese"> Japanese</label>
+  </fieldset>
+
+  <br>
+  <button type="submit">Create Account</button>
+
+</form>
+
+{% endblock %}

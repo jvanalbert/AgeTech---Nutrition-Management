@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome</h2>
+
+<div class="auth-container">
+
+  <div class="auth-box">
+    <h3>Log In</h3>
+    <form method="POST" action="/login">
+      <label>Username</label>
+      <input type="text" name="username" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <button type="submit">Log In</button>
+    </form>
+  </div>
+
+  <div class="auth-box">
+    <h3>Create Account</h3>
+    <p>Select your role:</p>
+    <a href="/register/elderly" class="btn">I am an Elderly User</a>
+    <a href="/register/caretaker" class="btn">I am a Caretaker</a>
+  </div>
+
+</div>
+{% endblock %}
