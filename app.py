@@ -16,9 +16,6 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.secret_key = "supersecretkey"  # Required for sessions. Change in production.
 
-# Load static food data
-foods = load_foods("data/sample_food.json")
-
 # ------------------ Helper functions ------------------
 def check_login(username, password):
     """Return user dict if credentials match, else None."""
@@ -152,6 +149,8 @@ def users_page():
 def food_list():
     if not session.get("user"):
         return redirect("/login")
+
+    foods = load_foods("data/sample_food.json")
     return render_template("foods.html", foods=foods)
 
 

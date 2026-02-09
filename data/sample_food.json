@@ -3,100 +3,169 @@
     {
       "id": 1,
       "barcode": null,
-      "product": {"name": "Apple", "category": "fruit", "calories": 95},
+      "product": {
+        "name": "Apple",
+        "category": "fruit",
+        "calories": 95
+      },
       "quantity": 6,
       "expiration_date": "2026-02-05"
     },
     {
       "id": 2,
       "barcode": null,
-      "product": {"name": "Banana", "category": "fruit", "calories": 105},
+      "product": {
+        "name": "Banana",
+        "category": "fruit",
+        "calories": 105
+      },
       "quantity": 4,
       "expiration_date": "2026-02-02"
     },
     {
       "id": 3,
       "barcode": null,
-      "product": {"name": "Orange", "category": "fruit", "calories": 62},
+      "product": {
+        "name": "Orange",
+        "category": "fruit",
+        "calories": 62
+      },
       "quantity": 5,
       "expiration_date": "2026-02-10"
     },
     {
       "id": 4,
       "barcode": null,
-      "product": {"name": "Strawberry", "category": "fruit", "calories": 32},
+      "product": {
+        "name": "Strawberry",
+        "category": "fruit",
+        "calories": 32
+      },
       "quantity": 1,
       "expiration_date": "2026-01-31"
     },
     {
       "id": 5,
       "barcode": null,
-      "product": {"name": "Carrot", "category": "vegetable", "calories": 25},
+      "product": {
+        "name": "Carrot",
+        "category": "vegetable",
+        "calories": 25
+      },
       "quantity": 8,
       "expiration_date": "2026-02-14"
     },
     {
       "id": 6,
       "barcode": null,
-      "product": {"name": "Broccoli", "category": "vegetable", "calories": 55},
+      "product": {
+        "name": "Broccoli",
+        "category": "vegetable",
+        "calories": 55
+      },
       "quantity": 2,
       "expiration_date": "2026-02-03"
     },
     {
       "id": 7,
       "barcode": null,
-      "product": {"name": "Asparagus", "category": "vegetable", "calories": 20},
+      "product": {
+        "name": "Asparagus",
+        "category": "vegetable",
+        "calories": 20
+      },
       "quantity": 1,
       "expiration_date": "2026-02-01"
     },
     {
       "id": 8,
       "barcode": null,
-      "product": {"name": "Bread", "category": "grain", "calories": 100},
+      "product": {
+        "name": "Bread",
+        "category": "grain",
+        "calories": 100
+      },
       "quantity": 1,
       "expiration_date": "2026-02-15"
     },
     {
       "id": 9,
       "barcode": null,
-      "product": {"name": "Rice", "category": "grain", "calories": 130},
+      "product": {
+        "name": "Rice",
+        "category": "grain",
+        "calories": 130
+      },
       "quantity": 1,
       "expiration_date": null
     },
     {
       "id": 10,
       "barcode": null,
-      "product": {"name": "Oats", "category": "grain", "calories": 138},
+      "product": {
+        "name": "Oats",
+        "category": "grain",
+        "calories": 138
+      },
       "quantity": 1,
       "expiration_date": null
     },
     {
       "id": 11,
       "barcode": null,
-      "product": {"name": "Milk", "category": "dairy", "calories": 103},
+      "product": {
+        "name": "Milk",
+        "category": "dairy",
+        "calories": 103
+      },
       "quantity": 1,
       "expiration_date": "2026-02-04"
     },
     {
       "id": 12,
       "barcode": null,
-      "product": {"name": "Cheese", "category": "dairy", "calories": 113},
+      "product": {
+        "name": "Cheese",
+        "category": "dairy",
+        "calories": 113
+      },
       "quantity": 1,
       "expiration_date": "2026-02-20"
     },
     {
       "id": 13,
       "barcode": null,
-      "product": {"name": "Chicken", "category": "protein", "calories": 335},
+      "product": {
+        "name": "Chicken",
+        "category": "protein",
+        "calories": 335
+      },
       "quantity": 2,
       "expiration_date": "2026-03-10"
     },
     {
       "id": 14,
       "barcode": null,
-      "product": {"name": "Tofu", "category": "protein", "calories": 144},
+      "product": {
+        "name": "Tofu",
+        "category": "protein",
+        "calories": 144
+      },
       "quantity": 2,
       "expiration_date": "2026-02-07"
-    }
+    },
+    {
+      "id": 15,
+      "barcode": "850061874399",
+      "product": {
+        "name": "French Toast Bites",
+        "brand": "Drizzilicious",
+        "category": "en:desserts,en:french-toast",
+        "calories": 429
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T10:43:49.405542"
+    }    
   ]
 }
