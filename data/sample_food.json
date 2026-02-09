@@ -166,6 +166,162 @@
       "quantity": 1,
       "expiration_date": null,
       "added_at": "2026-02-09T10:43:49.405542"
-    }    
+    },
+    {
+      "id": 16,
+      "barcode": "812049005102",
+      "product": {
+        "name": "Strawberries",
+        "brand": "naturipe",
+        "category": "Fresh strawberries",
+        "calories": null
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:31:13.828670"
+    },
+    {
+      "id": 17,
+      "barcode": "715756100224",
+      "product": {
+        "name": "Organic Blackberries",
+        "brand": "Driscoll's",
+        "category": "Plant-based foods and beverages, Plant-based foods, Fruits and vegetables based foods, Fruits based foods, Fruits, Berries, Blackberries",
+        "calories": 43.1
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:31:32.334204"
+    },
+    {
+      "id": 18,
+      "barcode": "4099100060829",
+      "product": {
+        "name": "Farm Fresh Egg",
+        "brand": "Goldhen",
+        "category": "Farming products, Eggs, en:chicken-eggs",
+        "calories": 140
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:31:51.645004"
+    },
+    {
+      "id": 19,
+      "barcode": "021000616886",
+      "product": {
+        "name": "CREAM CHEESE SPREAD",
+        "brand": "PHILADELPHIA",
+        "category": "Undefined, en:cheeses",
+        "calories": 258
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:32:16.571002"
+    },
+    {
+      "id": 20,
+      "barcode": "046100001219",
+      "product": {
+        "name": "Colby Jack",
+        "brand": "sargento",
+        "category": "Dairies, Fermented foods, Fermented milk products, Cheeses",
+        "calories": 368.421052631579
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:32:45.753982"
+    },
+    {
+      "id": 21,
+      "barcode": "078742116730",
+      "product": {
+        "name": "Lowfat Cottage Cheese Small Curd 2% Milkfat",
+        "brand": "Great Value",
+        "category": "Dairies, Fermented foods, Fermented milk products, Cheeses",
+        "calories": 88.5
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:33:18.631148"
+    },
+    {
+      "id": 22,
+      "barcode": "747479001137",
+      "product": {
+        "name": "Vodka Sauce",
+        "brand": "Rao's Homemade",
+        "category": "Condiments, Sauces, Groceries, Vodka sauce",
+        "calories": 57.6
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:33:39.024515"
+    },
+    {
+      "id": 23,
+      "barcode": "4061463279736",
+      "product": {
+        "name": "Dill Pickle Mustard",
+        "brand": "Burman's",
+        "category": "Unknown",
+        "calories": null
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:33:50.164697"
+    },
+    {
+      "id": 24,
+      "barcode": "4099100023107",
+      "product": {
+        "name": "Real Mayonnaise",
+        "brand": "BURMAN'S",
+        "category": "Condiments, Sauces, Mayonnaises",
+        "calories": 692.30769230769
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:34:08.511513"
+    },
+    {
+      "id": 25,
+      "barcode": "4061461469528",
+      "product": {
+        "name": "Thick Sliced Pepperoni",
+        "brand": "Simms",
+        "category": "Unknown",
+        "calories": 500
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:34:47.062593"
+    },
+    {
+      "id": 26,
+      "barcode": "073170320261",
+      "product": {
+        "name": "Snack Sticks",
+        "brand": "Old Wisconsin",
+        "category": "Snacks",
+        "calories": 428.571428571429
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:34:59.902109"
+    },
+    {
+      "id": 27,
+      "barcode": "4099100051490",
+      "product": {
+        "name": "Hummus Classic",
+        "brand": "Park Street Deli",
+        "category": "Plant-based foods and beverages, Plant-based foods, Condiments, Spreads, Plant-based spreads, Salted spreads, Sauces, Dips, Hummus",
+        "calories": 214
+      },
+      "quantity": 1,
+      "expiration_date": null,
+      "added_at": "2026-02-09T15:35:19.360430"
+    }
   ]
 }
