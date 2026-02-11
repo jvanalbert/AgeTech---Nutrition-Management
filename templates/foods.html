@@ -13,6 +13,7 @@
             (id: {{ food.get('id') }})
         </strong><br>
         Category: {{ p.get('category', food.get('category', 'Unknown')) }}<br>
+        <!-- rounds the calories to ints -->
         {% set cal = p.get('calories', food.get('calories')) %}
         Calories: {{ cal | round(0) | int if cal is number else cal }}
 
