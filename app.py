@@ -145,13 +145,44 @@ def users_page():
     return render_template("users.html", users=elderly_users)
 
 
-@app.route("/foods")
+@app.get("/foods")
 def food_list():
     if not session.get("user"):
         return redirect("/login")
 
-    foods = load_foods("data/sample_food.json")
+    import json
+    with open("data/sample_food.json", "r") as f:
+        data = json.load(f)
+
+    foods = data.get("items", [])
+    print("FOODS IDS:", [item.get("id") for item in foods][:20])
     return render_template("foods.html", foods=foods)
+
+
+
+# Delete
+@app.post("/foods/<int:food_id>/delete")
+def delete_food(food_id):
+    if not session.get("user"):
+        return redirect("/login")
+
+    import json
+
+    # Load data
+    with open("data/sample_food.json", "r") as f:
+        data = json.load(f)
+
+    # Filter out the matching id
+    data["items"] = [
+        item for item in data.get("items", [])
+        if int(item.get("id", -1)) != food_id
+    ]
+
+    # Save updated data
+    with open("data/sample_food.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+    return redirect(url_for("food_list"))
 
 
 @app.route("/scan", methods=["GET", "POST"])
