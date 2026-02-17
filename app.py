@@ -171,6 +171,88 @@ def scan():
     
     return render_template("scan.html")
 
+@app.route("/meals", methods=["GET", "POST"])
+def meals():
+    if not session.get("user"):
+        return redirect("/login")
+    
+    # Load user data to get meals
+    data = load_user_data()
+    user_id = session["user"]["id"]
+    user = None #gives none if not found
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u["id"] == user_id:
+            user = u
+            break
+    user_meals = user.get("meals", []) if user else []
+    
+    if request.method == "POST":
+        food_id = int(request.form["food_id"])
+        quantity = float(request.form["quantity"])
+        
+        if user:
+            if "meals" not in user:
+                user["meals"] = []
+            
+            # Get food data
+            foods = load_foods()
+            food = next((f for f in foods if f["id"] == food_id), None)
+            
+            if food:
+                meal = {
+                    "food_id": food_id,
+                    "name": food["name"],
+                    "quantity": quantity,
+                    "calories": food["calories"] * quantity / 100,  # assuming per 100g like taylor said
+                    "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M %p"),  #date/time format
+                    "allergens": food.get("allergens", [])
+                }
+                user["meals"].append(meal)
+                save_user_data(data)
+                return redirect("/meals")
+    
+    foods = load_foods()
+    # Filter foods based on user allergies
+    user_allergies = []
+    if user:
+        user_allergies = user.get("allergies", [])
+        filtered_foods = []
+        for f in foods:
+            safe = True
+            for allergen in user_allergies:
+                for a in f.get("allergens", []):
+                    if allergen.lower() == a.lower():
+                        safe = False
+                        break
+                if not safe:
+                    break
+            if safe:
+                filtered_foods.append(f)
+        foods = filtered_foods
+    return render_template("meals.html", foods=foods, user_meals=user_meals, user_allergies=user_allergies)
+
+
+@app.route("/delete_meal", methods=["POST"])
+def delete_meal():
+    if not session.get("user"):
+        return redirect("/login")
+    
+    timestamp = request.form["timestamp"]
+    
+    data = load_user_data()
+    user_id = session["user"]["id"]
+    user = None
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u["id"] == user_id:
+            user = u
+            break
+    
+    if user and "meals" in user:
+        user["meals"] = [m for m in user["meals"] if m["timestamp"] != timestamp]
+        save_user_data(data)
+    
+    return redirect("/meals")
+
 
 # ------------------ Run App ------------------
 if __name__ == "__main__":

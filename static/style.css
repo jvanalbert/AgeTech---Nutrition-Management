@@ -87,6 +87,31 @@ nav {
     font-size: 18px;
 }
 
+/* Meal cards with delete */
+.meal-card {
+    position: relative;
+}
+
+.delete-form {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
 /* Footer */
 footer {
     text-align: center;

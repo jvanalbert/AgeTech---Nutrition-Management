@@ -116,7 +116,8 @@
       "product": {
         "name": "Milk",
         "category": "dairy",
-        "calories": 103
+        "calories": 103,
+        "allergens": ["dairy", "lactose"]
       },
       "quantity": 1,
       "expiration_date": "2026-02-04"
@@ -161,11 +162,25 @@
         "name": "French Toast Bites",
         "brand": "Drizzilicious",
         "category": "en:desserts,en:french-toast",
-        "calories": 429
+        "calories": 429,
+        "allergens": ["gluten", "dairy"]
       },
       "quantity": 1,
       "expiration_date": null,
       "added_at": "2026-02-09T10:43:49.405542"
-    }    
+    },
+    {
+      "id": 16,
+      "barcode": null,
+      "product": {
+        "name": "Peanuts",
+        "category": "nuts",
+        "calories": 567,
+        "allergens": ["nuts", "peanuts"]
+      },
+      "quantity": 1,
+      "expiration_date": "2026-06-01"
+    }
   ]
 }
+    
