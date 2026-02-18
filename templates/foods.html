@@ -4,11 +4,25 @@
 <h2>Foods</h2>
 
 {% for food in foods %}
-<div class="card">
-    <strong>{{ food.name }}</strong><br>
-    Category: {{ food.category }}<br>
-    Calories: {{ food.calories }}
-</div>
+    {% set p = food.get('product', {}) %}
+
+    <div class="card food-card">
+        <div class="food-info">
+            <strong>
+            {{ p.get('name', food.get('name', 'Unknown')) }}
+            (id: {{ food.get('id') }})
+        </strong><br>
+        Category: {{ p.get('category', food.get('category', 'Unknown')) }}<br>
+        <!-- rounds the calories to ints -->
+        {% set cal = p.get('calories', food.get('calories')) %}
+        Calories: {{ cal | round(0) | int if cal is number else cal }}
+
+    </div>
+
+        <form action="{{ url_for('delete_food', food_id=food.get('id')) }}" method="POST">
+            <button type="submit" class="delete-btn">Delete</button>
+        </form>
+    </div>
 {% endfor %}
 
 {% endblock %}
