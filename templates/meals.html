@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Log a Meal</h2>
+
+<form method="POST" action="/meals">
+    <label for="meal_type">Meal Type:</label>
+    <select name="meal_type" id="meal_type" required>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+    </select><br><br>
+
+    <label for="food_id">Select Food:</label>
+    <select name="food_id" id="food_id" required>
+        {% for food in foods %}
+        <option value="{{ food.id }}">{{ food.name }} ({{ food.calories }} cal per 100g)</option>
+        {% endfor %}
+    </select><br><br>
+    
+    <label for="quantity">Quantity (grams):</label>
+    <input type="number" name="quantity" id="quantity" min="1" required><br><br>
+    
+    <button type="submit">Log Meal</button>
+</form>
+
+<h2>Your Logged Meals</h2>
+{% set meal_types = ['breakfast', 'lunch', 'dinner'] %}
+{% for meal_type in meal_types %}
+<h3>{{ meal_type.title() }}</h3>
+{% set type_meals = user_meals | selectattr('meal_type', 'equalto', meal_type) | list %}
+{% if type_meals %}
+{% for meal in type_meals %}
+<div class="card meal-card">
+    <div class="meal-info">
+        <strong>{{ meal.name }}</strong><br>
+        Quantity: {{ meal.quantity }}g<br>
+        Calories: {{ "%.1f"|format(meal.calories) }}<br>
+        Logged: {{ meal.timestamp }}
+        {% if meal.allergens %}
+        {% set has_conflict = false %}
+        {% for allergen in meal.allergens %}
+        {% for user_allergen in user_allergies %}
+        {% if allergen.lower() == user_allergen.lower() %}
+        {% set has_conflict = true %}
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% if has_conflict %}
+        <br><span style="color: red; font-weight: bold;">⚠️ Contains allergens</span>
+        {% endif %}
+        {% endif %}
+    </div>
+    <form method="POST" action="/delete_meal" class="delete-form">
+        <input type="hidden" name="timestamp" value="{{ meal.timestamp }}">
+        <button type="submit" class="delete-btn">Delete</button>
+    </form>
+</div>
+{% endfor %}
+{% else %}
+<p>No meals logged yet.</p>
+{% endif %}
+{% endfor %}
+
+<h2>Available Foods</h2>
+{% for food in foods %}
+<div class="card">
+    <strong>{{ food.name }}</strong><br>
+    Category: {{ food.category }}<br>
+    Calories: {{ food.calories }} per 100g
+</div>
+{% endfor %}
+
+{% endblock %}

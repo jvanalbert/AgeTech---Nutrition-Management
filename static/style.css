@@ -18,11 +18,19 @@ header {
 nav {
     background-color: #ffffff;
     padding: 15px;
-    text-align: center;
     border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-nav a {
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-center a {
     margin: 0 15px;
     text-decoration: none;
     font-size: 20px;
@@ -30,8 +38,36 @@ nav a {
     font-weight: bold;
 }
 
-nav a:hover {
+.nav-center a:hover {
     text-decoration: underline;
+}
+
+.nav-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.back-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.back-btn:hover {
+    background-color: #5a6268;
+}
+/* Logout button */
+.logout-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
 }
 
 /* Page content */
@@ -49,6 +85,31 @@ nav a:hover {
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     font-size: 18px;
+}
+
+/* Meal cards with delete */
+.meal-card {
+    position: relative;
+}
+
+.delete-form {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
 }
 
 /* Footer */

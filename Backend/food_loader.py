@@ -19,7 +19,8 @@ def load_foods(path="data/sample_food.json"):
             "id": food_id,
             "name": product["name"],
             "calories": product["calories"],
-            "category": product["category"]
+            "category": product["category"],
+            "allergens": product.get("allergens", [])
         })
         food_id += 1
 

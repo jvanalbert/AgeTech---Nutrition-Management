@@ -12,10 +12,19 @@
 </header>
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/users">Users</a>
-    <a href="/foods">Foods</a>
-    <a href="/scan">Scan Barcode</a>
+    {% if session.user %}
+    <button onclick="window.history.back()" class="nav-btn back-btn">← Back</button>
+    {% endif %}
+    <div class="nav-center">
+        <a href="/">Home</a>
+        <a href="/users">Users</a>
+        <a href="/foods">Foods</a>
+        <a href="/meals">Meals</a>
+        <a href="/scan">Scan Barcode</a>
+    </div>
+    {% if session.user %}
+    <a href="/logout" class="nav-btn logout-btn">Logout</a>
+    {% endif %}
 </nav>
 
 <div class="container">
