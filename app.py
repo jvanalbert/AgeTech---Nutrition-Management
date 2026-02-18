@@ -220,6 +220,7 @@ def meals():
     if request.method == "POST":
         food_id = int(request.form["food_id"])
         quantity = float(request.form["quantity"])
+        meal_type = request.form["meal_type"]
         
         if user:
             if "meals" not in user:
@@ -234,6 +235,7 @@ def meals():
                     "food_id": food_id,
                     "name": food["name"],
                     "quantity": quantity,
+                    "meal_type": meal_type,
                     "calories": food["calories"] * quantity / 100,  # assuming per 100g like taylor said
                     "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M %p"),  #date/time format
                     "allergens": food.get("allergens", [])
