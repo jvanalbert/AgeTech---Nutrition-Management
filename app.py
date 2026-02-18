@@ -223,9 +223,6 @@ def meals():
         meal_type = request.form["meal_type"]
         
         if user:
-            if "meals" not in user:
-                user["meals"] = []
-            
             # Get food data
             foods = load_foods()
             food = next((f for f in foods if f["id"] == food_id), None)
@@ -240,7 +237,7 @@ def meals():
                     "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M %p"),  #date/time format
                     "allergens": food.get("allergens", [])
                 }
-                user["meals"].append(meal)
+                user["meals"] = user.get("meals", []) + [meal]
                 save_user_data(data)
                 return redirect("/meals")
     
