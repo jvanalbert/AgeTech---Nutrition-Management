@@ -234,7 +234,7 @@ def meals():
                     "quantity": quantity,
                     "meal_type": meal_type,
                     "calories": food["calories"] * quantity / 100,  # assuming per 100g like taylor said
-                    "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M %p"),  #date/time format
+                    "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),  #date/time format
                     "allergens": food.get("allergens", [])
                 }
                 user["meals"] = user.get("meals", []) + [meal]
