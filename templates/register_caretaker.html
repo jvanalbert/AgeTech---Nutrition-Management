@@ -1,23 +1,123 @@
 {% extends "base.html" %}
 {% block content %}
 
+<style>
+  /* Form container */
+  form {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 25px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  fieldset {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px 15px 15px 15px;
+    margin-bottom: 40px;
+  }
+
+  legend {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #555;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="range"] {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+
+  input[type="range"] {
+    padding: 0;
+  }
+
+  /* Checkbox layout */
+  fieldset p {
+    margin-top: 15px;
+    font-weight: 500;
+  }
+
+  fieldset label input[type="checkbox"] {
+    margin-right: 8px;
+  }
+
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  .select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; 
+    font-size: 15px;
+  }
+</style>
+
 <h2>Caretaker Registration</h2>
 
 <form method="POST">
 
   <fieldset>
-    <legend>Caretaker Information</legend>
+    <legend>Basic Information</legend>
 
-    <label>Name</label>
-    <input name="name" required>
+    <label>First Name</label>
+    <input type="text" name="first_name" required>
 
-    <label>Association</label>
-    <select name="association">
-      <option value="son">Son</option>
-      <option value="daughter">Daughter</option>
-      <option value="caretaker">Caretaker</option>
-      <option value="neighbor">Neighbor</option>
-      <option value="other">Other</option>
+    <label>Last Name</label>
+    <input type="text" name="last_name" required>
+
+    <label>Association to Patient</label>
+    <select name="association" class="select">
+      <option value="Child">Child</option>
+      <option value="Spouse">Spouse</option>
+      <option value="Sibling">Sibling</option>
+      <option value="Friend">Friend</option>
+      <option value="Relative">Relative</option>
+      <option value="Caretaker">Caretaker</option>
+      <option value="Neighbor">Neighbor</option>
+      <option value="Other">Other</option>
     </select>
   </fieldset>
 
@@ -36,13 +136,13 @@
     <legend>Account Information</legend>
 
     <label>Username</label>
-    <input name="username" required>
+    <input type="text" name="username" required>
 
     <label>Password</label>
     <input type="password" name="password" required>
 
     <label>Phone</label>
-    <input name="phone">
+    <input type="text" name="phone">
 
     <label>Email</label>
     <input type="email" name="email">

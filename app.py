@@ -144,6 +144,13 @@ def users_page():
     elderly_users = load_elderly_users_with_caretakers()
     return render_template("users.html", users=elderly_users)
 
+@app.route("/caretaker")
+def caretaker_page():
+    if not session.get("caretaker"):
+        return redirect("/login")
+    caretaker_users = load_user_data().get("caretaker_users", [])
+    return render_template("caretakers.html", caretakers=caretaker_users)
+
 
 @app.get("/foods")
 def food_list():
