@@ -1,0 +1,33 @@
+
+{
+  "Warfarin": {
+    "avoid": ["spinach", "kale", "broccoli"],
+    "reason": "High vitamin K reduces effectiveness",
+    "severity": "high"
+  },
+  "Statins": {
+    "avoid": ["grapefruit"],
+    "reason": "Increases statin concentration in blood",
+    "severity": "high"
+  },
+  "MAOIs": {
+    "avoid": ["aged cheeses", "cured meats"],
+    "reason": "Risk of hypertensive crisis",
+    "severity": "critical"
+  },
+  "Levothyroxine": {
+    "avoid": ["soy"],
+    "monitor": ["high-fiber meals"],
+    "timing_issue": true,
+    "severity": "moderate"
+  },
+  "ACE inhibitors": {
+    "avoid": ["high potassium foods"],
+    "severity": "moderate"
+  },
+  "Digoxin": {
+    "monitor": ["high-fiber meals"],
+    "timing_issue": true,
+    "severity": "moderate"
+  }
+}
