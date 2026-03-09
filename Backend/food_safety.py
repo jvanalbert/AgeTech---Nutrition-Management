@@ -27,7 +27,7 @@ def check_food_safety(user_foods):
     user_allergies = user.get("allergies", [])
 
     warnings = []
-    unsafe_foods = set()  # <- this is new
+    unsafe_foods = set() 
 
     # ----- Medication Checks ----- #
     for med in user_meds:
