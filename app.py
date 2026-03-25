@@ -152,19 +152,45 @@ def caretaker_page():
     return render_template("caretakers.html", caretakers=caretaker_users)
 
 
-@app.get("/foods")
+@app.route("/foods", methods=["GET", "POST"])
 def food_list():
     if not session.get("user"):
         return redirect("/login")
 
     import json
+    from datetime import datetime
+
+    message = None
+    product = None
+    scanned_at = None
+
+    # 🔹 Handle scanning
+    if request.method == "POST":
+        barcode = request.form.get("barcode")
+        product = lookup_product(barcode)
+
+        if product:
+            add_item_to_inventory(barcode, product)
+            scanned_at = datetime.now().isoformat()
+            message = f"Added {product['name']} to inventory."
+        else:
+            message = "Product not found."
+
+    # 🔹 Load foods (same as before)
     with open("data/sample_food.json", "r") as f:
         data = json.load(f)
 
     foods = data.get("items", [])
-    print("FOODS IDS:", [item.get("id") for item in foods][:20])
-    return render_template("foods.html", foods=foods)
 
+    print("FOODS IDS:", [item.get("id") for item in foods][:20])
+
+    return render_template(
+        "foods.html",
+        foods=foods,
+        message=message,
+        product=product,
+        scanned_at=scanned_at
+    )
 
 
 # Delete
@@ -191,23 +217,6 @@ def delete_food(food_id):
 
     return redirect(url_for("food_list"))
 
-
-@app.route("/scan", methods=["GET", "POST"])
-def scan():
-    if not session.get("user"):
-        return redirect("/login")
-    
-    if request.method == "POST":
-        barcode = request.form["barcode"]
-        product = lookup_product(barcode)
-        if product:
-            add_item_to_inventory(barcode, product)
-            scanned_at = datetime.now().isoformat()
-            return render_template("scan.html", message=f"Added {product['name']} to inventory.", product=product, scanned_at=scanned_at)
-        else:
-            return render_template("scan.html", message="Product not found.")
-    
-    return render_template("scan.html")
 
 @app.route("/meals", methods=["GET", "POST"])
 def meals():

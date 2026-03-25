@@ -1,28 +1,81 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Foods</h2>
+<h2 class="page-title">My Food Pantry</h2>
 
+<!--Scan Section -->
+<div class="card scan-card">
+    <h3>📦 Scan or Add Item</h3>
+
+    <form method="post" class="scan-form">
+        <input
+            type="text"
+            id="barcode"
+            name="barcode"
+            placeholder="Scan or enter barcode..."
+            required
+            autofocus
+            autocomplete="off"
+        >
+        <button type="submit">Scan</button>
+    </form>
+
+    {% if message %}
+        <p class="message">{{ message }}</p>
+    {% endif %}
+
+    {% if product %}
+        <div class="scan-result">
+            <h4>Last Scanned</h4>
+            <p><strong>{{ product.name }}</strong></p>
+            <p>{{ product.brand }} • {{ product.category }}</p>
+            <small>Scanned at {{ scanned_at }}</small>
+        </div>
+    {% endif %}
+</div>
+
+<hr class="section-divider">
+
+<h3 class="section-title">Pantry List</h3>
+
+<!--Food List -->
+<div class="food-list">
 {% for food in foods %}
     {% set p = food.get('product', {}) %}
 
     <div class="card food-card">
         <div class="food-info">
-            <strong>
-            {{ p.get('name', food.get('name', 'Unknown')) }}
-            (id: {{ food.get('id') }})
-        </strong><br>
-        Category: {{ p.get('category', food.get('category', 'Unknown')) }}<br>
-        <!-- rounds the calories to ints -->
-        {% set cal = p.get('calories', food.get('calories')) %}
-        Calories: {{ cal | round(0) | int if cal is number else cal }}
+            <h4>
+                {{ p.get('name', food.get('name', 'Unknown')) }}
+            </h4>
 
-    </div>
+            <p class="meta">
+                ID: {{ food.get('id') }} •
+                {{ p.get('category', food.get('category', 'Unknown')) }}
+            </p>
+
+            {% set cal = p.get('calories', food.get('calories')) %}
+            <p class="calories">
+                🍽 {{ cal | round(0) | int if cal is number else cal }} calories
+            </p>
+        </div>
 
         <form action="{{ url_for('delete_food', food_id=food.get('id')) }}" method="POST">
-            <button type="submit" class="delete-btn">Delete</button>
+            <button type="submit" class="delete-btn">Remove</button>
         </form>
     </div>
 {% endfor %}
+</div>
+
+<!--Auto-focus -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("barcode");
+    if (input) {
+        input.focus();
+        input.select();
+    }
+});
+</script>
 
 {% endblock %}

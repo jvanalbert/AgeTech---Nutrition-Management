@@ -140,3 +140,81 @@ footer {
 .delete-btn:hover {
     background-color: #c0392b;
 }
+
+/* food page
+/* Page Title */
+.page-title {
+    margin-bottom: 20px;
+}
+
+/* Section Title (Pantry List) */
+.section-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #2c7be5;
+}
+
+/* Scan Section Improvements */
+.scan-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* Scan Form Layout */
+.scan-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.scan-form input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.scan-form button {
+    background-color: #2c7be5;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.scan-form button:hover {
+    background-color: #1a68d1;
+}
+
+/* Message */
+.message {
+    margin-top: 10px;
+    font-weight: bold;
+    color: green;
+}
+
+/* Scan Result Box */
+.scan-result {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f4f6f8;
+    border-radius: 6px;
+}
+
+/* Food Info Text */
+.food-info h4 {
+    margin: 0 0 5px 0;
+}
+
+.meta {
+    color: #666;
+    font-size: 14px;
+}
+
+.calories {
+    margin-top: 5px;
+    font-weight: bold;
+}
