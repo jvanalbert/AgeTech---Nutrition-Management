@@ -218,3 +218,62 @@ footer {
     margin-top: 5px;
     font-weight: bold;
 }
+
+
+/*Recipe page
+/* Ingredient rows */
+.ingredient-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.ingredient-row input {
+    flex: 1;
+    padding: 8px;
+}
+
+/* Textarea */
+textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+
+.recipe-card {
+    margin-bottom: 15px;
+}
+
+.recipe-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.recipe-body {
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.arrow {
+    margin-left: 10px;
+}
+
+.delete-btn {
+    background-color: #cf3827;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}

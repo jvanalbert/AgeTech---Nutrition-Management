@@ -11,6 +11,8 @@ from Backend.user_loader import (
     load_elderly_users_with_caretakers
 )
 from Backend.scanner import lookup_product, add_item_to_inventory
+import json
+from pathlib import Path
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -299,7 +301,80 @@ def delete_meal():
     
     return redirect("/meals")
 
+@app.route("/recipes", methods=["GET", "POST"])
+def recipes():
+    if not session.get("user"):
+        return redirect("/login")
 
+    import json
+
+    FILE_PATH = "data/saved_recipes.json"
+
+    # Load existing recipes
+    with open(FILE_PATH, "r") as f:
+        data = json.load(f)
+
+    recipes = data.get("recipes", [])
+
+    # 🔹 Handle form submission
+    if request.method == "POST":
+        new_recipe = {
+            "recipe_name": request.form.get("recipe_name"),
+            "servings": int(request.form.get("servings", 1)),
+            "ingredients": [],
+            "steps": [],
+            "estimated_time_minutes": 0
+        }
+
+        # Handle ingredients (multiple rows)
+        names = request.form.getlist("ingredient_name")
+        amounts = request.form.getlist("ingredient_amount")
+        units = request.form.getlist("ingredient_unit")
+
+        for i in range(len(names)):
+            if names[i]:  # skip empty rows
+                new_recipe["ingredients"].append({
+                    "amount": amounts[i],
+                    "unit": units[i],
+                    "name": names[i]
+                })
+
+        # Optional directions
+        steps_text = request.form.get("steps", "").strip()
+        if steps_text:
+            # Split by lines and remove empty ones
+            new_recipe["steps"] = [s.strip() for s in steps_text.splitlines() if s.strip()]
+
+        # Add recipe
+        recipes.append(new_recipe)
+
+        # Save back to file
+        with open(FILE_PATH, "w") as f:
+            json.dump({"recipes": recipes}, f, indent=4)
+
+        return redirect("/recipes")
+
+    return render_template("recipes.html", recipes=recipes)
+
+@app.post("/recipes/<int:recipe_index>/delete")
+def delete_recipe(recipe_index):
+    file_path = Path("data/saved_recipes.json")
+
+    # Read saved recipes safely
+    if file_path.exists() and file_path.stat().st_size > 0:
+        recipes = json.loads(file_path.read_text())
+    else:
+        recipes = []
+
+    # Ensure the index is valid
+    if 0 <= recipe_index < len(recipes):
+        removed = recipes.pop(recipe_index)  # remove the recipe
+        print(f"Deleted recipe: {removed['recipe_name']}")
+
+        # Save the updated list back to JSON
+        file_path.write_text(json.dumps(recipes, indent=4))
+
+    return redirect(url_for("recipes"))
 # ------------------ Run App ------------------
 if __name__ == "__main__":
     app.run(debug=True)

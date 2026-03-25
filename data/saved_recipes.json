@@ -1,0 +1,75 @@
+{
+    "recipes": [
+        {
+            "recipe_name": "Chicken and Rice Bowl",
+            "servings": 2,
+            "ingredients": [
+                {
+                    "amount": "2",
+                    "unit": "cups",
+                    "name": "cooked white rice"
+                },
+                {
+                    "amount": "1",
+                    "unit": "lb",
+                    "name": "chicken breast"
+                },
+                {
+                    "amount": "1",
+                    "unit": "tbsp",
+                    "name": "olive oil"
+                },
+                {
+                    "amount": "1",
+                    "unit": "tsp",
+                    "name": "garlic powder"
+                },
+                {
+                    "amount": "1/2",
+                    "unit": "tsp",
+                    "name": "salt"
+                },
+                {
+                    "amount": "1/2",
+                    "unit": "tsp",
+                    "name": "black pepper"
+                },
+                {
+                    "amount": "2",
+                    "unit": "tbsp",
+                    "name": "soy sauce"
+                }
+            ],
+            "steps": [
+                "Cook the rice according to package instructions.",
+                "Cut the chicken into bite-sized pieces.",
+                "Heat olive oil in a pan over medium heat.",
+                "Add chicken, garlic powder, salt, and pepper. Cook until fully done.",
+                "Divide rice into bowls, then top with chicken.",
+                "Drizzle soy sauce over the top and serve."
+            ],
+            "estimated_time_minutes": 25
+        },
+        {
+            "recipe_name": "Cheerio Bowl ",
+            "servings": 1,
+            "ingredients": [
+                {
+                    "amount": "1",
+                    "unit": "cup",
+                    "name": "cheerios"
+                },
+                {
+                    "amount": "1/2",
+                    "unit": "cup",
+                    "name": "milk"
+                }
+            ],
+            "steps": [
+                "Pour milk into bowl",
+                "Pour cheerios into bowl"
+            ],
+            "estimated_time_minutes": 0
+        }
+    ]
+}
