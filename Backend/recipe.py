@@ -1,5 +1,6 @@
 import json
 import os
+from dotenv import load_dotenv
 from food_safety import check_food_safety
 
 # ----- Load sample food and user data ----- #
@@ -100,23 +101,33 @@ def build_recipe_prompt(meal_type="dinner"):
     return prompt
 
 #Calling OpenAi to generate recipe##################needs worked on doesn't actually work need key 
-# from openai import OpenAI
-# client = OpenAI()
+from openai import AzureOpenAI
+load_dotenv()  # Load environment variables from .env file
+endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+key = os.getenv("AZURE_OPENAI_KEY1")
 
-# def generate_recipe(meal_type="dinner"):
+client = AzureOpenAI(
+    api_version="2024-12-01-preview",
+    azure_endpoint = endpoint,
+    api_key = key,
+)
 
-#     prompt = build_recipe_prompt(meal_type)
+def generate_recipe(meal_type="dinner"):
+    # 1️⃣ Build the prompt
+    prompt = build_recipe_prompt(meal_type)
 
-#     response = client.chat.completions.create(
-#         model="gpt-4.1",
-#         messages=[
-#             {"role": "system", "content": "You generate structured cooking recipes."},
-#             {"role": "user", "content": prompt}
-#         ],
-#         temperature=0.4
-#     )
+    # 2️⃣ Call Azure OpenAI
+    response = client.chat.completions.create(
+        model=os.getenv("AZURE_OPENAI_DEPLOYMENT"),  # deployment name from .env
+        messages=[
+            {"role": "system", "content": "You generate structured cooking recipes."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.4
+    )
 
-#     return response.choices[0].message.content
+    # 3️⃣ RETURN the AI response (important!)
+    return response.choices[0].message.content
 
 #save recipe function to saved recipe files (if user liked, will ask after meal)
 
@@ -124,5 +135,24 @@ def build_recipe_prompt(meal_type="dinner"):
 
 #testing prompt 
 if __name__ == "__main__":
-    prompt = build_recipe_prompt("lunch")
-    print(prompt)
+    print("=== TEST: Generate breakfast recipe ===\n")
+
+    # Call the function
+    recipe_json = generate_recipe("breakfast")  # "breakfast" meal type
+
+    try:
+        # Parse the response JSON
+        recipe = json.loads(recipe_json)
+        print("Recipe Name:", recipe.get("recipe_name"))
+        print("Servings:", recipe.get("servings"))
+        print("Estimated time (minutes):", recipe.get("estimated_time_minutes"))
+        print("\nIngredients:")
+        for ing in recipe.get("ingredients", []):
+            print(f"- {ing['amount']} {ing['unit']} {ing['name']}")
+        print("\nSteps:")
+        for i, step in enumerate(recipe.get("steps", []), 1):
+            print(f"{i}. {step}")
+
+    except json.JSONDecodeError:
+        print("Error: Could not parse recipe JSON from model output:")
+        print(recipe_json)
