@@ -33,6 +33,45 @@
             },
             "caretaker_id": 100,
             "meals": []
+        },
+        {
+            "id": 2,
+            "role": "elderly",
+            "name": "mia smith",
+            "age": 85,
+            "weight_lbs": 130,
+            "height_in": 70,
+            "medications": [],
+            "allergies": [],
+            "dietary_restrictions": [],
+            "daily_calories": 1800,
+            "cooking_skill": 3,
+            "preferred_cuisines": [
+                "american"
+            ],
+            "meal_times": {
+                "breakfast": {
+                    "hour": 8,
+                    "minute": 24
+                },
+                "lunch": {
+                    "hour": 12,
+                    "minute": 0
+                },
+                "dinner": {
+                    "hour": 18,
+                    "minute": 0
+                }
+            },
+            "account": {
+                "username": "miasmith",
+                "password": "$2b$12$vqnXF..OB8Rg4FuNj41OAu3SLN5krBPknVHyUpWUBSg78umVtBq9K"
+            },
+            "contact_information": {
+                "phone": "098237480925",
+                "email": "miasmith@gmail.com"
+            },
+            "caretaker_id": null
         }
     ],
     "caretaker_users": [

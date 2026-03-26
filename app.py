@@ -50,6 +50,9 @@ def login():
                 "role": user.get("role", "elderly"),
                 "name": user.get("name")
             }
+            # Add meal_times to session for elderly users
+            if user.get("role") == "elderly":
+                session["meal_times"] = user.get("meal_times", {"breakfast": {"hour": 8, "minute": 0}, "lunch": {"hour": 12, "minute": 0}, "dinner": {"hour": 18, "minute": 0}})
             return redirect("/home")
         else:
             return render_template("login.html", error="Invalid username or password.")
@@ -86,6 +89,11 @@ def register_elderly():
             "daily_calories": 1800,
             "cooking_skill": int(request.form["cooking_skill"]),
             "preferred_cuisines": request.form.getlist("cuisines"),
+            "meal_times": {
+                "breakfast": {"hour": int(request.form["breakfast_hour"]), "minute": int(request.form["breakfast_minute"])},
+                "lunch": {"hour": int(request.form["lunch_hour"]), "minute": int(request.form["lunch_minute"])},
+                "dinner": {"hour": int(request.form["dinner_hour"]), "minute": int(request.form["dinner_minute"])}
+            },
             "account": {"username": username, "password": bcrypt.generate_password_hash(request.form["password"]).decode('utf-8')},
             "contact_information": {"phone": request.form["phone"], "email": request.form["email"]},
             "caretaker_id": None
@@ -144,7 +152,56 @@ def users_page():
     if not session.get("user"):
         return redirect("/login")
     elderly_users = load_elderly_users_with_caretakers()
+    # Add default meal_times if missing
+    for user in elderly_users:
+        if "meal_times" not in user:
+            user["meal_times"] = {"breakfast": {"hour": 8, "minute": 0}, "lunch": {"hour": 12, "minute": 0}, "dinner": {"hour": 18, "minute": 0}}
     return render_template("users.html", users=elderly_users)
+
+
+@app.route("/edit_meal_times/<int:user_id>", methods=["GET", "POST"])
+def edit_meal_times(user_id):
+    if not session.get("user"):
+        return redirect("/login")
+    
+    # Check permissions: caretaker for this user or the user themselves
+    data = load_user_data()
+    user = None
+    for u in data.get("elderly_users", []):
+        if u["id"] == user_id:
+            user = u
+            break
+    
+    if not user:
+        return "User not found", 404
+    
+    # Permission check
+    if session["user"]["role"] == "caretaker":
+        if user.get("caretaker_id") != session["user"]["id"]:
+            return "Unauthorized", 403
+    elif session["user"]["role"] == "elderly":
+        if user["id"] != session["user"]["id"]:
+            return "Unauthorized", 403
+    else:
+        return "Unauthorized", 403
+    
+    if request.method == "POST":
+        # Update meal_times
+        user["meal_times"] = {
+            "breakfast": {"hour": int(request.form["breakfast_hour"]), "minute": int(request.form["breakfast_minute"])},
+            "lunch": {"hour": int(request.form["lunch_hour"]), "minute": int(request.form["lunch_minute"])},
+            "dinner": {"hour": int(request.form["dinner_hour"]), "minute": int(request.form["dinner_minute"])}
+        }
+        save_user_data(data)
+        # Update session if editing own meal times
+        if session["user"]["id"] == user_id:
+            session["meal_times"] = user["meal_times"]
+        return redirect("/users")
+    
+    # Add defaults if missing
+    meal_times = user.get("meal_times", {"breakfast": {"hour": 8, "minute": 0}, "lunch": {"hour": 12, "minute": 0}, "dinner": {"hour": 18, "minute": 0}})
+    return render_template("edit_meal_times.html", user=user, meal_times=meal_times)
+
 
 @app.route("/caretaker")
 def caretaker_page():

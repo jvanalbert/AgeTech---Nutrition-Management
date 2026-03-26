@@ -31,5 +31,65 @@
     {% block content %}{% endblock %}
 </div>
 
+{% block scripts %}{% endblock %}
+
+{% if session.user and session.user.role == "elderly" and session.meal_times %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get meal times from session
+    const mealTimes = [
+        { name: 'Breakfast', hour: {{ session.meal_times.breakfast.hour }}, minute: {{ session.meal_times.breakfast.minute }} },
+        { name: 'Lunch', hour: {{ session.meal_times.lunch.hour }}, minute: {{ session.meal_times.lunch.minute }} },
+        { name: 'Dinner', hour: {{ session.meal_times.dinner.hour }}, minute: {{ session.meal_times.dinner.minute }} }
+    ];
+
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+
+    mealTimes.forEach(meal => {
+        let targetDate = new Date(now);
+
+        // If the meal time has already passed today, schedule for tomorrow
+        if (currentHour > meal.hour || (currentHour === meal.hour && currentMinute >= meal.minute)) {
+            targetDate.setDate(targetDate.getDate() + 1);
+        }
+
+        targetDate.setHours(meal.hour, meal.minute, 0, 0); // Set to meal hour and minute
+
+        const timeUntil = targetDate - now;
+
+        if (timeUntil > 0) {
+            setTimeout(() => {
+                showMealModal(meal.name);
+            }, timeUntil);
+        }
+    });
+});
+
+function showMealModal(mealName) {
+    const modal = document.getElementById('mealModal');
+    const message = document.getElementById('mealMessage');
+    message.textContent = `Time for ${mealName}!`;
+    modal.style.display = 'block';
+}
+
+function closeMealModal() {
+    const modal = document.getElementById('mealModal');
+    modal.style.display = 'none';
+    window.location.href = '/meals';
+}
+</script>
+{% endif %}
+
+<!-- Meal Reminder Modal -->
+<div id="mealModal" class="modal">
+    <div class="modal-content">
+        <h2>Meal Reminder</h2>
+        <p id="mealMessage"></p>
+        <button class="modal-btn" onclick="closeMealModal()">OK</button>
+    </div>
+</div>
+
 </body>
 </html>

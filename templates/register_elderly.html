@@ -156,6 +156,33 @@
     <label><input type="checkbox" name="cuisines" value="japanese"> Japanese</label>
   </fieldset>
 
+  <!-- ================= MEAL TIMES ================= -->
+  <fieldset>
+    <legend>Meal Reminder Times</legend>
+    <p>Set your preferred times for meal reminders</p>
+
+    <div style="display: flex; gap: 10px; align-items: center; margin-top: 15px;">
+      <label>Breakfast:</label>
+      <input type="number" name="breakfast_hour" min="0" max="23" value="8" required style="width: 60px;">
+      <span>:</span>
+      <input type="number" name="breakfast_minute" min="0" max="59" value="0" required style="width: 60px;">
+    </div>
+
+    <div style="display: flex; gap: 10px; align-items: center; margin-top: 15px;">
+      <label>Lunch:</label>
+      <input type="number" name="lunch_hour" min="0" max="23" value="12" required style="width: 60px;">
+      <span>:</span>
+      <input type="number" name="lunch_minute" min="0" max="59" value="0" required style="width: 60px;">
+    </div>
+
+    <div style="display: flex; gap: 10px; align-items: center; margin-top: 15px;">
+      <label>Dinner:</label>
+      <input type="number" name="dinner_hour" min="0" max="23" value="18" required style="width: 60px;">
+      <span>:</span>
+      <input type="number" name="dinner_minute" min="0" max="59" value="0" required style="width: 60px;">
+    </div>
+  </fieldset>
+
   <button type="submit">Create Account</button>
 
 </form>

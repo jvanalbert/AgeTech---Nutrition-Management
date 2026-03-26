@@ -34,7 +34,15 @@
         <strong>Allergies:</strong> {{ user.allergies | join(', ') }}<br>
         <strong>Dietary Restrictions:</strong> {{ user.dietary_restrictions | join(', ') }}<br>
         <strong>Preferred Cuisines:</strong> {{ user.preferred_cuisines | join(', ') }}<br>
+        <strong>Meal Times:</strong><br>
+        Breakfast: {{ user.meal_times.breakfast.hour }}:{{ "%02d"|format(user.meal_times.breakfast.minute) }}<br>
+        Lunch: {{ user.meal_times.lunch.hour }}:{{ "%02d"|format(user.meal_times.lunch.minute) }}<br>
+        Dinner: {{ user.meal_times.dinner.hour }}:{{ "%02d"|format(user.meal_times.dinner.minute) }}<br>
     </p>
+    
+    {% if (session.user.role == "caretaker" and user.caretaker and user.caretaker.id == session.user.id) or (session.user.role == "elderly" and user.id == session.user.id) %}
+    <a href="/edit_meal_times/{{ user.id }}" class="btn">Edit Meal Times</a>
+    {% endif %}
     
     <p>
         <strong>Account:</strong><br>
