@@ -34,13 +34,15 @@
 {% block scripts %}{% endblock %}
 
 {% if session.user and session.user.role == "elderly" and session.meal_times %}
+<div id="meal-times-data" style="display:none;">{{ session.meal_times | tojson }}</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Get meal times from session
+    const mealTimesData = JSON.parse(document.getElementById('meal-times-data').textContent);
     const mealTimes = [
-        { name: 'Breakfast', hour: {{ session.meal_times.breakfast.hour }}, minute: {{ session.meal_times.breakfast.minute }} },
-        { name: 'Lunch', hour: {{ session.meal_times.lunch.hour }}, minute: {{ session.meal_times.lunch.minute }} },
-        { name: 'Dinner', hour: {{ session.meal_times.dinner.hour }}, minute: {{ session.meal_times.dinner.minute }} }
+        { name: 'Breakfast', hour: mealTimesData.breakfast.hour, minute: mealTimesData.breakfast.minute },
+        { name: 'Lunch', hour: mealTimesData.lunch.hour, minute: mealTimesData.lunch.minute },
+        { name: 'Dinner', hour: mealTimesData.dinner.hour, minute: mealTimesData.dinner.minute }
     ];
 
     const now = new Date();
