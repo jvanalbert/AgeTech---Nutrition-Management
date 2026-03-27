@@ -29,5 +29,125 @@
     "monitor": ["high-fiber meals"],
     "timing_issue": true,
     "severity": "moderate"
-  }
+  },
+  "Tetracycline": {
+    "avoid_at_same_time": ["milk", "yogurt", "cheese", "ice cream", "other dairy products"],
+    "timing_issue": true,
+    "severity": "moderate"
+},
+  "Ciprofloxacin": {
+    "avoid_at_same_time": ["milk", "yogurt", "calcium-fortified juice taken alone"],
+    "timing_issue": true,
+    "severity": "moderate"
+},
+  "Alendronate": {
+    "avoid_at_same_time": ["all food", "coffee", "juice", "mineral water", "other beverages"],
+    "timing_issue": true,
+    "severity": "high"
+},
+  "Iron supplements": {
+    "avoid_at_same_time": ["milk", "calcium-rich foods", "caffeine", "high-fiber foods", "bran", "whole grains"],
+    "timing_issue": true,
+    "severity": "moderate"
+},
+  "Lithium": {
+    "monitor": ["caffeine", "major changes in salt intake", "major changes in fluid intake"],
+    "timing_issue": false,
+    "severity": "high"
+},
+  "Theophylline": {
+    "avoid_large_amounts": ["coffee", "tea", "cola", "energy drinks", "chocolate", "cocoa"],
+    "timing_issue": false,
+    "severity": "moderate"
+},
+  "Tacrolimus": {
+    "avoid": ["grapefruit", "grapefruit juice"],
+    "timing_issue": false,
+    "severity": "high"
+},
+  "Cyclosporine": {
+    "avoid": ["grapefruit", "grapefruit juice"],
+    "timing_issue": false,
+    "severity": "high"
+},
+  "Carbamazepine": {
+    "avoid": ["grapefruit", "grapefruit juice"],
+    "timing_issue": false,
+    "severity": "high"
+},
+  "Metronidazole": {
+    "avoid": ["alcohol", "products containing propylene glycol"],
+    "timing_issue": true,
+    "severity": "high"
+},
+  "Disulfiram": {
+    "avoid": ["alcohol", "foods containing alcohol"],
+    "timing_issue": true,
+    "severity": "critical"
+},
+  "Metformin": {
+    "limit_or_avoid": ["heavy alcohol intake", "binge drinking"],
+    "timing_issue": false,
+    "severity": "high"
+},
+  "Omeprazole": {
+    "avoid": [],
+    "timing_issue": true,
+    "severity": "low"
+},
+  "Doxycycline": {
+    "avoid_at_same_time": ["antacids", "iron-containing foods", "calcium-rich dairy products"],
+    "timing_issue": true,
+    "severity": "moderate"
+},
+  "Levofloxacin": {
+    "avoid_at_same_time": ["antacids", "iron-containing foods", "calcium-rich dairy products"],
+    "timing_issue": true,
+    "severity": "moderate"
+},
+  "Fluoxetine": {
+    "avoid": ["alcohol", "nicotine", "tobacco products"],
+    "timing_issue": false,
+    "severity": "moderate"
+},
+  "Sertraline": {
+    "avoid": ["alcohol", "nicotine", "tobacco products"],
+    "timing_issue": false,
+    "severity": "moderate"
+},
+  "Glyburide": {
+    "limit_or_avoid": ["alcohol"],
+    "timing_issue": false,
+    "severity": "moderate"
+},
+  "Glipizide": {
+    "limit_or_avoid": ["alcohol"],
+    "timing_issue": false,
+    "severity": "moderate"
+},
+  "Allopurinol": {
+    "monitor": ["meals"],
+    "timing_issue": true,
+    "severity": "low"
+},
+  "Verapamil": {
+    "avoid_or_limit": ["orange juice", "grapefruit", "grapefruit juice", "caffeine"],
+    "timing_issue": false,
+    "severity": "high"
+},
+  "Atenolol": {
+    "avoid_at_same_time": ["orange juice", "calcium products"],
+    "timing_issue": true,
+    "severity": "moderate"
+},
+  "Metoprolol tartrate": {
+    "avoid_at_same_time": ["calcium products"],
+    "timing_issue": true,
+    "severity": "moderate"
+},
+  "Spironolactone": {
+    "avoid": ["potassium-based salt substitutes", "large amounts of high-potassium foods"],
+    "timing_issue": false,
+    "severity": "moderate"
+}
 }
