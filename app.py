@@ -27,6 +27,34 @@ def check_login(username, password):
             return user
     return None
 
+def has_ingredients_for_recipe(recipe):
+    import json
+
+    # Load inventory
+    with open("data/sample_food.json") as f:
+        data = json.load(f)
+
+    inventory_items = data.get("items", [])
+
+    # Normalize inventory names
+    inventory_names = [
+        item["product"]["name"].lower()
+        for item in inventory_items
+    ]
+
+    missing = []
+
+    for ing in recipe.get("ingredients", []):
+        ing_name = ing["name"].lower()
+
+        # Check if ANY inventory item matches (partial match)
+        found = any(inv_name in ing_name or ing_name in inv_name for inv_name in inventory_names)
+
+        if not found:
+            missing.append(ing["name"])
+
+    return len(missing) == 0, missing
+
 # ------------------ Routes ------------------
 
 @app.route("/")
@@ -276,7 +304,7 @@ def delete_food(food_id):
 
     return redirect(url_for("food_list"))
 
-
+#------- Meal Page -------#
 @app.route("/meals", methods=["GET", "POST"])
 def meals():
     if not session.get("user"):
@@ -291,32 +319,70 @@ def meals():
             user = u
             break
     user_meals = user.get("meals", []) if user else []
+
+    foods = load_foods()
     
     if request.method == "POST":
         food_id = int(request.form["food_id"])
         quantity = float(request.form["quantity"])
         meal_type = request.form["meal_type"]
-        
+        unit = request.form.get("unit", "grams")
+
+        # Load foods and find selected food
+        food = next((f for f in foods if f["id"] == food_id), None)
+
+        if not food:
+            return redirect("/meals")
+
+        food_name = food["name"]
+
+        # Map for piece/serving → grams
+        grams_per_piece = {
+            "Apple": 150,
+            "Banana": 120,
+            "Orange": 130,
+            "Strawberry": 12,
+            "Carrot": 61,
+            "Broccoli": 91,
+            "Asparagus": 28,
+            "Farm Fresh Egg": 50,
+            "Milk": 240,
+            "Cheese": 28,
+            "Chicken": 140,
+            "Tofu": 85,
+            "Bread": 30,
+            "Rice": 158,
+            "Oats": 81
+        }
+
+        # Convert to grams
+        if unit == "grams":
+            grams = quantity
+        elif unit == "oz":
+            grams = quantity * 28.35
+        elif unit == "cup":
+            grams = quantity * 240
+        elif unit in ["piece", "serving"]:
+            grams = quantity * grams_per_piece.get(food_name, 100)
+        else:
+            grams = quantity
+
         if user:
-            # Get food data
-            foods = load_foods()
-            food = next((f for f in foods if f["id"] == food_id), None)
-            
-            if food:
-                meal = {
-                    "food_id": food_id,
-                    "name": food["name"],
-                    "quantity": quantity,
-                    "meal_type": meal_type,
-                    "calories": food["calories"] * quantity / 100,  # assuming per 100g like taylor said
-                    "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),  #date/time format
-                    "allergens": food.get("allergens", [])
-                }
-                user["meals"] = user.get("meals", []) + [meal]
-                save_user_data(data)
-                return redirect("/meals")
-    
-    foods = load_foods()
+            meal = {
+                "food_id": food_id,
+                "name": food_name,
+                "quantity": grams,
+                "meal_type": meal_type,
+                "calories": float(food.get("calories") or 0) * grams / 100,
+                "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),
+                "allergens": food.get("allergens", [])
+            }
+
+            user["meals"] = user.get("meals", []) + [meal]
+            save_user_data(data)
+
+            return redirect("/meals")
+
     # Filter foods based on user allergies
     user_allergies = []
     if user:
@@ -334,7 +400,24 @@ def meals():
             if safe:
                 filtered_foods.append(f)
         foods = filtered_foods
-    return render_template("meals.html", foods=foods, user_meals=user_meals, user_allergies=user_allergies)
+    
+        # Load saved recipes
+    with open("data/saved_recipes.json") as f:
+        recipe_data = json.load(f)
+
+    recipes = recipe_data.get("recipes", [])
+
+    recipe_availability = []
+
+    for recipe in recipes:
+        has_all, missing = has_ingredients_for_recipe(recipe)
+        recipe_availability.append({
+            "recipe": recipe,
+            "has_all": has_all,
+            "missing": missing
+        })
+
+    return render_template("meals.html", foods=foods, user_meals=user_meals, user_allergies=user_allergies, recipes=recipes, recipe_availability=recipe_availability)
 
 
 @app.route("/delete_meal", methods=["POST"])
@@ -356,6 +439,81 @@ def delete_meal():
         user["meals"] = [m for m in user["meals"] if m["timestamp"] != timestamp]
         save_user_data(data)
     
+    return redirect("/meals")
+
+@app.post("/log_recipe_meal")
+def log_recipe_meal():
+    import json
+    from datetime import datetime
+
+    recipe_index = int(request.form["recipe_index"])
+    meal_type = request.form["meal_type"]
+
+    # Load recipes
+    with open("data/saved_recipes.json") as f:
+        data = json.load(f)
+
+    recipes = data.get("recipes", [])
+    recipe = recipes[recipe_index]
+
+    # 🔥 CHECK INGREDIENTS
+    has_all, missing = has_ingredients_for_recipe(recipe)
+
+    if not has_all:
+        # Option 1: simple message (quickest)
+        return f"Missing ingredients: {', '.join(missing)} <br><a href='/meals'>Go back</a>"
+
+    # ✅ Continue if valid
+    meal = {
+        "name": recipe["recipe_name"],
+        "meal_type": meal_type,
+        "calories": 0,
+        "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),
+        "ingredients": recipe["ingredients"]
+    }
+
+    # Get user (your existing logic)
+    data = load_user_data()
+    user_id = session["user"]["id"]
+    user = None
+
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u["id"] == user_id:
+            user = u
+            break
+
+    if user:
+        user["meals"] = user.get("meals", []) + [meal]
+        save_user_data(data)
+
+    return redirect("/meals")
+
+@app.post("/log_generated_meal")
+def log_generated_meal():
+    import json
+    from datetime import datetime
+
+    recipe = json.loads(request.form["recipe_json"])
+    meal_type = request.form["meal_type"]
+
+    meal = {
+        "name": recipe["recipe_name"],
+        "meal_type": meal_type,
+        "calories": 0,
+        "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),
+        "ingredients": recipe["ingredients"]
+    }
+
+    data = load_user_data()
+    user_id = session["user"]["id"]
+    user = None
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u["id"] == user_id:
+            user = u
+            break
+    user["meals"].append(meal)
+    save_user_data(data)
+
     return redirect("/meals")
 
 @app.route("/recipes", methods=["GET", "POST"])
@@ -487,21 +645,26 @@ def settings():
 
 @app.post("/recipes/<int:recipe_index>/delete")
 def delete_recipe(recipe_index):
+    from pathlib import Path
+    import json
+
     file_path = Path("data/saved_recipes.json")
 
-    # Read saved recipes safely
+    # Load correctly
     if file_path.exists() and file_path.stat().st_size > 0:
-        recipes = json.loads(file_path.read_text())
+        data = json.loads(file_path.read_text())
     else:
-        recipes = []
+        data = {"recipes": []}
 
-    # Ensure the index is valid
+    recipes = data.get("recipes", [])
+
+    # Validate index
     if 0 <= recipe_index < len(recipes):
-        removed = recipes.pop(recipe_index)  # remove the recipe
+        removed = recipes.pop(recipe_index)
         print(f"Deleted recipe: {removed['recipe_name']}")
 
-        # Save the updated list back to JSON
-        file_path.write_text(json.dumps(recipes, indent=4))
+        # Save back in SAME STRUCTURE
+        file_path.write_text(json.dumps({"recipes": recipes}, indent=4))
 
     return redirect(url_for("recipes"))
 # ------------------ Run App ------------------

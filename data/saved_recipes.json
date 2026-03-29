@@ -51,23 +51,27 @@
             "estimated_time_minutes": 25
         },
         {
-            "recipe_name": "Cheerio Bowl ",
+            "recipe_name": "Fruit Bowl",
             "servings": 1,
             "ingredients": [
                 {
                     "amount": "1",
-                    "unit": "cup",
-                    "name": "cheerios"
+                    "unit": "serving",
+                    "name": "banana"
                 },
                 {
-                    "amount": "1/2",
-                    "unit": "cup",
-                    "name": "milk"
+                    "amount": "4",
+                    "unit": "pieces",
+                    "name": "strawberries"
+                },
+                {
+                    "amount": "1",
+                    "unit": "serving",
+                    "name": "orange"
                 }
             ],
             "steps": [
-                "Pour milk into bowl",
-                "Pour cheerios into bowl"
+                "Cut up fruit into bowl"
             ],
             "estimated_time_minutes": 0
         }

@@ -32,7 +32,49 @@
                 "email": "margaret.thompson@example.com"
             },
             "caretaker_id": 100,
-            "meals": [],
+            "meals": [
+                {
+                    "food_id": 1,
+                    "name": "Apple",
+                    "quantity": 150.0,
+                    "meal_type": "breakfast",
+                    "calories": 142.5,
+                    "timestamp": "March 29, 2026 at 06:17:15 PM",
+                    "allergens": []
+                },
+                {
+                    "food_id": 8,
+                    "name": "Bread",
+                    "quantity": 60.0,
+                    "meal_type": "breakfast",
+                    "calories": 60.0,
+                    "timestamp": "March 29, 2026 at 06:18:54 PM",
+                    "allergens": []
+                },
+                {
+                    "name": "Fruit Bowl",
+                    "meal_type": "lunch",
+                    "calories": 0,
+                    "timestamp": "March 29, 2026 at 06:35:56 PM",
+                    "ingredients": [
+                        {
+                            "amount": "1",
+                            "unit": "serving",
+                            "name": "banana"
+                        },
+                        {
+                            "amount": "4",
+                            "unit": "pieces",
+                            "name": "strawberries"
+                        },
+                        {
+                            "amount": "1",
+                            "unit": "serving",
+                            "name": "orange"
+                        }
+                    ]
+                }
+            ],
             "meal_times": {
                 "breakfast": {
                     "hour": 8,
@@ -62,7 +104,10 @@
                         "minute": 0
                     }
                 },
-                "preferred_cuisines": []
+                "preferred_cuisines": [],
+                "dark_mode": false,
+                "language": "en",
+                "notifications": false
             }
         },
         {
