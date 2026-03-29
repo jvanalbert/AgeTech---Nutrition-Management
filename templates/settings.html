@@ -1,0 +1,136 @@
+<!-- templates/settings.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <h2 class="page-title">Settings</h2>
+
+        <!-- Tabs -->
+        <div style="margin-top: 20px;">
+            <button class="tab-btn" onclick="openTab(event, 'interface')">Interface</button>
+            <button class="tab-btn" onclick="openTab(event, 'privacy')">Privacy</button>
+            <button class="tab-btn" onclick="openTab(event, 'meal')">Meal Preferences</button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div id="interface" class="tab-content" style="display: block; margin-top: 20px;">
+            <form method="POST" action="{{ url_for('settings') }}?tab=interface">
+                <div class="setting-item" style="margin-bottom: 15px;">
+                    <label>
+                        Language:
+                        <select name="language" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+                            <option value="en" {% if preferences.language == 'en' %}selected{% endif %}>English</option>
+                            <option value="es" {% if preferences.language == 'es' %}selected{% endif %}>Spanish</option>
+                            <option value="fr" {% if preferences.language == 'fr' %}selected{% endif %}>French</option>
+                        </select>
+                    </label>
+                </div>
+                
+                <div class="setting-item" style="margin-bottom: 15px;">
+                    <label>
+                        <input type="checkbox" name="dark_mode" value="1" {% if preferences.dark_mode %}checked{% endif %}>
+                        Dark Mode
+                    </label>
+                </div>
+
+                <div class="setting-item" style="margin-bottom: 15px;">
+                    <label>
+                        <input type="checkbox" name="notifications" value="1" {% if preferences.get('notifications') %}checked{% endif %}>
+                        Show Notifications
+                    </label>
+                </div>
+
+                <button type="submit" class="nav-btn" style="background-color:#2c7be5; color:white;">Save Interface</button>
+            </form>
+        </div>
+
+        <div id="privacy" class="tab-content" style="display: none; margin-top: 20px;">
+            <form method="POST" action="{{ url_for('settings') }}?tab=privacy">
+                <div class="setting-item" style="margin-bottom: 15px;">
+                    <label>
+                        Username:
+                        <input type="text" value="{{ session.user.username }}" readonly style="padding: 8px; border-radius:6px; border:1px solid #ccc;">
+                    </label>
+                </div>
+
+                <div class="setting-item" style="margin-bottom: 15px;">
+                    <label>
+                        New Password:
+                        <input type="password" name="new_password" placeholder="Enter new password" style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+                    </label>
+                </div>
+
+                <button type="submit" class="nav-btn" style="background-color:#2c7be5; color:white;">Update Password</button>
+            </form>
+        </div>
+
+        <div id="meal" class="tab-content" style="display: none; margin-top: 20px;">
+            <form method="POST" action="{{ url_for('settings') }}?tab=meal">
+                <h3>Meal Times</h3>
+                {% set mt = preferences.meal_times if preferences.meal_times else {'breakfast':{'hour':8,'minute':0}, 'lunch':{'hour':12,'minute':0}, 'dinner':{'hour':18,'minute':0}} %}
+                {% for meal, time in mt.items() %}
+                    <div class="setting-item" style="margin-bottom: 10px;">
+                        <label>
+                            {{ meal|capitalize }}:
+                            <input type="number" name="{{ meal }}_hour" min="0" max="23" value="{{ time.hour }}" style="width:60px; padding:5px; border-radius:6px; border:1px solid #ccc;"> :
+                            <input type="number" name="{{ meal }}_minute" min="0" max="59" value="{{ time.minute }}" style="width:60px; padding:5px; border-radius:6px; border:1px solid #ccc;">
+                        </label>
+                    </div>
+                {% endfor %}
+
+                <h3>Preferred Cuisines</h3>
+                {% set cuisines = ['Italian','Chinese','Mexican','American','Indian','Mediterranean'] %}
+                <div class="setting-item" style="margin-bottom:15px;">
+                    {% for c in cuisines %}
+                        <label style="margin-right:10px;">
+                            <input type="checkbox" name="cuisines" value="{{ c }}" {% if c in preferences.get('preferred_cuisines',[]) %}checked{% endif %}> {{ c }}
+                        </label>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="nav-btn" style="background-color:#2c7be5; color:white;">Save Meal Preferences</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs JS -->
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tabbtns;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tabbtns = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tabbtns.length; i++) {
+        tabbtns[i].style.backgroundColor = "";
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.style.backgroundColor = "#2c7be5";
+    evt.currentTarget.style.color = "white";
+}
+</script>
+
+<style>
+.tab-btn {
+    padding: 10px 16px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+.tab-btn:hover {
+    background-color: #d9e4f5;
+}
+
+.tab-content {
+    padding: 15px 0;
+    border-top: 1px solid #ccc;
+}
+</style>
+{% endblock %}

@@ -32,7 +32,38 @@
                 "email": "margaret.thompson@example.com"
             },
             "caretaker_id": 100,
-            "meals": []
+            "meals": [],
+            "meal_times": {
+                "breakfast": {
+                    "hour": 8,
+                    "minute": 0
+                },
+                "lunch": {
+                    "hour": 12,
+                    "minute": 0
+                },
+                "dinner": {
+                    "hour": 18,
+                    "minute": 0
+                }
+            },
+            "preferences": {
+                "meal_times": {
+                    "breakfast": {
+                        "hour": 8,
+                        "minute": 0
+                    },
+                    "lunch": {
+                        "hour": 12,
+                        "minute": 0
+                    },
+                    "dinner": {
+                        "hour": 18,
+                        "minute": 0
+                    }
+                },
+                "preferred_cuisines": []
+            }
         },
         {
             "id": 2,

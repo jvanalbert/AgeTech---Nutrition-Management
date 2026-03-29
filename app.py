@@ -413,6 +413,71 @@ def recipes():
 
     return render_template("recipes.html", recipes=recipes)
 
+@app.route("/settings", methods=["GET", "POST"])
+def settings():
+    if not session.get("user"):
+        return redirect("/login")
+
+    data = load_user_data()
+    user_id = session["user"]["id"]
+
+    # Find the current user
+    user = None
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u["id"] == user_id:
+            user = u
+            break
+
+    if not user:
+        return "User not found", 404
+
+    # Ensure preferences dict exists
+    if "preferences" not in user:
+        user["preferences"] = {}
+    prefs = user["preferences"]
+
+    # Determine which tab is active
+    tab = request.args.get("tab", "interface")
+
+    if request.method == "POST":
+        if tab == "interface":
+            # Dark mode
+            prefs["dark_mode"] = bool(request.form.get("dark_mode"))
+            # Language
+            prefs["language"] = request.form.get("language", "en")
+            # Notifications
+            prefs["notifications"] = bool(request.form.get("notifications"))
+
+        elif tab == "privacy":
+            # Update password
+            new_password = request.form.get("new_password")
+            if new_password:
+                user["account"]["password"] = bcrypt.generate_password_hash(new_password).decode("utf-8")
+
+        elif tab == "meal":
+            # Meal times
+            mt = {}
+            for meal in ["breakfast", "lunch", "dinner"]:
+                hour = int(request.form.get(f"{meal}_hour", 8))
+                minute = int(request.form.get(f"{meal}_minute", 0))
+                mt[meal] = {"hour": hour, "minute": minute}
+            prefs["meal_times"] = mt
+
+            # Preferred cuisines
+            cuisines_selected = request.form.getlist("cuisines")
+            prefs["preferred_cuisines"] = cuisines_selected
+
+        # Save data back to file
+        save_user_data(data)
+
+        # Update session for meal times if elderly
+        if user.get("role") == "elderly":
+            session["meal_times"] = prefs.get("meal_times", session.get("meal_times"))
+
+        return redirect(url_for("settings") + f"?tab={tab}")
+
+    return render_template("settings.html", preferences=prefs, active_tab=tab)
+
 @app.post("/recipes/<int:recipe_index>/delete")
 def delete_recipe(recipe_index):
     file_path = Path("data/saved_recipes.json")
