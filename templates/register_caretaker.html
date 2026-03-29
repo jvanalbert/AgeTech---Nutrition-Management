@@ -1,99 +1,14 @@
 {% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='register_caretaker.css') }}">
+{% endblock %}
+
 {% block content %}
 
-<style>
-  /* Form container */
-  form {
-    max-width: 700px;
-    margin: 20px auto;
-    padding: 25px;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
-  }
-
-  h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 25px;
-  }
-
-  fieldset {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px 15px 15px 15px;
-    margin-bottom: 40px;
-  }
-
-  legend {
-    font-weight: bold;
-    padding: 0 10px;
-    color: #555;
-  }
-
-  label {
-    display: block;
-    margin-top: 15px;
-    font-weight: 500;
-    color: #333;
-  }
-
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  input[type="password"],
-  input[type="range"] {
-    width: 100%;
-    padding: 8px 10px;
-    margin-top: 5px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-  }
-
-  input[type="range"] {
-    padding: 0;
-  }
-
-  /* Checkbox layout */
-  fieldset p {
-    margin-top: 15px;
-    font-weight: 500;
-  }
-
-  fieldset label input[type="checkbox"] {
-    margin-right: 8px;
-  }
-
-  button[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-  }
-
-  button[type="submit"]:hover {
-    background-color: #45a049;
-  }
-
-  .select {
-    width: 100%;
-    padding: 8px 10px;
-    margin-top: 5px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    box-sizing: border-box; 
-    font-size: 15px;
-  }
-</style>
+<div class="back-container">
+    <button onclick="window.history.back()" class="back-btn">← Back</button>
+</div>
 
 <h2>Caretaker Registration</h2>
 

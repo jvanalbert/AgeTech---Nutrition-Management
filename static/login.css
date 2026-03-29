@@ -1,0 +1,170 @@
+/* Hide navbar and extra headers on login page */
+.login-page nav,
+.login-page .header-extra {
+    display: none;
+}
+
+/* Center the login container */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    background-color: #f0f4f8;
+}
+
+.login-title {
+    color: #2c7be5;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+}
+
+/* Container holding the auth box */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+/* Individual card box */
+.auth-box {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 500px;
+    text-align: center;
+    box-sizing: border-box; /* ensures padding doesn't add width */
+}
+
+/* Headings inside the box */
+.auth-box h3 {
+    color: #2c7be5;
+    margin-bottom: 20px;
+}
+
+/* Form labels and inputs */
+.auth-box label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box; /* ensures padding doesn't add width */
+}
+
+/* Wrap buttons in a container to unify width */
+.button-group {
+    width: 100%;
+}
+
+/* Login and signup buttons styled consistently */
+.auth-box button,
+.auth-box .signup-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    line-height: normal;
+    box-sizing: border-box; /* ensures padding doesn't add width */
+    transition: background 0.3s;
+}
+
+/* Login button style */
+.auth-box button {
+    background-color: #2c7be5;
+    color: white;
+    margin-bottom: 10px; /* spacing to signup button */
+}
+
+.auth-box button:hover {
+    background-color: #1a5dc9;
+}
+
+/* Signup button style */
+.auth-box .signup-btn {
+    background-color: #5a5a5a;
+    color: white;
+    text-decoration: none; /* if it's a link */
+}
+
+.auth-box .signup-btn:hover {
+    background-color: #333;
+}
+
+/* Signup text above button */
+.signup-text {
+    margin: 15px 0 5px;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 700px) {
+    .auth-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+/* Ensure buttons in button-group are spaced vertically */
+.button-group .signup-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    line-height: normal;
+    box-sizing: border-box;
+    transition: background 0.3s;
+
+    margin-bottom: 15px; /* <-- space between buttons */
+}
+
+/* Remove bottom margin on last button to avoid extra space */
+.button-group .signup-btn:last-child {
+    margin-bottom: 0;
+}
+
+.back-container {
+    width: 100%;
+    text-align: left; /* align to left side of card */
+    margin-bottom: 20px; /* spacing from the form/card content */
+}
+
+.back-btn {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #aaa;
+    color: white;
+}

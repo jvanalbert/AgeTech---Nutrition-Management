@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="login-page">
+    <h2 class="login-title">Create an Account</h2>
+
+    <div class="auth-container">
+
+        <div class="auth-box">
+            <h3>Select Your Role</h3>
+            <p class="signup-text">Please choose your account type:</p>
+
+            <div class="button-group">
+                <a href="/register/elderly" class="signup-btn">I am an Elderly User</a>
+                <a href="/register/caretaker" class="signup-btn">I am a Caretaker</a>
+            </div>
+
+            <p class="signup-text">Already have an account?</p>
+            <a href="/login" class="signup-btn" style="background-color: #2c7be5;">Click Here to Log In</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

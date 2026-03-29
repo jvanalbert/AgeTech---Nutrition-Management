@@ -413,6 +413,13 @@ def recipes():
 
     return render_template("recipes.html", recipes=recipes)
 
+@app.route("/register")
+def register():
+    """
+    Display the role selection page where user chooses Elderly or Caretaker.
+    """
+    return render_template("register.html")
+
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
     if not session.get("user"):
