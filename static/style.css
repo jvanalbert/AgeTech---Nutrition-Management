@@ -326,3 +326,11 @@ textarea {
 .delete-btn:hover {
     background-color: #c0392b;
 }
+
+.Proteins {
+    margin-top: 50px;
+}
+
+.Cholesterol {
+    margin-top: 50px;
+}

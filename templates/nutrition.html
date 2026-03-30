@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="nutrition-container">
+    <h1>Nutrition</h1>
+    <h2>{{ user.name }}</h2>
+
+    <h1>Calories</h1>
+    <div class="calorie-section">
+        <p><strong>Daily Calorie Goal:</strong> {{ goal }}</p>
+        <p><strong>Calories Consumed:</strong> {{ consumed }}</p>
+        <p><strong>Calories Remaining:</strong> {{ remaining }}</p>
+    </div>
+
+    <h1>Proteins</h1>
+    <div class="protein-section">
+        <p><strong>Daily Protein Goal:</strong> {{ protein_goal }} g</p>
+        <p><strong>Protein Consumed:</strong> {{ protein_consumed }} g</p>
+        <p><strong>Protein Remaining:</strong> {{ protein_remaining }} g</p>
+    </div>
+
+    <h1>Cholesterol</h1>
+    <div class="cholesterol-section">
+        <p><strong>Daily Cholesterol Goal:</strong> {{ cholesterol_goal }} mg or less</p>
+        <p><strong>Cholesterol Consumed:</strong> {{ cholesterol_consumed }} g</p>
+        <p><strong>Cholesterol Remaining:</strong> {{ cholesterol_remaining }} g</p>
+    </div>
+
+    <h1>Sugar</h1>
+    <div class="sugar-section">
+        <p><strong>Daily Sugar Goal:</strong> {{ sugar_goal }} g </p>
+        <p><strong>Sugar Consumed:</strong> {{ sugar_consumed }} g</p>
+        <p><strong>Sugar Remaining:</strong> {{ sugar_remaining }} g</p>
+    </div>
+
+    <h1>Sodium</h1>
+    <div class="sodium-section">
+        <p><strong>Daily Sodium Goal:</strong> {{ sodium_goal }} mg </p>
+        <p><strong>Sodium Consumed:</strong> {{ sodium_consumed }} g</p>
+        <p><strong>Sodium Remaining:</strong> {{ sodium_remaining }} g</p>
+    </div>
+
+
+</div>
+{% endblock %}
