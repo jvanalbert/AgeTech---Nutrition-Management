@@ -5,9 +5,7 @@
     <title>AgeTech House</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='register_elderly.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='register_caretaker.css') }}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
 
