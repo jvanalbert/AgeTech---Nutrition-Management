@@ -455,9 +455,13 @@ def nutrition():
     sugar_totals = track_sugar(user)
     sodium_totals = track_sodium(user)
 
+    # Format current date for display
+    current_date = datetime.now().strftime("%B %d, %Y")
+
     return render_template(
         "nutrition.html",
         user=user,
+        current_date=current_date,
         goal=calorie_totals["goal"],
         consumed=calorie_totals["consumed"],
         remaining=calorie_totals["remaining"],

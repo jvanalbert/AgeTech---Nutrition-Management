@@ -1,45 +1,165 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="nutrition-container">
-    <h1>Nutrition</h1>
-    <h2>{{ user.name }}</h2>
-
-    <h1>Calories</h1>
-    <div class="calorie-section">
-        <p><strong>Daily Calorie Goal:</strong> {{ goal }}</p>
-        <p><strong>Calories Consumed:</strong> {{ consumed }}</p>
-        <p><strong>Calories Remaining:</strong> {{ remaining }}</p>
+<div class="nutrition-page">
+    <div class="nutrition-header">
+        <h1>Nutrition Dashboard</h1>
+        <h2>{{ user.name }}</h2>
+        <p class="date-display">Today - {{ current_date }}</p>
     </div>
 
-    <h1>Proteins</h1>
-    <div class="protein-section">
-        <p><strong>Daily Protein Goal:</strong> {{ protein_goal }} g</p>
-        <p><strong>Protein Consumed:</strong> {{ protein_consumed }} g</p>
-        <p><strong>Protein Remaining:</strong> {{ protein_remaining }} g</p>
+    <div class="nutrition-grid">
+        <!-- Calories -->
+        <div class="nutrition-card calories-card">
+            <div class="card-header">
+                <h3>Calories</h3>
+                <div class="progress-circle">
+                    <svg width="60" height="60">
+                        <circle cx="30" cy="30" r="25" stroke="#e0e0e0" stroke-width="4" fill="none"/>
+                        <circle cx="30" cy="30" r="25" stroke="#2c7be5" stroke-width="4" fill="none"
+                                stroke-dasharray="{{ 157 * consumed / goal if goal > 0 else 0 }}, 157"
+                                transform="rotate(-90 30 30)"/>
+                    </svg>
+                    <div class="progress-text">{{ ((consumed / goal * 100) if goal > 0 else 0)|round|int }}%</div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="metric">
+                    <span class="label">Goal:</span>
+                    <span class="value">{{ goal }}</span>
+                </div>
+                <div class="metric">
+                    <span class="label">Consumed:</span>
+                    <span class="value">{{ consumed }}</span>
+                </div>
+                <div class="metric remaining">
+                    <span class="label">Remaining:</span>
+                    <span class="value">{{ remaining }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Protein -->
+        <div class="nutrition-card protein-card">
+            <div class="card-header">
+                <h3>Protein</h3>
+                <div class="progress-container">
+                    <div class="progress-text">{{ ((protein_consumed / protein_goal * 100) if protein_goal > 0 else 0)|round|int }}%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ (protein_consumed / protein_goal * 100) if protein_goal > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="metric">
+                    <span class="label">Goal:</span>
+                    <span class="value">{{ protein_goal }}g</span>
+                </div>
+                <div class="metric">
+                    <span class="label">Consumed:</span>
+                    <span class="value">{{ protein_consumed }}g</span>
+                </div>
+                <div class="metric remaining">
+                    <span class="label">Remaining:</span>
+                    <span class="value">{{ protein_remaining }}g</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cholesterol -->
+        <div class="nutrition-card cholesterol-card">
+            <div class="card-header">
+                <h3>Cholesterol</h3>
+                <div class="progress-container">
+                    <div class="progress-text">{{ ((cholesterol_consumed / cholesterol_goal * 100) if cholesterol_goal > 0 else 0)|round|int }}%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ (cholesterol_consumed / cholesterol_goal * 100) if cholesterol_goal > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="metric">
+                    <span class="label">Goal:</span>
+                    <span class="value">{{ cholesterol_goal }}mg</span>
+                </div>
+                <div class="metric">
+                    <span class="label">Consumed:</span>
+                    <span class="value">{{ cholesterol_consumed }}mg</span>
+                </div>
+                <div class="metric remaining">
+                    <span class="label">Remaining:</span>
+                    <span class="value">{{ cholesterol_remaining }}mg</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sugar -->
+        <div class="nutrition-card sugar-card">
+            <div class="card-header">
+                <h3>Sugar</h3>
+                <div class="progress-container">
+                    <div class="progress-text">{{ ((sugar_consumed / sugar_goal * 100) if sugar_goal > 0 else 0)|round|int }}%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ (sugar_consumed / sugar_goal * 100) if sugar_goal > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="metric">
+                    <span class="label">Goal:</span>
+                    <span class="value">{{ sugar_goal }}g</span>
+                </div>
+                <div class="metric">
+                    <span class="label">Consumed:</span>
+                    <span class="value">{{ sugar_consumed }}g</span>
+                </div>
+                <div class="metric remaining">
+                    <span class="label">Remaining:</span>
+                    <span class="value">{{ sugar_remaining }}g</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sodium -->
+        <div class="nutrition-card sodium-card">
+            <div class="card-header">
+                <h3>Sodium</h3>
+                <div class="progress-container">
+                    <div class="progress-text">{{ ((sodium_consumed / sodium_goal * 100) if sodium_goal > 0 else 0)|round|int }}%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ (sodium_consumed / sodium_goal * 100) if sodium_goal > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="metric">
+                    <span class="label">Goal:</span>
+                    <span class="value">{{ sodium_goal }}mg</span>
+                </div>
+                <div class="metric">
+                    <span class="label">Consumed:</span>
+                    <span class="value">{{ sodium_consumed }}mg</span>
+                </div>
+                <div class="metric remaining">
+                    <span class="label">Remaining:</span>
+                    <span class="value">{{ sodium_remaining }}mg</span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h1>Cholesterol</h1>
-    <div class="cholesterol-section">
-        <p><strong>Daily Cholesterol Goal:</strong> {{ cholesterol_goal }} mg or less</p>
-        <p><strong>Cholesterol Consumed:</strong> {{ cholesterol_consumed }} g</p>
-        <p><strong>Cholesterol Remaining:</strong> {{ cholesterol_remaining }} g</p>
+    <div class="nutrition-summary">
+        <h3>Daily Summary</h3>
+        <div class="summary-stats">
+            <div class="summary-item">
+                <span class="summary-label">Total Calories:</span>
+                <span class="summary-value">{{ consumed }} / {{ goal }}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Completion Rate:</span>
+                <span class="summary-value">{{ ((consumed / goal * 100) if goal > 0 else 0)|round(1) }}%</span>
+            </div>
+        </div>
     </div>
-
-    <h1>Sugar</h1>
-    <div class="sugar-section">
-        <p><strong>Daily Sugar Goal:</strong> {{ sugar_goal }} g </p>
-        <p><strong>Sugar Consumed:</strong> {{ sugar_consumed }} g</p>
-        <p><strong>Sugar Remaining:</strong> {{ sugar_remaining }} g</p>
-    </div>
-
-    <h1>Sodium</h1>
-    <div class="sodium-section">
-        <p><strong>Daily Sodium Goal:</strong> {{ sodium_goal }} mg </p>
-        <p><strong>Sodium Consumed:</strong> {{ sodium_consumed }} g</p>
-        <p><strong>Sodium Remaining:</strong> {{ sodium_remaining }} g</p>
-    </div>
-
-
 </div>
 {% endblock %}
