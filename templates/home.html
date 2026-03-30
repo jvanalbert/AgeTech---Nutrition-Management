@@ -1,6 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Welcome</h2>
+<h2>Welcome, {{ user.name }}!</h2>
 <p>This app helps elderly users track nutrition and receive healthy meal recommendations.</p>
+
+{% if nutrition %}
+<div class="nutrition-summary">
+    <h3>Today's Nutrition Goals</h3>
+    
+    <div class="nutrition-grid">
+        <div class="nutrition-item">
+            <h4>Calories</h4>
+            <p><strong>Goal:</strong> {{ nutrition.calories.goal }}</p>
+            <p><strong>Consumed:</strong> {{ nutrition.calories.consumed }}</p>
+            <p><strong>Remaining:</strong> {{ nutrition.calories.remaining }}</p>
+        </div>
+        
+        <div class="nutrition-item">
+            <h4>Protein</h4>
+            <p><strong>Goal:</strong> {{ nutrition.protein.goal }}g</p>
+            <p><strong>Consumed:</strong> {{ nutrition.protein.consumed }}g</p>
+            <p><strong>Remaining:</strong> {{ nutrition.protein.remaining }}g</p>
+        </div>
+        
+        <div class="nutrition-item">
+            <h4>Cholesterol</h4>
+            <p><strong>Goal:</strong> {{ nutrition.cholesterol.goal }}mg</p>
+            <p><strong>Consumed:</strong> {{ nutrition.cholesterol.consumed }}mg</p>
+            <p><strong>Remaining:</strong> {{ nutrition.cholesterol.remaining }}mg</p>
+        </div>
+        
+        <div class="nutrition-item">
+            <h4>Sugar</h4>
+            <p><strong>Goal:</strong> {{ nutrition.sugar.goal }}g</p>
+            <p><strong>Consumed:</strong> {{ nutrition.sugar.consumed }}g</p>
+            <p><strong>Remaining:</strong> {{ nutrition.sugar.remaining }}g</p>
+        </div>
+        
+        <div class="nutrition-item">
+            <h4>Sodium</h4>
+            <p><strong>Goal:</strong> {{ nutrition.sodium.goal }}mg</p>
+            <p><strong>Consumed:</strong> {{ nutrition.sodium.consumed }}mg</p>
+            <p><strong>Remaining:</strong> {{ nutrition.sodium.remaining }}mg</p>
+        </div>
+    </div>
+    
+    <p><a href="/nutrition">View detailed nutrition tracking</a></p>
+</div>
+{% endif %}
 {% endblock %}

@@ -334,3 +334,47 @@ textarea {
 .Cholesterol {
     margin-top: 50px;
 }
+/* Nutrition Summary on Home Page */
+.nutrition-summary {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nutrition-summary h3 {
+    margin-top: 0;
+    color: #2c7be5;
+    border-bottom: 2px solid #2c7be5;
+    padding-bottom: 10px;
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.nutrition-item {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #2c7be5;
+}
+
+.nutrition-item h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.nutrition-item p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.nutrition-item strong {
+    color: #555;
+}
