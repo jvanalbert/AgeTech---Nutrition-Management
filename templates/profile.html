@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Users</h2>
+
+{% for user in users %}
+<div class="card" style="padding: 10px; margin-bottom: 15px; border: 1px solid #ccc;">
+    <h3>{{ user.name }}</h3>
+    <p>
+        Age: {{ user.age }}<br>
+        {% if user.gender %}Gender: {{ user.gender }}<br>{% endif %}
+        Height: {{ user.height_in }} in<br>
+        Weight: {{ user.weight_lbs }} lbs<br>
+    </p>
+    
+    <p>
+        <strong>Cooking Skill:</strong>
+        {% if user.cooking_skill == 1 %}
+            <span class="stars">&#9733;&#9734;&#9734;&#9734;&#9734;</span>
+        {% elif user.cooking_skill == 2 %}
+            <span class="stars">&#9733;&#9733;&#9734;&#9734;&#9734;</span>
+        {% elif user.cooking_skill == 3 %}
+            <span class="stars">&#9733;&#9733;&#9733;&#9734;&#9734;</span>
+        {% elif user.cooking_skill == 4 %}
+            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+        {% elif user.cooking_skill == 5 %}
+            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        {% endif %}
+    </p>
+    
+    <p>
+        <strong>Daily Calories:</strong> {{ user.daily_calories }}<br>
+        <strong>Medications:</strong> {{ user.medications | join(', ') }}<br>
+        <strong>Allergies:</strong> {{ user.allergies | join(', ') }}<br>
+        <strong>Dietary Restrictions:</strong> {{ user.dietary_restrictions | join(', ') }}<br>
+        <strong>Preferred Cuisines:</strong> {{ user.preferred_cuisines | join(', ') }}<br>
+        <strong>Meal Times:</strong><br>
+        Breakfast: {{ user.meal_times.breakfast.hour }}:{{ "%02d"|format(user.meal_times.breakfast.minute) }}<br>
+        Lunch: {{ user.meal_times.lunch.hour }}:{{ "%02d"|format(user.meal_times.lunch.minute) }}<br>
+        Dinner: {{ user.meal_times.dinner.hour }}:{{ "%02d"|format(user.meal_times.dinner.minute) }}<br>
+    </p>
+    
+    {% if (session.user.role == "caretaker" and user.caretaker and user.caretaker.id == session.user.id) or (session.user.role == "elderly" and user.id == session.user.id) %}
+    <a href="/edit_meal_times/{{ user.id }}" class="btn">Edit Meal Times</a>
+    {% endif %}
+    
+    <p>
+        <strong>Account:</strong><br>
+        Username: {{ user.account.username }}<br>
+        Password: {{ user.account.password }}
+    </p>
+    
+    {% if user.caretaker %}
+    <p>
+        <strong>Caretaker Info:</strong><br>
+        Name: {{ user.caretaker.name }}<br>
+        Phone: {{ user.caretaker.contact_information.phone }}<br>
+        Email: {{ user.caretaker.contact_information.email }}
+    </p>
+    {% endif %}
+</div>
+{% endfor %}
+
+{% endblock %}

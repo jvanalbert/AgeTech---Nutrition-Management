@@ -113,34 +113,55 @@
     <h3>Generate a New Recipe</h3>
 
     <form method="POST" action="/generate_recipe">
-        <input name="prompt" placeholder="e.g. high protein chicken meal">
-        <button type="submit">Generate</button>
+        
+        <label><strong>Select Meal Type:</strong></label>
+        <select name="meal_type">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner" selected>Dinner</option>
+        </select>
+
+        <button type="submit">Generate Recipe</button>
     </form>
 
     {% if generated_recipe %}
-        <div class="generated-recipe">
-            <h4>{{ generated_recipe.recipe_name }}</h4>
+    <div class="generated-recipe">
 
-            <ul>
-                {% for ing in generated_recipe.ingredients %}
-                    <li>{{ ing.amount }} {{ ing.unit }} {{ ing.name }}</li>
-                {% endfor %}
-            </ul>
+        <h3>{{ generated_recipe.recipe_name }}</h3>
 
-            <form method="POST" action="/log_generated_meal">
-                <input type="hidden" name="recipe_json" value='{{ generated_recipe | tojson }}'>
+        <p><strong>Meal Type:</strong> {{ request.form.meal_type | default("Dinner") | title }}</p>
+        <p><strong>⏱ Estimated Time:</strong> {{ generated_recipe.estimated_time_minutes }} minutes</p>
+        <p><strong>🍽 Servings:</strong> {{ generated_recipe.servings }}</p>
 
-                <select name="meal_type">
-                    <option value="breakfast">Breakfast</option>
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">Dinner</option>
-                    <option value="snack">Snack</option>
-                </select>
+        <h4>Ingredients</h4>
+        <ul>
+            {% for ing in generated_recipe.ingredients %}
+                <li>{{ ing.amount }} {{ ing.unit }} {{ ing.name }}</li>
+            {% endfor %}
+        </ul>
 
+        <h4>Steps</h4>
+        <ol>
+            {% for step in generated_recipe.steps %}
+                <li>{{ step }}</li>
+            {% endfor %}
+        </ol>
 
-                <button type="submit">Log This Meal</button>
-            </form>
-        </div>
+        <!-- Log Meal -->
+        <form method="POST" action="/log_generated_meal">
+            <input type="hidden" name="recipe_json" value='{{ generated_recipe | tojson }}'>
+
+            <select name="meal_type">
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="snack">Snack</option>
+            </select>
+
+            <button type="submit">Log This Meal</button>
+        </form>
+
+    </div>
     {% endif %}
 </div>
 
@@ -211,6 +232,27 @@ function toggleRecipe(id) {
 .recipe-missing {
     border-color: #e74c3c;
     background-color: #fdecea;
+}
+
+.generated-recipe {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f4f8fb;
+    border: 1px solid #d0dbe5;
+}
+
+.generated-recipe h3 {
+    color: #2c7be5;
+}
+
+.generated-recipe h4 {
+    margin-top: 10px;
+}
+
+.generated-recipe ul,
+.generated-recipe ol {
+    margin-left: 20px;
 }
 </style>
 

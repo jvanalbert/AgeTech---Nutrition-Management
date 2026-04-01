@@ -1,7 +1,7 @@
 import json
 import os
 from dotenv import load_dotenv
-from food_safety import check_food_safety
+from Backend.food_safety import check_food_safety
 
 # ----- Load sample food and user data ----- #
 
@@ -100,7 +100,7 @@ def build_recipe_prompt(meal_type="dinner"):
         """
     return prompt
 
-#Calling OpenAi to generate recipe##################needs worked on doesn't actually work need key 
+#Calling OpenAi to generate recipe
 from openai import AzureOpenAI
 load_dotenv()  # Load environment variables from .env file
 endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")

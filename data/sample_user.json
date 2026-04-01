@@ -75,6 +75,39 @@
                     "calories": 142.5,
                     "timestamp": "March 29, 2026 at 07:52:13 PM",
                     "allergens": []
+                },
+                {
+                    "name": "Fruit and Oat Breakfast Bowl",
+                    "meal_type": "breakfast",
+                    "calories": 0,
+                    "timestamp": "April 01, 2026 at 11:44:23 AM",
+                    "ingredients": [
+                        {
+                            "amount": "1/2",
+                            "name": "oats",
+                            "unit": "cup"
+                        },
+                        {
+                            "amount": "1",
+                            "name": "milk",
+                            "unit": "cup"
+                        },
+                        {
+                            "amount": "1/4",
+                            "name": "strawberries",
+                            "unit": "cup"
+                        },
+                        {
+                            "amount": "1/4",
+                            "name": "organic blackberries",
+                            "unit": "cup"
+                        },
+                        {
+                            "amount": "1/4",
+                            "name": "banana",
+                            "unit": "cup"
+                        }
+                    ]
                 }
             ],
             "meal_times": {

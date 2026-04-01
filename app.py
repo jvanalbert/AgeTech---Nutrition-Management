@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_bcrypt import Bcrypt
 from datetime import datetime
+from Backend.recipe import generate_recipe
 from Backend.food_loader import load_foods
 from Backend.user_loader import (
     load_user_data,
@@ -408,6 +409,14 @@ def food_list():
         scanned_at=scanned_at
     )
 
+@app.route("/profile")
+def profile():
+    # Get the logged-in user from session
+    user = session.get('user')
+    if not user:
+        return redirect("/login")
+    return render_template("profile.html", user=user)
+
 
 # Delete
 @app.post("/foods/<int:food_id>/delete")
@@ -700,6 +709,93 @@ def log_generated_meal():
     save_user_data(data)
 
     return redirect("/meals")
+
+@app.route("/generate_recipe", methods=["POST"])
+def generate_recipe_route():
+    if not session.get("user"):
+        return redirect("/login")
+
+    # Load user data (same as /meals)
+    data = load_user_data()
+    user_id = session["user"]["id"]
+    user = None
+
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u["id"] == user_id:
+            user = u
+            break
+
+    user_meals = user.get("meals", []) if user else []
+
+    foods = load_foods()
+
+    # ✅ FILTER FOODS (same as your route)
+    user_allergies = []
+    if user:
+        user_allergies = user.get("allergies", [])
+        filtered_foods = []
+
+        for f in foods:
+            safe = True
+            for allergen in user_allergies:
+                for a in f.get("allergens", []):
+                    if allergen.lower() == a.lower():
+                        safe = False
+                        break
+                if not safe:
+                    break
+            if safe:
+                filtered_foods.append(f)
+
+        foods = filtered_foods
+
+    # ✅ LOAD SAVED RECIPES (same as your route)
+    with open("data/saved_recipes.json") as f:
+        recipe_data = json.load(f)
+
+    recipes = recipe_data.get("recipes", [])
+
+    recipe_availability = []
+    for recipe in recipes:
+        has_all, missing = has_ingredients_for_recipe(recipe)
+        recipe_availability.append({
+            "recipe": recipe,
+            "has_all": has_all,
+            "missing": missing
+        })
+
+    # 🔥 NEW: GENERATE AI RECIPE
+    meal_type = request.form.get("meal_type", "dinner")
+    recipe_json = generate_recipe(meal_type)
+
+    try:
+        recipe_json = generate_recipe(meal_type)
+
+        print("RAW AI RESPONSE:")
+        print(recipe_json)
+
+        # 🔥 REMOVE ```json and ```
+        if recipe_json.startswith("```"):
+            recipe_json = recipe_json.strip("`")          # remove backticks
+            recipe_json = recipe_json.replace("json\n", "")  # remove 'json\n'
+
+        generated_recipe = json.loads(recipe_json)
+
+    except Exception as e:
+        print("AI ERROR:", e)
+        print("CLEANED RESPONSE:", recipe_json)
+        generated_recipe = None
+
+    # ✅ RETURN SAME TEMPLATE + ONE EXTRA VARIABLE
+    return render_template(
+        "meals.html",
+        foods=foods,
+        user_meals=user_meals,
+        user_allergies=user_allergies,
+        recipes=recipes,
+        recipe_availability=recipe_availability,
+        generated_recipe=generated_recipe   # 👈 THIS is the ONLY addition
+    )
 
 @app.route("/recipes", methods=["GET", "POST"])
 def recipes():
