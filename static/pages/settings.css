@@ -1,0 +1,135 @@
+/* =========================
+   PAGE LAYOUT
+========================= */
+
+.settings-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* page title consistency */
+.page-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.settings-page .card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   TABS
+========================= */
+
+.tab-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #f1f5f9;
+    color: #333;
+    cursor: pointer;
+    margin-right: 8px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.tab-btn:hover {
+    background: #e2e8f0;
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* =========================
+   TAB CONTENT
+========================= */
+
+.tab-content {
+    display: none;
+    margin-top: 20px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.settings-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.settings-container {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button,
+.nav-btn {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+button:hover,
+.nav-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   MEAL TIME GRID FEEL
+========================= */
+
+.meal-time-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+    .tab-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .settings-page .card {
+        padding: 15px;
+    }
+}

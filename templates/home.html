@@ -1,43 +1,52 @@
 {% extends "base.html" %}
 
+{% set page_class = "home-page" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/home.css') }}">
+{% endblock %}
+
 {% block content %}
-<h2>Welcome, {{ user.name }}!</h2>
-<p>This app helps elderly users track nutrition and receive healthy meal recommendations.</p>
+
+<div class="home-header">
+    <h1>Welcome Back</h1>
+    <h2>{{ user.name }}</h2>
+</div>
 
 {% if nutrition %}
 <div class="nutrition-summary">
     <h3>Today's Nutrition Goals</h3>
     
     <div class="nutrition-grid">
-        <div class="nutrition-item">
+        <div class="nutrition-item calories">
             <h4>Calories</h4>
             <p><strong>Goal:</strong> {{ nutrition.calories.goal }}</p>
             <p><strong>Consumed:</strong> {{ nutrition.calories.consumed }}</p>
             <p><strong>Remaining:</strong> {{ nutrition.calories.remaining }}</p>
         </div>
         
-        <div class="nutrition-item">
+        <div class="nutrition-item protein">
             <h4>Protein</h4>
             <p><strong>Goal:</strong> {{ nutrition.protein.goal }}g</p>
             <p><strong>Consumed:</strong> {{ nutrition.protein.consumed }}g</p>
             <p><strong>Remaining:</strong> {{ nutrition.protein.remaining }}g</p>
         </div>
         
-        <div class="nutrition-item">
+        <div class="nutrition-item cholesterol">
             <h4>Cholesterol</h4>
             <p><strong>Goal:</strong> {{ nutrition.cholesterol.goal }}mg</p>
             <p><strong>Consumed:</strong> {{ nutrition.cholesterol.consumed }}mg</p>
             <p><strong>Remaining:</strong> {{ nutrition.cholesterol.remaining }}mg</p>
         </div>
         
-        <div class="nutrition-item">
+        <div class="nutrition-item sugar">
             <h4>Sugar</h4>
             <p><strong>Goal:</strong> {{ nutrition.sugar.goal }}g</p>
             <p><strong>Consumed:</strong> {{ nutrition.sugar.consumed }}g</p>
             <p><strong>Remaining:</strong> {{ nutrition.sugar.remaining }}g</p>
         </div>
         
-        <div class="nutrition-item">
+        <div class="nutrition-item sodium">
             <h4>Sodium</h4>
             <p><strong>Goal:</strong> {{ nutrition.sodium.goal }}mg</p>
             <p><strong>Consumed:</strong> {{ nutrition.sodium.consumed }}mg</p>

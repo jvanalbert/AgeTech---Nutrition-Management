@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% set page_class = "pantry-page" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/pantry.css') }}">
+{% endblock %}
+
 {% block content %}
 <h2 class="page-title">My Food Pantry</h2>
 

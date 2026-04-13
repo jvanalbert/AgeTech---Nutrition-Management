@@ -1,0 +1,233 @@
+/* =========================
+   PAGE LAYOUT
+========================= */
+
+.recipes-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 25px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: var(--primary);
+}
+
+/* =========================
+   FORM (ADD RECIPE)
+========================= */
+
+#add-recipe-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#add-recipe-form input,
+#add-recipe-form textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.2s ease;
+}
+
+#add-recipe-form input:focus,
+#add-recipe-form textarea:focus {
+    border-color: var(--primary);
+}
+
+#add-recipe-form textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* =========================
+   INGREDIENT ROWS
+========================= */
+
+.ingredient-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.ingredient-row input {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.remove-ingredient-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.remove-ingredient-btn:hover {
+    background: #dc2626;
+}
+
+/* Add ingredient button */
+#add-ingredient-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: fit-content;
+}
+
+#add-ingredient-btn:hover {
+    opacity: 0.9;
+}
+
+/* =========================
+   SAVE BUTTON
+========================= */
+
+#add-recipe-form button[type="submit"] {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+#add-recipe-form button[type="submit"]:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   RECIPE LIST (ACCORDION)
+========================= */
+
+.recipe-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.recipe-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Header (clickable bar) */
+.recipe-header {
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: #f8fafc;
+    font-weight: 600;
+    color: #333;
+    transition: background 0.2s ease;
+}
+
+.recipe-header:hover {
+    background: #eef2ff;
+}
+
+/* Arrow */
+.recipe-header .arrow {
+    font-size: 14px;
+    color: #888;
+    transition: transform 0.2s ease;
+}
+
+/* Body */
+.recipe-body {
+    padding: 16px;
+    border-top: 1px solid #eee;
+    background: white;
+}
+
+/* Lists */
+.recipe-body ul,
+.recipe-body ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+/* =========================
+   DELETE BUTTON
+========================= */
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+/* =========================
+   SECTION DIVIDER
+========================= */
+
+.section-divider {
+    margin: 25px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+    .ingredient-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .recipe-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}

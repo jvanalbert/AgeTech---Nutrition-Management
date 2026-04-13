@@ -1,5 +1,10 @@
-<!-- templates/settings.html -->
 {% extends "base.html" %}
+
+{% set page_class = "settings-page" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/settings.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -8,13 +13,13 @@
 
         <!-- Tabs -->
         <div style="margin-top: 20px;">
-            <button class="tab-btn" onclick="openTab(event, 'interface')">Interface</button>
+            <button class="tab-btn active" onclick="openTab(event, 'interface')">Interface</button>
             <button class="tab-btn" onclick="openTab(event, 'privacy')">Privacy</button>
             <button class="tab-btn" onclick="openTab(event, 'meal')">Meal Preferences</button>
         </div>
 
         <!-- Tab Contents -->
-        <div id="interface" class="tab-content" style="display: block; margin-top: 20px;">
+        <div id="interface" class="tab-content active">
             <form method="POST" action="{{ url_for('settings') }}?tab=interface">
                 <div class="setting-item" style="margin-bottom: 15px;">
                     <label>
@@ -45,7 +50,7 @@
             </form>
         </div>
 
-        <div id="privacy" class="tab-content" style="display: none; margin-top: 20px;">
+        <div id="privacy" class="tab-content">
             <form method="POST" action="{{ url_for('settings') }}?tab=privacy">
                 <div class="setting-item" style="margin-bottom: 15px;">
                     <label>
@@ -65,7 +70,7 @@
             </form>
         </div>
 
-        <div id="meal" class="tab-content" style="display: none; margin-top: 20px;">
+        <div id="meal" class="tab-content">
             <form method="POST" action="{{ url_for('settings') }}?tab=meal">
                 <h3>Meal Times</h3>
                 {% set mt = preferences.meal_times if preferences.meal_times else {'breakfast':{'hour':8,'minute':0}, 'lunch':{'hour':12,'minute':0}, 'dinner':{'hour':18,'minute':0}} %}
@@ -95,42 +100,25 @@
     </div>
 </div>
 
-<!-- Tabs JS -->
 <script>
 function openTab(evt, tabName) {
-    var i, tabcontent, tabbtns;
-    tabcontent = document.getElementsByClassName("tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+    const tabcontent = document.getElementsByClassName("tab-content");
+    const tabbtns = document.getElementsByClassName("tab-btn");
+
+    // Hide all tab content
+    for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove("active");
     }
-    tabbtns = document.getElementsByClassName("tab-btn");
-    for (i = 0; i < tabbtns.length; i++) {
-        tabbtns[i].style.backgroundColor = "";
+
+    // Remove active state from all buttons
+    for (let i = 0; i < tabbtns.length; i++) {
+        tabbtns[i].classList.remove("active");
     }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.style.backgroundColor = "#2c7be5";
-    evt.currentTarget.style.color = "white";
+
+    // Show selected tab
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
 }
 </script>
 
-<style>
-.tab-btn {
-    padding: 10px 16px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 6px 6px 0 0;
-    cursor: pointer;
-    background-color: #f1f1f1;
-    font-weight: bold;
-}
-
-.tab-btn:hover {
-    background-color: #d9e4f5;
-}
-
-.tab-content {
-    padding: 15px 0;
-    border-top: 1px solid #ccc;
-}
-</style>
 {% endblock %}

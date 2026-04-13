@@ -1,64 +1,98 @@
 {% extends "base.html" %}
 
+{% set page_class = "users-page" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/profile.css') }}">
+{% endblock %}
+
 {% block content %}
-<h2>Users</h2>
+
+<h2 class="page-title">Profiles</h2>
+
+<div class="users-page">
 
 {% for user in users %}
-<div class="card" style="padding: 10px; margin-bottom: 15px; border: 1px solid #ccc;">
-    <h3>{{ user.name }}</h3>
-    <p>
-        Age: {{ user.age }}<br>
-        {% if user.gender %}Gender: {{ user.gender }}<br>{% endif %}
-        Height: {{ user.height_in }} in<br>
-        Weight: {{ user.weight_lbs }} lbs<br>
-    </p>
-    
-    <p>
-        <strong>Cooking Skill:</strong>
-        {% if user.cooking_skill == 1 %}
-            <span class="stars">&#9733;&#9734;&#9734;&#9734;&#9734;</span>
-        {% elif user.cooking_skill == 2 %}
-            <span class="stars">&#9733;&#9733;&#9734;&#9734;&#9734;</span>
-        {% elif user.cooking_skill == 3 %}
-            <span class="stars">&#9733;&#9733;&#9733;&#9734;&#9734;</span>
-        {% elif user.cooking_skill == 4 %}
-            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
-        {% elif user.cooking_skill == 5 %}
-            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+
+<div class="user-card">
+
+    <!-- HEADER (BLUE THEME) -->
+    <div class="user-header">
+        <h3>{{ user.name }}</h3>
+        <div class="user-sub">
+            Age {{ user.age }}
+            {% if user.gender %} • {{ user.gender }}{% endif %}
+            • {{ user.weight_lbs }} lbs
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="user-body">
+
+        <!-- HEALTH -->
+        <div class="info-box">
+            <h4>Health Info</h4>
+            <p><strong>Height:</strong> {{ user.height_in }} in</p>
+            <p><strong>Weight:</strong> {{ user.weight_lbs }} lbs</p>
+            <p><strong>Age:</strong> {{ user.age }}</p>
+        </div>
+
+        <!-- COOKING -->
+        <div class="info-box">
+            <h4>Cooking Skill</h4>
+            <p>
+                {% if user.cooking_skill == 1 %}
+                    <span class="stars">&#9733;&#9734;&#9734;&#9734;&#9734;</span>
+                {% elif user.cooking_skill == 2 %}
+                    <span class="stars">&#9733;&#9733;&#9734;&#9734;&#9734;</span>
+                {% elif user.cooking_skill == 3 %}
+                    <span class="stars">&#9733;&#9733;&#9733;&#9734;&#9734;</span>
+                {% elif user.cooking_skill == 4 %}
+                    <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                {% elif user.cooking_skill == 5 %}
+                    <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- DIET -->
+        <div class="info-box">
+            <h4>Diet Preferences</h4>
+            <p><strong>Calories:</strong> {{ user.daily_calories }}</p>
+            <p><strong>Medications:</strong> {{ user.medications | join(', ') }}</p>
+            <p><strong>Allergies:</strong> {{ user.allergies | join(', ') }}</p>
+            <p><strong>Restrictions:</strong> {{ user.dietary_restrictions | join(', ') }}</p>
+            <p><strong>Cuisines:</strong> {{ user.preferred_cuisines | join(', ') }}</p>
+        </div>
+
+        <!-- MEAL TIMES -->
+        <div class="info-box">
+            <h4>Meal Schedule</h4>
+            <p><strong>Breakfast:</strong> {{ user.meal_times.breakfast.hour }}:{{ "%02d"|format(user.meal_times.breakfast.minute) }}</p>
+            <p><strong>Lunch:</strong> {{ user.meal_times.lunch.hour }}:{{ "%02d"|format(user.meal_times.lunch.minute) }}</p>
+            <p><strong>Dinner:</strong> {{ user.meal_times.dinner.hour }}:{{ "%02d"|format(user.meal_times.dinner.minute) }}</p>
+
+            {% if (session.user.role == "caretaker" and user.caretaker and user.caretaker.id == session.user.id)
+                or (session.user.role == "elderly" and user.id == session.user.id) %}
+                <a href="/edit_meal_times/{{ user.id }}" class="btn">Edit Meal Times</a>
+            {% endif %}
+        </div>
+
+        <!-- CARETAKER -->
+        {% if user.caretaker %}
+        <div class="info-box caretaker-box">
+            <h4>Caretaker</h4>
+            <p><strong>Name:</strong> {{ user.caretaker.name }}</p>
+            <p><strong>Phone:</strong> {{ user.caretaker.contact_information.phone }}</p>
+            <p><strong>Email:</strong> {{ user.caretaker.contact_information.email }}</p>
+        </div>
         {% endif %}
-    </p>
-    
-    <p>
-        <strong>Daily Calories:</strong> {{ user.daily_calories }}<br>
-        <strong>Medications:</strong> {{ user.medications | join(', ') }}<br>
-        <strong>Allergies:</strong> {{ user.allergies | join(', ') }}<br>
-        <strong>Dietary Restrictions:</strong> {{ user.dietary_restrictions | join(', ') }}<br>
-        <strong>Preferred Cuisines:</strong> {{ user.preferred_cuisines | join(', ') }}<br>
-        <strong>Meal Times:</strong><br>
-        Breakfast: {{ user.meal_times.breakfast.hour }}:{{ "%02d"|format(user.meal_times.breakfast.minute) }}<br>
-        Lunch: {{ user.meal_times.lunch.hour }}:{{ "%02d"|format(user.meal_times.lunch.minute) }}<br>
-        Dinner: {{ user.meal_times.dinner.hour }}:{{ "%02d"|format(user.meal_times.dinner.minute) }}<br>
-    </p>
-    
-    {% if (session.user.role == "caretaker" and user.caretaker and user.caretaker.id == session.user.id) or (session.user.role == "elderly" and user.id == session.user.id) %}
-    <a href="/edit_meal_times/{{ user.id }}" class="btn">Edit Meal Times</a>
-    {% endif %}
-    
-    <p>
-        <strong>Account:</strong><br>
-        Username: {{ user.account.username }}<br>
-        Password: {{ user.account.password }}
-    </p>
-    
-    {% if user.caretaker %}
-    <p>
-        <strong>Caretaker Info:</strong><br>
-        Name: {{ user.caretaker.name }}<br>
-        Phone: {{ user.caretaker.contact_information.phone }}<br>
-        Email: {{ user.caretaker.contact_information.email }}
-    </p>
-    {% endif %}
+
+    </div>
 </div>
+
 {% endfor %}
+
+</div>
 
 {% endblock %}

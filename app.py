@@ -305,7 +305,7 @@ def home():
     return render_template("home.html", user=user, nutrition=nutrition_data)
 
 
-@app.route("/users")
+@app.route("/profile")
 def users_page():
     if not session.get("user"):
         return redirect("/login")
@@ -314,7 +314,7 @@ def users_page():
     for user in elderly_users:
         if "meal_times" not in user:
             user["meal_times"] = {"breakfast": {"hour": 8, "minute": 0}, "lunch": {"hour": 12, "minute": 0}, "dinner": {"hour": 18, "minute": 0}}
-    return render_template("users.html", users=elderly_users)
+    return render_template("profile.html", users=elderly_users)
 
 
 @app.route("/edit_meal_times/<int:user_id>", methods=["GET", "POST"])
@@ -408,15 +408,6 @@ def food_list():
         product=product,
         scanned_at=scanned_at
     )
-
-@app.route("/profile")
-def profile():
-    # Get the logged-in user from session
-    user = session.get('user')
-    if not user:
-        return redirect("/login")
-    return render_template("profile.html", user=user)
-
 
 # Delete
 @app.post("/foods/<int:food_id>/delete")

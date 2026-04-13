@@ -1,0 +1,159 @@
+/* =========================
+   Page Layout
+========================= */
+
+.nutrition-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* =========================
+   HEADER (NO CARD STYLE)
+========================= */
+
+.page-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+/* Subheader under title */
+.nutrition-subheader {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.nutrition-subheader h3 {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #555;
+    margin: 0;
+}
+
+.date-display {
+    font-size: 0.85em;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center;
+    gap: 25px;
+    margin-top: 10px;
+}
+
+/* =========================
+   CARDS (same home style)
+========================= */
+
+.nutrition-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: 0.2s ease;
+}
+
+.nutrition-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   CARD HEADERS
+========================= */
+
+.card-header {
+    padding: 20px;
+    color: white;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.3em;
+}
+
+/* Gradients */
+.calories-card .card-header {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.protein-card .card-header {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.cholesterol-card .card-header {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.sugar-card .card-header {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.sodium-card .card-header {
+    background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.card-content {
+    padding: 20px;
+    text-align: left;
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+
+.metric .label {
+    color: #666;
+}
+
+.metric .value {
+    font-weight: bold;
+    color: #333;
+}
+
+.metric.remaining .value {
+    color: var(--primary);
+}
+
+/* =========================
+   SUMMARY (simple block, not card-heavy)
+========================= */
+
+.nutrition-summary {
+    margin-top: 30px;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.nutrition-summary h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+    .nutrition-grid {
+        grid-template-columns: 1fr;
+    }
+}

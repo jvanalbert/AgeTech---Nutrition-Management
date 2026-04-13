@@ -1,0 +1,142 @@
+/* =========================
+   Layout
+========================= */
+
+.home-header {
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+.home-header h1 {
+    font-size: 1.75em;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.home-header h2 {
+    font-size: 0.95em;
+    font-weight: normal;
+    color: #555;
+    margin: 0;
+}
+
+.home-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* =========================
+   Grid
+========================= */
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center;
+    gap: 25px;
+}
+
+/* =========================
+   Card (mimics nutrition-card)
+========================= */
+
+.nutrition-item {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Hover effect */
+.nutrition-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: 0.2s ease;
+}
+
+/* =========================
+   Fake Card Header
+========================= */
+
+.nutrition-item h4 {
+    margin: 0;
+    padding: 20px;
+    font-size: 1.4em;
+    color: white;
+}
+
+/* Gradient headers like nutrition page */
+.nutrition-item.calories h4 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.nutrition-item.protein h4 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.nutrition-item.cholesterol h4 {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.nutrition-item.sugar h4 {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.nutrition-item.sodium h4 {
+    background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+}
+
+/* =========================
+   Content Area
+========================= */
+
+.nutrition-item p {
+    padding: 0 20px;
+    margin: 10px 0;
+    font-size: 1em;
+    color: #555;
+}
+
+.nutrition-item strong {
+    color: #333;
+}
+
+/* Add spacing at bottom */
+.nutrition-item p:last-child {
+    padding-bottom: 20px;
+}
+
+/* =========================
+   Summary Section
+========================= */
+
+.nutrition-summary {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+.nutrition-summary h3 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 768px) {
+    .nutrition-grid {
+        grid-template-columns: 1fr;
+    }
+}

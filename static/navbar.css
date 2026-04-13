@@ -1,60 +1,161 @@
-.profile-dropdown button{
-    background: white;
-    color: #333;
+/* =========================
+   NAVBAR BASE
+========================= */
+
+nav {
+    background-color: #ffffff;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* =========================
+   LEFT / BACK BUTTON
+========================= */
+
+.nav-btn {
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 6px;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-weight: 600;
 }
 
-.profile-dropdown a {
-    display: block;
-    padding: 10px 20px;
-    color: #333;
+.back-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.back-btn:hover {
+    background-color: #5a6268;
+}
+
+/* =========================
+   CENTER NAV LINKS
+========================= */
+
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+/* SOFT LINK STYLE (NOT BLOCKY) */
+.nav-center a {
     text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c7be5;
+
+    padding: 6px 4px;           /* minimal padding */
+    position: relative;
+
+    transition: color 0.2s ease;
 }
 
-.profile-dropdown .dropdown-content {
-    display: none;
+/* subtle underline indicator instead of box */
+.nav-center a::after {
+    content: "";
     position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1000;
-    border-radius: 6px;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 2px;
+
+    background: transparent;
+    border-radius: 2px;
+
+    transition: background 0.2s ease;
 }
 
-/* This is what JS toggles */
-.dropdown-content.show {
-    display: block;
+/* hover = subtle emphasis only */
+.nav-center a:hover {
+    color: #1a5aa8;
 }
 
+/* hover underline appears */
+.nav-center a:hover::after {
+    background: #2c7be5;
+}
+
+/* optional active state */
+.nav-center a.active {
+    color: #1a5aa8;
+}
+
+.nav-center a.active::after {
+    background: #2c7be5;
+}
+
+/* =========================
+   RIGHT PROFILE DROPDOWN
+========================= */
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+/* Container */
 .profile-dropdown {
     position: relative;
     display: inline-block;
 }
 
+/* Profile button */
 .profile-icon {
-    background: none;
+    background: #eef4ff;
     border: none;
+    padding: 12px 14px;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 200px;
+    font-size: 18px;
+    transition: 0.2s ease;
 }
+
+.profile-icon:hover {
+    background: #dbeafe;
+}
+
+/* Dropdown menu */
 .dropdown-content {
-    display: none;
     position: absolute;
     right: 0;
-    background-color: white;   /* important */
-    min-width: 160px;
-    padding: 5px 0;            /* gives vertical spacing */
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    top: 52px;
+    background: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 170px;
+
+    display: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: all 0.2s ease;
     z-index: 1000;
 }
 
+/* Show dropdown */
+.dropdown-content.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Dropdown links */
 .dropdown-content a {
     display: block;
     padding: 12px 16px;
-    color: black;              /* force visible text */
+    color: #333;
     text-decoration: none;
     font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.dropdown-content a:hover {
+    background: #f3f4f6;
 }
