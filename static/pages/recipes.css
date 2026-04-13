@@ -49,7 +49,8 @@
 }
 
 #add-recipe-form input,
-#add-recipe-form textarea {
+#add-recipe-form textarea,
+#add-recipe-form select {
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ddd;
@@ -59,7 +60,8 @@
 }
 
 #add-recipe-form input:focus,
-#add-recipe-form textarea:focus {
+#add-recipe-form textarea:focus,
+#add-recipe-form select:focus {
     border-color: var(--primary);
 }
 
@@ -83,6 +85,13 @@
     padding: 8px;
     border-radius: 6px;
     border: 1px solid #ddd;
+}
+
+.ingredient-row select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
 }
 
 .remove-ingredient-btn {
@@ -203,6 +212,62 @@
 
 .delete-btn:hover {
     background: #dc2626;
+}
+
+/* =========================
+   EDIT BUTTON
+========================= */
+.edit-btn {
+    background: #facc15; /* yellow */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s ease;
+    font-weight: 500;
+}
+
+.edit-btn:hover {
+    background: #eab308;
+}
+
+/* =========================
+   EDIT POP UP
+========================= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.4); /* lighter = matches your soft shadows */
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 20px;
+    width: 500px;
+    max-width: 95vw;
+    border-radius: 12px;
+
+    box-shadow: 0 4px 6px rgba(0,0,0,0.08); /* matches .card */
+    border: 1px solid #eee;
+
+    max-height: 85vh;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.close {
+    float: right;
+    font-size: 22px;
+    cursor: pointer;
 }
 
 /* =========================

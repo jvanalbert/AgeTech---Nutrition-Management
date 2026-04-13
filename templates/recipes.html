@@ -17,15 +17,24 @@
 
         <!-- Recipe Name & Servings -->
         <input type="text" name="recipe_name" placeholder="Recipe name" required>
-        <input type="number" name="servings" placeholder="Servings" min="1" value="1">
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <span>Servings:</span>
+            <input type="number" name="servings" min="1" value="1" style="width: 70px;">
+        </div>
 
         <!-- Ingredients -->
         <h4>Ingredients</h4>
         <div id="ingredients">
             <div class="ingredient-row">
-                <input name="ingredient_amount" placeholder="Amount e.g. 0.25, 1/2, 1, 2" style="width: 70px;">
-                <input name="ingredient_unit" placeholder="Unit e.g. cup, tsp, tbls, oz" style="width: 100px;">
-                <input name="ingredient_name" placeholder="Ingredient e.g. chicken breast" style="flex: 1;">
+                <input type="number" name="ingredient_amount" step="0.1" placeholder="Amount" required>
+                <select name="ingredient_unit" required>
+                    <option value="grams">grams</option>
+                    <option value="cup">cup</option>
+                    <option value="oz">oz</option>
+                    <option value="piece">piece</option>
+                    <option value="serving">serving</option>
+                </select>
+                <input name="ingredient_name" placeholder="Ingredient e.g. chicken breast" style="flex: 1;" required>
                 <button type="button" class="remove-ingredient-btn">❌</button>
             </div>
         </div>
@@ -34,7 +43,22 @@
         <!-- Directions & Time -->
         <h4>Directions (optional)</h4>
         <textarea name="steps" placeholder="Enter steps, one per line"></textarea>
-        <input name="estimated_time" placeholder="Estimated Time e.g. 25 min" style="width: 200px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <input 
+                type="number" 
+                name="estimated_time_value" 
+                min="0" 
+                step="1" 
+                placeholder="Time" 
+                style="width: 80px;" 
+                required
+            >
+
+            <select name="estimated_time_unit" required>
+                <option value="min">min</option>
+                <option value="hours">hours</option>
+            </select>
+        </div>
 
         <br><br>
         <button type="submit">Save Recipe</button>
@@ -49,15 +73,51 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to add a new ingredient row
     function addIngredientRow() {
+        const rows = document.querySelectorAll(".ingredient-row");
+        const lastRow = rows[rows.length - 1];
+
+        const amount = lastRow.querySelector('input[name="ingredient_amount"]').value.trim();
+        const unit = lastRow.querySelector('select[name="ingredient_unit"]').value.trim();
+        const name = lastRow.querySelector('input[name="ingredient_name"]').value.trim();
+
+        // 🚫 If ANY field is empty, stop
+        if (!amount || !unit || !name) {
+            alert("Please fill out all ingredient fields before adding another.");
+            
+            // Optional: focus first empty field
+            if (!amount) {
+                lastRow.querySelector('input[name="ingredient_amount"]').focus();
+            } else if (!unit) {
+                lastRow.querySelector('select[name="ingredient_unit"]').focus();
+            } else {
+                lastRow.querySelector('input[name="ingredient_name"]').focus();
+            }
+
+            return;
+        }
+
+        // ✅ Add new row if everything is filled
         const row = document.createElement("div");
         row.classList.add("ingredient-row");
+
         row.innerHTML = `
-            <input name="ingredient_amount" placeholder="Amount e.g. 0.25, 1/2, 1, 2" style="width: 70px;">
-            <input name="ingredient_unit" placeholder="Unit e.g. cup, tsp, tbls, oz" style="width: 100px;">
-            <input name="ingredient_name" placeholder="Ingredient e.g. chicken breast" style="flex: 1;">
+            <input type="number" name="ingredient_amount" step="0.1" placeholder="Amount" style="width: 80px;" required>
+
+            <select name="ingredient_unit" style="width: 110px;" required>
+                <option value="">Unit</option>
+                <option value="grams">grams</option>
+                <option value="cup">cup</option>
+                <option value="oz">oz</option>
+                <option value="piece">piece</option>
+                <option value="serving">serving</option>
+            </select>
+
+            <input name="ingredient_name" placeholder="Ingredient e.g. chicken breast" style="flex: 1;" required>
+
             <button type="button" class="remove-ingredient-btn">❌</button>
         `;
-        ingredientsDiv.appendChild(row);
+
+        document.getElementById("ingredients").appendChild(row);
         attachRemoveButtons();
     }
 
@@ -117,17 +177,71 @@ document.addEventListener("DOMContentLoaded", function() {
             </ol>
             {% endif %}
 
-            {% if recipe.estimated_time_minutes %}
-                <p>⏱ Estimated Time: {{ recipe.estimated_time_minutes }} min</p>
+            {% set mins = recipe.estimated_time_minutes %}
+
+            {% if mins >= 60 %}
+                <p>⏱ Estimated Time: {{ mins // 60 }} hour(s)</p>
+            {% else %}
+                <p>⏱ Estimated Time: {{ mins }} min</p>
             {% endif %}
 
             <!-- Delete Button -->
             <form action="{{ url_for('recipes.delete_recipe', index=loop.index0) }}" method="POST" onsubmit="return confirmDelete();">
                 <button type="submit" class="delete-btn">Delete Recipe</button>
             </form>
+
+            <!-- Edit Button -->
+            <button type="button"
+                class="edit-btn"
+                data-index="{{ loop.index0 }}"
+                data-recipe='{{ recipe|tojson }}'
+                onclick="openEditModalFromButton(this)">
+                Edit
+            </button>
         </div>
     </div>
 {% endfor %}
+</div>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h3>Edit Recipe</h3>
+
+        <form id="edit-form" method="POST" action="{{ url_for('recipes.update_recipe') }}">
+
+            <input type="hidden" name="index" id="edit-index">
+
+            <input type="text" name="recipe_name" id="edit-name" required>
+
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <span>Servings:</span>
+                <input type="number" name="servings" id="edit-servings" min="1" required style="width: 70px;">
+            </div>
+
+            <h4>Ingredients</h4>
+            <div id="edit-ingredients"></div>
+
+            <h4>Steps</h4>
+            <textarea name="steps" id="edit-steps"></textarea>
+
+            <h4>Time</h4>
+            <div style="display:flex; gap:8px;">
+                <input type="number" name="estimated_time_value" id="edit-time-value" min="0" style="width:80px;">
+                <select name="estimated_time_unit" id="edit-time-unit">
+                    <option value="min">min</option>
+                    <option value="hours">hours</option>
+                </select>
+            </div>
+
+            <br>
+            <button type="submit">Save Changes</button>
+        </form>
+
+    </div>
 </div>
 
 <script>
@@ -172,6 +286,61 @@ function addIngredientRow() {
     `;
     ingredientsDiv.appendChild(row);
     attachRemoveButtons();
+}
+</script>
+
+<script>
+function openEditModal(index, recipe) {
+    document.getElementById("editModal").style.display = "block";
+
+    document.getElementById("edit-index").value = index;
+    document.getElementById("edit-name").value = recipe.recipe_name;
+    document.getElementById("edit-servings").value = recipe.servings;
+
+    // steps
+    document.getElementById("edit-steps").value =
+        (recipe.steps || []).join("\n");
+
+    // time (convert back to UI)
+    let mins = recipe.estimated_time_minutes || 0;
+    if (mins >= 60) {
+        document.getElementById("edit-time-value").value = mins / 60;
+        document.getElementById("edit-time-unit").value = "hours";
+    } else {
+        document.getElementById("edit-time-value").value = mins;
+        document.getElementById("edit-time-unit").value = "min";
+    }
+
+    // ingredients
+    const container = document.getElementById("edit-ingredients");
+    container.innerHTML = "";
+
+    recipe.ingredients.forEach(ing => {
+        const row = document.createElement("div");
+        row.innerHTML = `
+            <input type="number" name="ingredient_amount" value="${ing.amount}" required>
+            <select name="ingredient_unit" required>
+                <option value="grams" ${ing.unit==="grams"?"selected":""}>grams</option>
+                <option value="cup" ${ing.unit==="cup"?"selected":""}>cup</option>
+                <option value="oz" ${ing.unit==="oz"?"selected":""}>oz</option>
+                <option value="piece" ${ing.unit==="piece"?"selected":""}>piece</option>
+                <option value="serving" ${ing.unit==="serving"?"selected":""}>serving</option>
+            </select>
+            <input name="ingredient_name" value="${ing.name}" required>
+        `;
+        container.appendChild(row);
+    });
+}
+
+function closeModal() {
+    document.getElementById("editModal").style.display = "none";
+}
+
+function openEditModalFromButton(btn) {
+    const index = btn.dataset.index;
+    const recipe = JSON.parse(btn.dataset.recipe);
+
+    openEditModal(index, recipe);
 }
 </script>
 

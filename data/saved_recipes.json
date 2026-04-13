@@ -74,6 +74,36 @@
                 "Cut up fruit into bowl"
             ],
             "estimated_time_minutes": 0
+        },
+        {
+            "recipe_name": "Ice Cream Sundae",
+            "servings": 1,
+            "ingredients": [
+                {
+                    "amount": "1",
+                    "unit": "cup",
+                    "name": "chocolate ice cream"
+                },
+                {
+                    "amount": "1",
+                    "unit": "cup",
+                    "name": "vanilla ice cream"
+                },
+                {
+                    "amount": "1",
+                    "unit": "serving",
+                    "name": "banana"
+                },
+                {
+                    "amount": "8",
+                    "unit": "grams",
+                    "name": "sprinkles"
+                }
+            ],
+            "steps": [
+                "Add all ingredients to a bowl"
+            ],
+            "estimated_time_minutes": 6
         }
     ]
 }
