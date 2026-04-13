@@ -20,7 +20,7 @@
 
         <!-- Tab Contents -->
         <div id="interface" class="tab-content active">
-            <form method="POST" action="{{ url_for('settings') }}?tab=interface">
+            <form method="POST" action="{{ url_for('settings.settings') }}?tab=interface">
                 <div class="setting-item" style="margin-bottom: 15px;">
                     <label>
                         Language:
@@ -51,7 +51,7 @@
         </div>
 
         <div id="privacy" class="tab-content">
-            <form method="POST" action="{{ url_for('settings') }}?tab=privacy">
+            <form method="POST" action="{{ url_for('settings.settings') }}?tab=privacy">
                 <div class="setting-item" style="margin-bottom: 15px;">
                     <label>
                         Username:
@@ -71,7 +71,7 @@
         </div>
 
         <div id="meal" class="tab-content">
-            <form method="POST" action="{{ url_for('settings') }}?tab=meal">
+            <form method="POST" action="{{ url_for('settings.settings') }}?tab=meal">
                 <h3>Meal Times</h3>
                 {% set mt = preferences.meal_times if preferences.meal_times else {'breakfast':{'hour':8,'minute':0}, 'lunch':{'hour':12,'minute':0}, 'dinner':{'hour':18,'minute':0}} %}
                 {% for meal, time in mt.items() %}
