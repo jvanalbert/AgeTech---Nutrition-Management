@@ -12,6 +12,7 @@
 <!-- ===================== -->
 <!-- OPTION 1: FOOD FROM sample foods-->
 <!-- ===================== -->
+{% if viewer.role != "caretaker" %}
 <div class="card">
     <h3>Log from Food Inventory</h3>
 
@@ -44,10 +45,12 @@
         <button type="submit">Log Food</button>
     </form>
 </div>
+{% endif %}
 
 <!-- ===================== -->
 <!-- OPTION 2: Previously saved meals from saved_recipes.json -->
 <!-- ===================== -->
+{% if viewer.role != "caretaker" %}
 <div class="card">
     <h3>Log from Saved Recipes</h3>
 
@@ -112,10 +115,12 @@
         </div>
     {% endfor %}
 </div>
+{% endif %}
 
 <!-- ===================== -->
 <!-- OPTION 3: AI generated recipe -->
 <!-- ===================== -->
+{% if viewer.role != "caretaker" %}
 <div class="card">
     <h3>Generate a New Recipe</h3>
 
@@ -171,6 +176,7 @@
     </div>
     {% endif %}
 </div>
+{% endif %}
 
 <h2>Your Logged Meals</h2>
 {% set meal_types = ['breakfast', 'lunch', 'dinner', 'snack'] %}

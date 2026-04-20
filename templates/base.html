@@ -19,7 +19,9 @@
         <a href="/">Home</a>
         <a href="/meals">Meals</a>
         <a href="/foods">Pantry</a>
+        {% if viewer.role != "caretaker" %}
         <a href="/recipes">Recipes</a>
+        {% endif %}
         <a href="/nutrition">Nutrition</a>
     </div>
 

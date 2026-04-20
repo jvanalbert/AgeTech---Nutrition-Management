@@ -122,8 +122,9 @@ document.addEventListener("DOMContentLoaded", function() {
             {% endif %}
 
             <!-- Delete Button -->
-            <form action="{{ url_for('recipes.delete_recipe', index=loop.index0) }}" method="POST" onsubmit="return confirmDelete();">
-                <button type="submit" class="delete-btn">Delete Recipe</button>
+            <form method="POST" action="{{ url_for('recipes.delete_recipe') }}">
+                <input type="hidden" name="index" value="{{ loop.index0 }}">
+                <button type="submit">Delete</button>
             </form>
         </div>
     </div>

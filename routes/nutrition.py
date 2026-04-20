@@ -12,23 +12,41 @@ from datetime import datetime
 nutrition_bp = Blueprint("nutrition", __name__)
 
 
+def get_target_user(data, session_user):
+    role = session_user.get("role", "").lower()
+
+    if role == "caretaker":
+        return next(
+            (u for u in data.get("elderly_users", [])
+             if u.get("caretaker_id") == session_user["id"]),
+            None
+        )
+
+    elif role == "elderly":
+        return next(
+            (u for u in data.get("elderly_users", [])
+             if u["id"] == session_user["id"]),
+            None
+        )
+
+    return None
+
+
 @nutrition_bp.route("/nutrition")
 def nutrition():
     if not session.get("user"):
         return redirect("/login")
 
+    session_user = session["user"]
     data = load_user_data()
-    user_id = session["user"]["id"]
 
-    user = next(
-        (u for u in data.get("elderly_users", []) if u["id"] == user_id),
-        None
-    )
+    # 🔥 FIX: use target user
+    user = get_target_user(data, session_user)
 
     if not user:
-        return "Unauthorized", 403
+        return redirect("/home")
 
-    # --- Get nutrition data (each returns dicts) ---
+    # --- Nutrition calculations ---
     calories = track_calories(user)
     protein = track_protein(user)
     cholesterol = track_cholesterol(user)
@@ -38,9 +56,10 @@ def nutrition():
     return render_template(
         "nutrition.html",
         user=user,
+        viewer=session_user,   # 👈 important for UI control
         current_date=datetime.now().strftime("%B %d, %Y"),
 
-        # Calories (already flat dict → spread it)
+        # Calories
         **calories,
 
         # Protein

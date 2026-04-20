@@ -1,13 +1,38 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for
 from Backend.scanner import lookup_product, add_item_to_inventory
+from Backend.user_loader import load_user_data
 import json
 from datetime import datetime
 
 foods_bp = Blueprint("foods", __name__)
 
+def get_target_user(data, session_user):
+    """Returns the elderly user being viewed (caretaker or self)."""
+
+    if session_user.get("role") == "caretaker":
+        for u in data.get("elderly_users", []):
+            if u.get("caretaker_id") == session_user["id"]:
+                return u
+
+    elif session_user.get("role") == "elderly":
+        return next(
+            (u for u in data.get("elderly_users", []) if u["id"] == session_user["id"]),
+            None
+        )
+
+    return None
+
 @foods_bp.route("/foods", methods=["GET", "POST"])
 def foods():
     if not session.get("user"):
+        return redirect("/login")
+
+    session_user = session["user"]
+    data = load_user_data()
+
+    target_user = get_target_user(data, session_user)
+
+    if not target_user:
         return redirect("/login")
 
     message = None
@@ -33,7 +58,9 @@ def foods():
         foods=foods,
         message=message,
         product=product,
-        scanned_at=scanned_at
+        scanned_at=scanned_at,
+        viewer=session_user,
+        user=target_user
     )
 
 

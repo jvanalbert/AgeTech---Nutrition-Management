@@ -9,7 +9,7 @@ def profile():
         return redirect("/login")
 
     users = load_elderly_users_with_caretakers()
-    return render_template("profile.html", users=users)
+    return render_template("profile.html", users=users, viewer=session["user"])
 
 
 @profile_bp.route("/edit_meal_times/<int:user_id>", methods=["GET", "POST"])

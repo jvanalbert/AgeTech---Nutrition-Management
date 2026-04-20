@@ -1,71 +1,75 @@
-from flask import Blueprint, render_template, request, redirect, session, url_for
+from flask import Blueprint, render_template, session, redirect
+from Backend.user_loader import load_user_data
 import json
-from Backend.recipe import generate_recipe
 
 recipes_bp = Blueprint("recipes", __name__)
 
-FILE = "data/saved_recipes.json"
 
-@recipes_bp.route("/recipes", methods=["GET", "POST"])
+def get_target_user(data, session_user):
+    role = session_user.get("role", "").lower()
+
+    if role == "caretaker":
+        return next(
+            (u for u in data.get("elderly_users", [])
+             if u.get("caretaker_id") == session_user["id"]),
+            None
+        )
+
+    elif role == "elderly":
+        return next(
+            (u for u in data.get("elderly_users", [])
+             if u["id"] == session_user["id"]),
+            None
+        )
+
+    return None
+
+
+@recipes_bp.route("/recipes")
 def recipes():
     if not session.get("user"):
         return redirect("/login")
 
-    with open(FILE) as f:
-        data = json.load(f)
+    session_user = session["user"]
+    data = load_user_data()
 
-    recipes = data.get("recipes", [])
+    target_user = get_target_user(data, session_user)
 
-    if request.method == "POST":
-        recipes.append({
-            "recipe_name": request.form["recipe_name"],
-            "ingredients": [],
-            "steps": []
-        })
+    # 🚫 BLOCK CARETAKERS (since you said you want this hidden entirely)
+    if session_user.get("role") == "caretaker":
+        return redirect("/home")
 
-        with open(FILE, "w") as f:
-            json.dump({"recipes": recipes}, f, indent=4)
-
-        return redirect("/recipes")
-
-    return render_template("recipes.html", recipes=recipes)
-
-
-@recipes_bp.post("/recipes/<int:index>/delete")
-def delete_recipe(index):
-    with open(FILE) as f:
-        data = json.load(f)
-
-    recipes = data.get("recipes", [])
-
-    if 0 <= index < len(recipes):
-        recipes.pop(index)
-
-    with open(FILE, "w") as f:
-        json.dump({"recipes": recipes}, f, indent=4)
-
-    return redirect(url_for("recipes.recipes"))
-
-
-@recipes_bp.route("/generate_recipe", methods=["POST"])
-def generate_recipe_route():
-    meal_type = request.form.get("meal_type", "dinner")
-
-    try:
-        raw = generate_recipe(meal_type)
-
-        if raw.startswith("```"):
-            raw = raw.strip("`").replace("json\n", "")
-
-        generated = json.loads(raw)
-    except:
-        generated = None
-
-    with open(FILE) as f:
-        data = json.load(f)
+    with open("data/saved_recipes.json") as f:
+        recipes = json.load(f).get("recipes", [])
 
     return render_template(
         "recipes.html",
-        recipes=data.get("recipes", []),
-        generated_recipe=generated
+        recipes=recipes,
+        user=target_user,
+        viewer=session_user   # 👈 THIS FIXES YOUR ERROR
     )
+
+@recipes_bp.route("/delete_recipe", methods=["POST"])
+def delete_recipe():
+    if not session.get("user"):
+        return redirect("/login")
+
+    index = request.form.get("index")
+
+    # load recipes
+    import json
+    with open("data/saved_recipes.json") as f:
+        data = json.load(f)
+
+    if "recipes" in data and index is not None:
+        try:
+            index = int(index)
+            if 0 <= index < len(data["recipes"]):
+                data["recipes"].pop(index)
+
+                with open("data/saved_recipes.json", "w") as f:
+                    json.dump(data, f, indent=4)
+        except:
+            pass
+
+    return redirect(url_for("recipes.recipes"))

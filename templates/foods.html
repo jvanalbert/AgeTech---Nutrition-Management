@@ -10,6 +10,7 @@
 <h2 class="page-title">My Food Pantry</h2>
 
 <!--Scan Section -->
+{% if viewer.role != "caretaker" %}
 <div class="card scan-card">
     <h3>📦 Scan or Add Item</h3>
 
@@ -39,6 +40,7 @@
         </div>
     {% endif %}
 </div>
+{% endif %}
 
 <hr class="section-divider">
 

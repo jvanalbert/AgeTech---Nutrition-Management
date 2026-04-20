@@ -15,10 +15,14 @@ def login():
         user = check_login(request.form["username"], request.form["password"])
 
         if user:
+            
+            print("LOGGED IN USER:", user)
+            
             session["user"] = {
                 "id": user["id"],
                 "role": user.get("role"),
-                "name": user.get("name")
+                "name": user.get("name"),
+                "username": user["account"]["username"]
             }
             return redirect("/home")
 
