@@ -1,10 +1,15 @@
-from flask import Blueprint, render_template, session, redirect
+from flask import Blueprint, render_template, session, redirect, request, url_for
 from Backend.user_loader import load_user_data
 import json
 
 recipes_bp = Blueprint("recipes", __name__)
 
+FILE = "data/saved_recipes.json"
 
+
+# =========================
+# USER CONTEXT
+# =========================
 def get_target_user(data, session_user):
     role = session_user.get("role", "").lower()
 
@@ -25,17 +30,29 @@ def get_target_user(data, session_user):
     return None
 
 
-@recipes_bp.route("/recipes")
+# =========================
+# MAIN RECIPES PAGE
+# =========================
+@recipes_bp.route("/recipes", methods=["GET", "POST"])
 def recipes():
     if not session.get("user"):
         return redirect("/login")
 
+    session_user = session["user"]
+    data = load_user_data()
+
+    target_user = get_target_user(data, session_user)
+
     with open(FILE) as f:
-        data = json.load(f)
+        file_data = json.load(f)
 
-    recipes = data.get("recipes", [])
+    recipes_list = file_data.get("recipes", [])
 
+    # =====================
+    # ADD RECIPE
+    # =====================
     if request.method == "POST":
+
         time_value = request.form.get("estimated_time_value", 0)
         time_unit = request.form.get("estimated_time_unit", "min")
 
@@ -44,11 +61,8 @@ def recipes():
         except:
             time_value = 0
 
-        if time_unit == "hours":
-            estimated_time_minutes = time_value * 60
-        else:
-            estimated_time_minutes = time_value
-        
+        estimated_time_minutes = time_value * 60 if time_unit == "hours" else time_value
+
         new_recipe = {
             "recipe_name": request.form.get("recipe_name"),
             "servings": int(request.form.get("servings", 1)),
@@ -57,104 +71,70 @@ def recipes():
             "estimated_time_minutes": estimated_time_minutes
         }
 
-        # 🔹 Ingredients (multi-row fix)
         names = request.form.getlist("ingredient_name")
         amounts = request.form.getlist("ingredient_amount")
         units = request.form.getlist("ingredient_unit")
 
         for i in range(len(names)):
-            if names[i] and names[i].strip():
+            if names[i].strip():
                 new_recipe["ingredients"].append({
                     "amount": amounts[i],
                     "unit": units[i],
                     "name": names[i]
                 })
 
-        # 🔹 Steps fix
-        steps_text = request.form.get("steps", "").strip()
-        if steps_text:
-            new_recipe["steps"] = [
-                s.strip() for s in steps_text.splitlines() if s.strip()
-            ]
+        steps_text = request.form.get("steps", "")
+        new_recipe["steps"] = [s.strip() for s in steps_text.splitlines() if s.strip()]
 
-        # 🔹 Save
-        recipes.append(new_recipe)
+        recipes_list.append(new_recipe)
 
         with open(FILE, "w") as f:
-            json.dump({"recipes": recipes}, f, indent=4)
+            json.dump({"recipes": recipes_list}, f, indent=4)
 
         return redirect("/recipes")
 
-    return render_template("recipes.html", recipes=recipes)
+    return render_template(
+        "recipes.html",
+        recipes=recipes_list,
+        user=target_user,
+        viewer=session_user
+    )
 
 
+# =========================
+# DELETE RECIPE (FIXED ONCE)
+# =========================
 @recipes_bp.post("/recipes/<int:index>/delete")
 def delete_recipe(index):
-    with open(FILE) as f:
-        data = json.load(f)
-
-    recipes = data.get("recipes", [])
-
-    if 0 <= index < len(recipes):
-        recipes.pop(index)
-
-    with open(FILE, "w") as f:
-        json.dump({"recipes": recipes}, f, indent=4)
-
-    return redirect(url_for("recipes.recipes"))
-
-@recipes_bp.post("/recipes/update")
-def update_recipe():
-    index = int(request.form.get("index"))
+    if not session.get("user"):
+        return redirect("/login")
 
     with open(FILE) as f:
         data = json.load(f)
 
-    recipes = data.get("recipes", [])
+    recipes_list = data.get("recipes", [])
 
-    if index < 0 or index >= len(recipes):
-        return redirect(url_for("recipes.recipes"))
-
-    # time
-    value = int(request.form.get("estimated_time_value", 0))
-    unit = request.form.get("estimated_time_unit", "min")
-    minutes = value * 60 if unit == "hours" else value
-
-    updated = {
-        "recipe_name": request.form.get("recipe_name"),
-        "servings": int(request.form.get("servings", 1)),
-        "ingredients": [],
-        "steps": [],
-        "estimated_time_minutes": minutes
-    }
-
-    # ingredients
-    names = request.form.getlist("ingredient_name")
-    amounts = request.form.getlist("ingredient_amount")
-    units = request.form.getlist("ingredient_unit")
-
-    for i in range(len(names)):
-        if names[i].strip():
-            updated["ingredients"].append({
-                "amount": amounts[i],
-                "unit": units[i],
-                "name": names[i]
-            })
-
-    # steps
-    steps_text = request.form.get("steps", "")
-    updated["steps"] = [s.strip() for s in steps_text.split("\n") if s.strip()]
-
-    recipes[index] = updated
+    if 0 <= index < len(recipes_list):
+        recipes_list.pop(index)
 
     with open(FILE, "w") as f:
-        json.dump({"recipes": recipes}, f, indent=4)
+        json.dump({"recipes": recipes_list}, f, indent=4)
 
     return redirect(url_for("recipes.recipes"))
 
 
+# =========================
+# GENERATE RECIPE
+# =========================
 @recipes_bp.route("/generate_recipe", methods=["POST"])
 def generate_recipe_route():
+    if not session.get("user"):
+        return redirect("/login")
+
+    session_user = session["user"]
+    data = load_user_data()
+    target_user = get_target_user(data, session_user)
+
     meal_type = request.form.get("meal_type", "dinner")
 
     try:
@@ -168,36 +148,12 @@ def generate_recipe_route():
         generated = None
 
     with open(FILE) as f:
-        data = json.load(f)
+        file_data = json.load(f)
 
     return render_template(
         "recipes.html",
-        recipes=recipes,
+        recipes=file_data.get("recipes", []),
+        generated_recipe=generated,
         user=target_user,
-        viewer=session_user   # 👈 THIS FIXES YOUR ERROR
+        viewer=session_user
     )
-
-@recipes_bp.route("/delete_recipe", methods=["POST"])
-def delete_recipe():
-    if not session.get("user"):
-        return redirect("/login")
-
-    index = request.form.get("index")
-
-    # load recipes
-    import json
-    with open("data/saved_recipes.json") as f:
-        data = json.load(f)
-
-    if "recipes" in data and index is not None:
-        try:
-            index = int(index)
-            if 0 <= index < len(data["recipes"]):
-                data["recipes"].pop(index)
-
-                with open("data/saved_recipes.json", "w") as f:
-                    json.dump(data, f, indent=4)
-        except:
-            pass
-
-    return redirect(url_for("recipes.recipes"))
