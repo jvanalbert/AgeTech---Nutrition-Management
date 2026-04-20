@@ -100,6 +100,61 @@ def recipes():
         viewer=session_user
     )
 
+@recipes_bp.post("/recipes/update")
+def update_recipe():
+    if not session.get("user"):
+        return redirect("/login")
+
+    index = int(request.form.get("index"))
+
+    with open(FILE) as f:
+        data = json.load(f)
+
+    recipes_list = data.get("recipes", [])
+
+    # safety check
+    if index < 0 or index >= len(recipes_list):
+        return redirect(url_for("recipes.recipes"))
+
+    # time conversion
+    value = int(request.form.get("estimated_time_value", 0))
+    unit = request.form.get("estimated_time_unit", "min")
+    minutes = value * 60 if unit == "hours" else value
+
+    # rebuild recipe
+    updated_recipe = {
+        "recipe_name": request.form.get("recipe_name"),
+        "servings": int(request.form.get("servings", 1)),
+        "ingredients": [],
+        "steps": [],
+        "estimated_time_minutes": minutes
+    }
+
+    # ingredients
+    names = request.form.getlist("ingredient_name")
+    amounts = request.form.getlist("ingredient_amount")
+    units = request.form.getlist("ingredient_unit")
+
+    for i in range(len(names)):
+        if names[i].strip():
+            updated_recipe["ingredients"].append({
+                "amount": amounts[i],
+                "unit": units[i],
+                "name": names[i]
+            })
+
+    # steps
+    steps_text = request.form.get("steps", "")
+    updated_recipe["steps"] = [s.strip() for s in steps_text.splitlines() if s.strip()]
+
+    # replace recipe
+    recipes_list[index] = updated_recipe
+
+    # save
+    with open(FILE, "w") as f:
+        json.dump({"recipes": recipes_list}, f, indent=4)
+
+    return redirect(url_for("recipes.recipes"))
 
 # =========================
 # DELETE RECIPE (FIXED ONCE)
