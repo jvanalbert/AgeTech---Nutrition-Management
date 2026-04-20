@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Nutrition History</h2>
+
+    {% for month, days in grouped_history.items() %}
+    <details style="margin-bottom: 20px;">
+        <summary class="month-header" style="cursor: pointer; list-style: none; font-size: 1.5rem; font-weight: bold; color: #4e73df;">
+            ▼ {{ month }}
+        </summary>
+        
+        <div style="padding-top: 10px;">
+            {% for day, data in days.items() %}
+            <div class="history-card">
+                <details>
+                    <summary class="day-summary">
+                        <div><strong>{{ day }}</strong></div>
+                    </summary>
+                    
+                    <div style="padding: 15px; border-top: 1px solid #eee; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        <div style="color: #555;"><strong>Calories:</strong> {{ data.total_cal }}</div>
+                        <div style="color: #555;"><strong>Protein:</strong> {{ data.total_prot }}g</div>
+                        <div style="color: #555;"><strong>Sugar:</strong> {{ data.total_sug }}g</div>
+                        <div style="color: #555;"><strong>Cholesterol:</strong> {{ data.total_chol }}mg</div>
+                        <div style="color: #555;"><strong>Sodium:</strong> {{ data.total_sod }}mg</div>
+                    </div>
+                </details>
+            </div>
+            {% endfor %}
+        </div>
+    </details>
+    {% else %}
+    <div class="alert alert-info">No history recorded yet.</div>
+    {% endfor %}
+
+    <div style="margin-top: 30px;">
+        <a href="/nutrition" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+
+<style>
+    .history-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 15px;
+        overflow: hidden;
+        border: 1px solid #eee;
+    }
+    .day-summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        cursor: pointer;
+        list-style: none;
+    }
+    .stat-pill {
+        background: #eef2ff;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #4e73df;
+    }
+</style>
+{% endblock %}

@@ -36,78 +36,28 @@
             "caretaker_id": 100,
             "meals": [
                 {
-                    "food_id": 8,
-                    "name": "Bread",
-                    "quantity": 60.0,
-                    "meal_type": "breakfast",
-                    "calories": 60.0,
-                    "timestamp": "March 29, 2026 at 06:18:54 PM",
-                    "allergens": []
-                },
-                {
-                    "name": "Fruit Bowl",
-                    "meal_type": "lunch",
-                    "calories": 0,
-                    "timestamp": "March 29, 2026 at 06:35:56 PM",
-                    "ingredients": [
-                        {
-                            "amount": "1",
-                            "unit": "serving",
-                            "name": "banana"
-                        },
-                        {
-                            "amount": "4",
-                            "unit": "pieces",
-                            "name": "strawberries"
-                        },
-                        {
-                            "amount": "1",
-                            "unit": "serving",
-                            "name": "orange"
-                        }
-                    ]
-                },
-                {
                     "food_id": 1,
                     "name": "Apple",
-                    "quantity": 150.0,
-                    "meal_type": "breakfast",
-                    "calories": 142.5,
-                    "timestamp": "March 29, 2026 at 07:52:13 PM",
+                    "quantity": 10.0,
+                    "meal_type": "lunch",
+                    "calories": 95.0,
+                    "sugar": 0.0,
+                    "sodium": 0.0,
+                    "date": "2026-04-20",
+                    "timestamp": "April 20, 2026 at 05:12:34 PM",
                     "allergens": []
                 },
                 {
-                    "name": "Fruit and Oat Breakfast Bowl",
-                    "meal_type": "breakfast",
-                    "calories": 0,
-                    "timestamp": "April 01, 2026 at 11:44:23 AM",
-                    "ingredients": [
-                        {
-                            "amount": "1/2",
-                            "name": "oats",
-                            "unit": "cup"
-                        },
-                        {
-                            "amount": "1",
-                            "name": "milk",
-                            "unit": "cup"
-                        },
-                        {
-                            "amount": "1/4",
-                            "name": "strawberries",
-                            "unit": "cup"
-                        },
-                        {
-                            "amount": "1/4",
-                            "name": "organic blackberries",
-                            "unit": "cup"
-                        },
-                        {
-                            "amount": "1/4",
-                            "name": "banana",
-                            "unit": "cup"
-                        }
-                    ]
+                    "food_id": 5,
+                    "name": "Carrot",
+                    "quantity": 30.0,
+                    "meal_type": "snack",
+                    "calories": 25.0,
+                    "sugar": 0.0,
+                    "sodium": 0.0,
+                    "date": "2026-04-20",
+                    "timestamp": "April 20, 2026 at 05:17:06 PM",
+                    "allergens": []
                 }
             ],
             "meal_times": {

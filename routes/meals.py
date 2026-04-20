@@ -64,6 +64,9 @@ def meals():
             "quantity": quantity,
             "meal_type": meal_type,
             "calories": float(food.get("calories", 0)),
+            "sugar": float(food.get("sugar", 0)),
+            "sodium": float(food.get("sodium", 0)),
+            "date": datetime.now().strftime("%Y-%m-%d"),
             "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),
             "allergens": food.get("allergens", [])
         }
