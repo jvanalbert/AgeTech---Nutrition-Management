@@ -46,8 +46,18 @@ def settings():
     # =====================
     if request.method == "POST":
 
-        # 🔒 Only allow elderly to change password
-        if tab == "privacy" and session_user.get("role") == "elderly":
+    # ---------------------
+    # Interface Settings
+    # ---------------------
+        if tab == "interface":
+            prefs["language"] = request.form.get("language", "en")
+            prefs["dark_mode"] = request.form.get("dark_mode") == "1"
+            prefs["notifications"] = request.form.get("notifications") == "1"
+
+        # ---------------------
+        # Privacy (Password)
+        # ---------------------
+        elif tab == "privacy" and session_user.get("role") == "elderly":
             new_password = request.form.get("new_password")
 
             if new_password:
@@ -55,7 +65,30 @@ def settings():
                     bcrypt.generate_password_hash(new_password).decode("utf-8")
                 )
 
+        # ---------------------
+        # Meal Preferences
+        # ---------------------
+        elif tab == "meal":
+
+            # Meal Times
+            meal_times = {}
+            for meal in ["breakfast", "lunch", "dinner"]:
+                hour = int(request.form.get(f"{meal}_hour", 0))
+                minute = int(request.form.get(f"{meal}_minute", 0))
+
+                meal_times[meal] = {
+                    "hour": hour,
+                    "minute": minute
+                }
+
+            prefs["meal_times"] = meal_times
+
+            # Preferred Cuisines (checkbox list)
+            prefs["preferred_cuisines"] = request.form.getlist("cuisines")
+
+        # SAVE EVERYTHING
         save_user_data(data)
+
         return redirect(url_for("settings.settings", tab=tab))
 
     return render_template(

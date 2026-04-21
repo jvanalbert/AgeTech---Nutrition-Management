@@ -20,17 +20,18 @@
 ========================= */
 
 .card {
-    background: white;
+    background: var(--card);
+    color: var(--text);
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-sm);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    box-shadow: var(--shadow-md);
 }
 
 .card h3 {
@@ -39,7 +40,7 @@
 }
 
 /* =========================
-   FORM (ADD RECIPE)
+   FORM
 ========================= */
 
 #add-recipe-form {
@@ -53,9 +54,11 @@
 #add-recipe-form select {
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     font-size: 14px;
     outline: none;
+    background: var(--card);
+    color: var(--text);
     transition: border 0.2s ease;
 }
 
@@ -81,19 +84,17 @@
     align-items: center;
 }
 
-.ingredient-row input {
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-}
-
+.ingredient-row input,
 .ingredient-row select {
     padding: 8px;
     border-radius: 6px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
     font-size: 14px;
 }
 
+/* remove ingredient */
 .remove-ingredient-btn {
     background: #ef4444;
     color: white;
@@ -107,7 +108,7 @@
     background: #dc2626;
 }
 
-/* Add ingredient button */
+/* add ingredient */
 #add-ingredient-btn {
     background: var(--primary);
     color: white;
@@ -119,7 +120,7 @@
 }
 
 #add-ingredient-btn:hover {
-    opacity: 0.9;
+    background: var(--primary-dark);
 }
 
 /* =========================
@@ -138,12 +139,12 @@
 }
 
 #add-recipe-form button[type="submit"]:hover {
-    opacity: 0.9;
+    background: var(--primary-dark);
     transform: translateY(-1px);
 }
 
 /* =========================
-   RECIPE LIST (ACCORDION)
+   RECIPE LIST
 ========================= */
 
 .recipe-list {
@@ -157,38 +158,38 @@
     overflow: hidden;
 }
 
-/* Header (clickable bar) */
+/* header */
 .recipe-header {
     padding: 14px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    background: #f8fafc;
+    background: var(--bg);
     font-weight: 600;
-    color: #333;
+    color: var(--text);
     transition: background 0.2s ease;
 }
 
 .recipe-header:hover {
-    background: #eef2ff;
+    background: var(--card);
 }
 
-/* Arrow */
+/* arrow */
 .recipe-header .arrow {
     font-size: 14px;
-    color: #888;
+    color: var(--muted);
     transition: transform 0.2s ease;
 }
 
-/* Body */
+/* body */
 .recipe-body {
     padding: 16px;
-    border-top: 1px solid #eee;
-    background: white;
+    border-top: 1px solid var(--border);
+    background: var(--card);
 }
 
-/* Lists */
+/* lists */
 .recipe-body ul,
 .recipe-body ol {
     margin: 10px 0;
@@ -196,7 +197,7 @@
 }
 
 /* =========================
-   DELETE BUTTON
+   BUTTONS
 ========================= */
 
 .delete-btn {
@@ -207,25 +208,20 @@
     border-radius: 6px;
     cursor: pointer;
     margin-top: 10px;
-    transition: 0.2s ease;
 }
 
 .delete-btn:hover {
     background: #dc2626;
 }
 
-/* =========================
-   EDIT BUTTON
-========================= */
 .edit-btn {
-    background: #facc15; /* yellow */
-    color: white;
+    background: #facc15;
+    color: black;
     border: none;
     padding: 8px 12px;
     border-radius: 6px;
     cursor: pointer;
     margin-top: 10px;
-    transition: 0.2s ease;
     font-weight: 500;
 }
 
@@ -234,8 +230,9 @@
 }
 
 /* =========================
-   EDIT POP UP
+   MODAL (EDIT POPUP)
 ========================= */
+
 .modal {
     display: none;
     position: fixed;
@@ -244,21 +241,19 @@
     top: 0;
     width: 100%;
     height: 100%;
-
-    background: rgba(0,0,0,0.4); /* lighter = matches your soft shadows */
+    background: rgba(0,0,0,0.4);
 }
 
 .modal-content {
-    background: white;
+    background: var(--card);
+    color: var(--text);
     margin: 5% auto;
     padding: 20px;
     width: 500px;
     max-width: 95vw;
     border-radius: 12px;
-
-    box-shadow: 0 4px 6px rgba(0,0,0,0.08); /* matches .card */
-    border: 1px solid #eee;
-
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
     max-height: 85vh;
     overflow-y: auto;
     text-align: left;
@@ -268,16 +263,17 @@
     float: right;
     font-size: 22px;
     cursor: pointer;
+    color: var(--text);
 }
 
 /* =========================
-   SECTION DIVIDER
+   DIVIDER
 ========================= */
 
 .section-divider {
     margin: 25px 0;
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border);
 }
 
 /* =========================

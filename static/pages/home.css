@@ -6,9 +6,9 @@
     text-align: center;
     margin-bottom: 10px;
     padding: 15px;
-    background: white;
+    background: var(--card);
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-sm);
 }
 
 .home-header h1 {
@@ -20,9 +20,13 @@
 .home-header h2 {
     font-size: 0.95em;
     font-weight: normal;
-    color: #555;
+    color: var(--muted);
     margin: 0;
 }
+
+/* =========================
+   Page wrapper
+========================= */
 
 .home-page {
     max-width: 1200px;
@@ -43,26 +47,25 @@
 }
 
 /* =========================
-   Card (mimics nutrition-card)
+   Card base
 ========================= */
 
 .nutrition-item {
-    background: white;
+    background: var(--card);
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
     text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover effect */
 .nutrition-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transition: 0.2s ease;
+    box-shadow: var(--shadow-md);
 }
 
 /* =========================
-   Fake Card Header
+   Card header
 ========================= */
 
 .nutrition-item h4 {
@@ -72,7 +75,7 @@
     color: white;
 }
 
-/* Gradient headers like nutrition page */
+/* gradients stay (these are fine stylistically) */
 .nutrition-item.calories h4 {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
@@ -94,34 +97,33 @@
 }
 
 /* =========================
-   Content Area
+   Content
 ========================= */
 
 .nutrition-item p {
     padding: 0 20px;
     margin: 10px 0;
     font-size: 1em;
-    color: #555;
+    color: var(--text);
 }
 
 .nutrition-item strong {
-    color: #333;
+    color: var(--text);
 }
 
-/* Add spacing at bottom */
 .nutrition-item p:last-child {
     padding-bottom: 20px;
 }
 
 /* =========================
-   Summary Section
+   Summary section
 ========================= */
 
 .nutrition-summary {
-    background: white;
+    background: var(--card);
     border-radius: 12px;
     padding: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     margin-top: 40px;
 }
 

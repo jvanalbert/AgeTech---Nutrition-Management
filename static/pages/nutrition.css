@@ -10,7 +10,7 @@
 }
 
 /* =========================
-   HEADER (NO CARD STYLE)
+   HEADER
 ========================= */
 
 .page-title {
@@ -20,7 +20,6 @@
     margin-bottom: 10px;
 }
 
-/* Subheader under title */
 .nutrition-subheader {
     text-align: center;
     margin-bottom: 20px;
@@ -29,13 +28,13 @@
 .nutrition-subheader h3 {
     font-size: 1rem;
     font-weight: normal;
-    color: #555;
+    color: var(--muted);
     margin: 0;
 }
 
 .date-display {
     font-size: 0.85em;
-    color: #777;
+    color: var(--muted);
     margin-top: 5px;
 }
 
@@ -52,20 +51,20 @@
 }
 
 /* =========================
-   CARDS (same home style)
+   CARDS
 ========================= */
 
 .nutrition-card {
-    background: white;
+    background: var(--card);
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
-    transition: 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .nutrition-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    box-shadow: var(--shadow-md);
 }
 
 /* =========================
@@ -82,7 +81,7 @@
     font-size: 1.3em;
 }
 
-/* Gradients */
+/* Gradients (kept as-is, stylistic only) */
 .calories-card .card-header {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
@@ -112,6 +111,7 @@
     text-align: left;
 }
 
+/* metrics */
 .metric {
     display: flex;
     justify-content: space-between;
@@ -120,12 +120,12 @@
 }
 
 .metric .label {
-    color: #666;
+    color: var(--muted);
 }
 
 .metric .value {
     font-weight: bold;
-    color: #333;
+    color: var(--text);
 }
 
 .metric.remaining .value {
@@ -133,7 +133,7 @@
 }
 
 /* =========================
-   SUMMARY (simple block, not card-heavy)
+   SUMMARY
 ========================= */
 
 .nutrition-summary {

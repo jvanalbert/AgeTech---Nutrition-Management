@@ -8,7 +8,7 @@
     padding: 20px;
 }
 
-/* page title consistency */
+/* page title */
 .page-title {
     text-align: center;
     font-size: 2rem;
@@ -21,10 +21,11 @@
 ========================= */
 
 .settings-page .card {
-    background: white;
+    background: var(--card);
+    color: var(--text);
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-sm);
 }
 
 /* =========================
@@ -35,21 +36,23 @@
     padding: 10px 16px;
     border: none;
     border-radius: 8px;
-    background: #f1f5f9;
-    color: #333;
+    background: var(--bg);
+    color: var(--text);
     cursor: pointer;
     margin-right: 8px;
     font-weight: 500;
     transition: 0.2s ease;
+    border: 1px solid var(--border);
 }
 
 .tab-btn:hover {
-    background: #e2e8f0;
+    background: var(--card);
 }
 
 .tab-btn.active {
     background: var(--primary);
     color: white;
+    border-color: var(--primary);
 }
 
 /* =========================
@@ -66,33 +69,11 @@
 }
 
 /* =========================
-   LAYOUT
+   BUTTONS (IMPORTANT: avoid override conflicts)
 ========================= */
 
-.settings-page {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.settings-container {
-    display: flex;
-    justify-content: center;
-}
-
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-button,
-.nav-btn {
+.settings-page button,
+.settings-page .nav-btn {
     padding: 10px 14px;
     border: none;
     border-radius: 8px;
@@ -103,14 +84,27 @@ button,
     transition: 0.2s ease;
 }
 
-button:hover,
-.nav-btn:hover {
-    opacity: 0.9;
+.settings-page button:hover,
+.settings-page .nav-btn:hover {
+    background: var(--primary-dark);
     transform: translateY(-1px);
 }
 
 /* =========================
-   MEAL TIME GRID FEEL
+   FORM ELEMENTS
+========================= */
+
+.settings-page input,
+.settings-page select {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* =========================
+   MEAL GRID (optional)
 ========================= */
 
 .meal-time-grid {

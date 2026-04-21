@@ -25,16 +25,16 @@
                     <label>
                         Language:
                         <select name="language" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
-                            <option value="en" {% if preferences.language == 'en' %}selected{% endif %}>English</option>
-                            <option value="es" {% if preferences.language == 'es' %}selected{% endif %}>Spanish</option>
-                            <option value="fr" {% if preferences.language == 'fr' %}selected{% endif %}>French</option>
+                            <option value="en" {% if preferences.get('language') == 'en' %}selected{% endif %}>English</option>
+                            <option value="es" {% if preferences.get('language') == 'es' %}selected{% endif %}>Spanish</option>
+                            <option value="fr" {% if preferences.get('language') == 'fr' %}selected{% endif %}>French</option>
                         </select>
                     </label>
                 </div>
                 
                 <div class="setting-item" style="margin-bottom: 15px;">
                     <label>
-                        <input type="checkbox" name="dark_mode" value="1" {% if preferences.dark_mode %}checked{% endif %}>
+                        <input type="checkbox" name="dark_mode" value="1" {% if preferences.get('dark_mode') %}checked{% endif %}>
                         Dark Mode
                     </label>
                 </div>
@@ -73,7 +73,11 @@
         <div id="meal" class="tab-content">
             <form method="POST" action="{{ url_for('settings.settings') }}?tab=meal">
                 <h3>Meal Times</h3>
-                {% set mt = preferences.meal_times if preferences.meal_times else {'breakfast':{'hour':8,'minute':0}, 'lunch':{'hour':12,'minute':0}, 'dinner':{'hour':18,'minute':0}} %}
+                {% set mt = preferences.get('meal_times', {
+                    'breakfast': {'hour':8,'minute':0},
+                    'lunch': {'hour':12,'minute':0},
+                    'dinner': {'hour':18,'minute':0}
+                }) %}
                 {% for meal, time in mt.items() %}
                     <div class="setting-item" style="margin-bottom: 10px;">
                         <label>
@@ -119,6 +123,15 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).classList.add("active");
     evt.currentTarget.classList.add("active");
 }
+
+window.addEventListener("load", function () {
+    const activeTab = "{{ active_tab }}";
+    const tabBtn = document.querySelector(`button[onclick*="${activeTab}"]`);
+
+    if (tabBtn) {
+        tabBtn.click();
+    }
+});
 </script>
 
 {% endblock %}

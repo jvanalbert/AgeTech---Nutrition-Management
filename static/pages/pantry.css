@@ -23,25 +23,26 @@
     margin-top: 25px;
     margin-bottom: 15px;
     font-size: 1.3rem;
-    color: #333;
+    color: var(--text);
 }
 
 /* =========================
-   CARDS (GLOBAL STYLE)
+   CARDS
 ========================= */
 
 .card {
-    background: white;
+    background: var(--card);
+    color: var(--text);
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-sm);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    box-shadow: var(--shadow-md);
 }
 
 /* =========================
@@ -63,9 +64,11 @@
     flex: 1;
     padding: 12px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     font-size: 14px;
     outline: none;
+    background: var(--card);
+    color: var(--text);
     transition: border 0.2s ease;
 }
 
@@ -85,30 +88,33 @@
 }
 
 .scan-form button:hover {
-    opacity: 0.9;
+    background: var(--primary-dark);
 }
 
-/* Scan result box */
+/* =========================
+   SCAN RESULT
+========================= */
+
 .scan-result {
     margin-top: 15px;
     padding: 12px;
     border-left: 4px solid var(--primary);
-    background: #f8fafc;
+    background: var(--bg);
     border-radius: 8px;
 }
 
-/* Message */
+/* message text */
 .message {
     margin-top: 10px;
-    color: #333;
+    color: var(--text);
     font-weight: 500;
 }
 
-/* Divider */
+/* divider */
 .section-divider {
     margin: 25px 0;
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border);
 }
 
 /* =========================
@@ -121,29 +127,28 @@
     gap: 12px;
 }
 
-/* Food card */
+/* food card */
 .food-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Left side info */
 .food-info h4 {
     margin: 0;
     font-size: 1.1rem;
-    color: #333;
+    color: var(--text);
 }
 
 .meta {
     font-size: 0.85rem;
-    color: #777;
+    color: var(--muted);
     margin: 4px 0;
 }
 
 .calories {
     font-size: 0.9rem;
-    color: #444;
+    color: var(--text);
 }
 
 /* =========================

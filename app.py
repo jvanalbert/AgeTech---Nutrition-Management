@@ -7,6 +7,28 @@ def create_app():
 
     bcrypt.init_app(app)
 
+    @app.context_processor
+    def inject_user_data():
+        from flask import session
+        from Backend.user_loader import load_user_data
+        from routes.settings import get_target_user
+
+        user = session.get("user")
+
+        if user:
+            data = load_user_data()
+            u = get_target_user(data, user)
+
+            return {
+                "preferences": u.get("preferences", {}) if u else {},
+                "viewer": user
+            }
+
+        return {
+            "preferences": {},
+            "viewer": None
+        }
+
     # Register blueprints
     from routes.auth import auth_bp
     from routes.home import home_bp

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
     {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="{%if preferences.get('dark_mode') %}dark-mode{% endif %}">
 
 <header>
     <h1>AgeTech House -- Nutrition Management App</h1>

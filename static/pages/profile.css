@@ -1,3 +1,7 @@
+/* =========================
+   PAGE LAYOUT
+========================= */
+
 .users-page {
     max-width: 1100px;
     margin: 0 auto;
@@ -12,24 +16,28 @@
     margin-bottom: 25px;
 }
 
-/* ===== USER CARD ===== */
+/* =========================
+   USER CARD
+========================= */
+
 .user-card {
-    background: white;
+    background: var(--card);
     border-radius: 14px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-sm);
     margin-bottom: 20px;
     overflow: hidden;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .user-card:hover {
     transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 /* HEADER */
 .user-header {
     padding: 18px 20px;
-    background: linear-gradient(135deg, #2c7be5, #4facfe);
+    background: linear-gradient(135deg, var(--primary), #4facfe);
     color: white;
 }
 
@@ -43,7 +51,10 @@
     opacity: 0.9;
 }
 
-/* BODY */
+/* =========================
+   BODY GRID
+========================= */
+
 .user-body {
     padding: 20px;
     display: grid;
@@ -51,11 +62,15 @@
     gap: 15px;
 }
 
-/* SECTION CARDS */
+/* =========================
+   INFO BOXES
+========================= */
+
 .info-box {
-    background: #f9fafb;
+    background: var(--bg);
     padding: 15px;
     border-radius: 12px;
+    border: 1px solid var(--border);
 }
 
 .info-box h4 {
@@ -70,7 +85,7 @@
 .info-box p {
     margin: 5px 0;
     font-size: 14px;
-    color: #333;
+    color: var(--text);
 }
 
 /* STARS */
@@ -79,7 +94,10 @@
     font-size: 18px;
 }
 
-/* BUTTON */
+/* =========================
+   BUTTON
+========================= */
+
 .btn {
     display: inline-block;
     padding: 10px 14px;
@@ -89,24 +107,33 @@
     text-decoration: none;
     margin-top: 10px;
     text-align: center;
+    transition: 0.2s ease;
 }
 
 .btn:hover {
-    opacity: 0.9;
+    background: var(--primary-dark);
 }
 
-/* ACCOUNT BLOCK (subtle) */
+/* =========================
+   ACCOUNT BLOCK
+========================= */
+
 .account-box {
     font-size: 13px;
-    color: #555;
-    background: #f3f4f6;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
     padding: 12px;
     border-radius: 10px;
 }
 
-/* CARETAKER BOX */
+/* =========================
+   CARETAKER BOX
+========================= */
+
 .caretaker-box {
-    background: #eef4ff;
+    background: var(--bg);
+    border: 1px solid var(--border);
     padding: 12px;
     border-radius: 10px;
 }
