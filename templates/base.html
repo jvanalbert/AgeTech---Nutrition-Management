@@ -5,6 +5,7 @@
     <title>AgeTech House</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     {% block extra_css %}{% endblock %}
 </head>
 <body class="{%if preferences.get('dark_mode') %}dark-mode{% endif %}">
@@ -12,6 +13,10 @@
 <header>
     <h1>AgeTech House -- Nutrition Management App</h1>
 </header>
+
+<script>
+    const client  = mqtt.connect('ws://10.83.32.6:9001');
+</script>
 
 {% if session.user %}
 <nav>
@@ -76,6 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (timeUntil > 0) {
             setTimeout(() => {
                 showMealModal(meal.name);
+                console.log('Meal time');
+                client.publish('alert/meal_time', `Time for ${meal.name}!`);
             }, timeUntil);
         }
     });

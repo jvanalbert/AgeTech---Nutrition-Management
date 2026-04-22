@@ -124,7 +124,7 @@
 <div class="card">
     <h3>Generate a New Recipe</h3>
 
-    <form method="POST" action="/generate_recipe">
+    <form method="POST" action="{{ url_for('meals.generate_recipe_route') }}">
         
         <label><strong>Select Meal Type:</strong></label>
         <select name="meal_type">
@@ -178,43 +178,51 @@
 </div>
 {% endif %}
 
+<div class="card">
 <h2>Your Logged Meals</h2>
-{% set meal_types = ['breakfast', 'lunch', 'dinner', 'snack'] %}
-{% for meal_type in meal_types %}
-    <h3>{{ meal_type.title() }}</h3>
-    {% set type_meals = user_meals | selectattr('meal_type', 'equalto', meal_type) | list %}
-    {% if type_meals %}
-        {% for meal in type_meals %}
-            <div class="card meal-card">
-                <div class="meal-info">
-                    <strong>{{ meal.name }}</strong><br>
-                    Quantity: {{ meal.quantity }}g<br>
-                    Calories: {{ "%.1f"|format(meal.calories) }}<br>
-                    Logged: {{ meal.timestamp }}
-                    {% if meal.allergens %}
-                    {% set has_conflict = false %}
-                    {% for allergen in meal.allergens %}
-                    {% for user_allergen in user_allergies %}
-                    {% if allergen.lower() == user_allergen.lower() %}
-                    {% set has_conflict = true %}
-                    {% endif %}
-                    {% endfor %}
-                    {% endfor %}
-                    {% if has_conflict %}
-                    <br><span style="color: red; font-weight: bold;">⚠️ Contains allergens</span>
-                    {% endif %}
-                    {% endif %}
+    {% set meal_types = ['breakfast', 'lunch', 'dinner', 'snack'] %}
+    {% for meal_type in meal_types %}
+        <h3>{{ meal_type.title() }}</h3>
+        {% set type_meals = user_meals | selectattr('meal_type', 'equalto', meal_type) | list %}
+        {% if type_meals %}
+            {% for meal in type_meals %}
+                <div class="card meal-card">
+                    <div class="meal-info">
+                        <strong>{{ meal.name }}</strong><br>
+                        Quantity: {{ meal.quantity }}g<br>
+                        Calories:
+                        {% if meal.calories is defined %}
+                            {{ "%.1f"|format(meal.calories) }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                        <br>
+                        Logged: {{ meal.timestamp }}
+                        {% if meal.allergens %}
+                        {% set has_conflict = false %}
+                        {% for allergen in meal.allergens %}
+                        {% for user_allergen in user_allergies %}
+                        {% if allergen.lower() == user_allergen.lower() %}
+                        {% set has_conflict = true %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endfor %}
+                        {% if has_conflict %}
+                        <br><span style="color: red; font-weight: bold;">⚠️ Contains allergens</span>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <form method="POST" action="/delete_meal" class="delete-form">
+                        <input type="hidden" name="timestamp" value="{{ meal.timestamp }}">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
                 </div>
-                <form method="POST" action="/delete_meal" class="delete-form">
-                    <input type="hidden" name="timestamp" value="{{ meal.timestamp }}">
-                    <button type="submit" class="delete-btn">Delete</button>
-                </form>
-            </div>
-        {% endfor %}
-    {% else %}
-    <p>No meals logged yet.</p>
-    {% endif %}
-{% endfor %}
+            {% endfor %}
+        {% else %}
+        <p>No meals logged yet.</p>
+        {% endif %}
+    {% endfor %}
+</div>
 
 <script>
 function toggleRecipe(id) {

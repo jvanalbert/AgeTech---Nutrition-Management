@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, request, url_for
 from Backend.user_loader import load_user_data
+from Backend.recipe import generate_recipe
 import json
 
 recipes_bp = Blueprint("recipes", __name__)
@@ -178,37 +179,48 @@ def delete_recipe(index):
     return redirect(url_for("recipes.recipes"))
 
 
-# =========================
-# GENERATE RECIPE
-# =========================
-@recipes_bp.route("/generate_recipe", methods=["POST"])
-def generate_recipe_route():
-    if not session.get("user"):
-        return redirect("/login")
+# # =========================
+# # GENERATE RECIPE
+# # =========================
+# @recipes_bp.route("/generate_recipe", methods=["GET", "POST"])
+# def generate_recipe_route():
+#     if not session.get("user"):
+#         return redirect("/login")
 
-    session_user = session["user"]
-    data = load_user_data()
-    target_user = get_target_user(data, session_user)
+#     session_user = session["user"]
+#     data = load_user_data()
+#     target_user = get_target_user(data, session_user)
 
-    meal_type = request.form.get("meal_type", "dinner")
+#     generated = None
 
-    try:
-        raw = generate_recipe(meal_type)
+#     if request.method == "POST":
+#         meal_type = request.form.get("meal_type", "dinner")
 
-        if raw.startswith("```"):
-            raw = raw.strip("`").replace("json\n", "")
+#         try:
+#             raw = generate_recipe(meal_type)
 
-        generated = json.loads(raw)
-    except:
-        generated = None
+#             # Clean AI response safely
+#             raw = raw.strip()
 
-    with open(FILE) as f:
-        file_data = json.load(f)
+#             if raw.startswith("```"):
+#                 raw = raw.split("```")[1]  # remove code block
+#                 raw = raw.replace("json", "").strip()
 
-    return render_template(
-        "recipes.html",
-        recipes=file_data.get("recipes", []),
-        generated_recipe=generated,
-        user=target_user,
-        viewer=session_user
-    )
+#             generated = json.loads(raw)
+
+#         except Exception as e:
+#             print("GENERATION ERROR:", e)
+#             print("RAW RESPONSE:", raw)
+#             generated = None
+
+#     # Always reload saved recipes
+#     with open(FILE) as f:
+#         file_data = json.load(f)
+
+#     return render_template(
+#         "recipes.html",
+#         recipes=file_data.get("recipes", []),
+#         generated_recipe=generated,
+#         user=target_user,
+#         viewer=session_user
+#     )

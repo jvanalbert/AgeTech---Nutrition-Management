@@ -58,6 +58,54 @@
                     "date": "2026-04-20",
                     "timestamp": "April 20, 2026 at 05:17:06 PM",
                     "allergens": []
+                },
+                {
+                    "food_id": 4,
+                    "name": "Strawberry",
+                    "quantity": 20.0,
+                    "meal_type": "breakfast",
+                    "calories": 32.0,
+                    "sugar": 0.0,
+                    "sodium": 0.0,
+                    "date": "2026-04-22",
+                    "timestamp": "April 22, 2026 at 04:39:13 PM",
+                    "allergens": []
+                },
+                {
+                    "name": "Chicken and Rice Dinner Bowl",
+                    "meal_type": "dinner",
+                    "calories": 0,
+                    "protein": 0,
+                    "sodium": 0,
+                    "sugar": 0,
+                    "timestamp": "April 22, 2026 at 04:43:28 PM",
+                    "ingredients": [
+                        {
+                            "amount": "1",
+                            "name": "rice",
+                            "unit": "cup"
+                        },
+                        {
+                            "amount": "1",
+                            "name": "chicken breast",
+                            "unit": "piece"
+                        },
+                        {
+                            "amount": "2",
+                            "name": "vodka sauce",
+                            "unit": "tablespoons"
+                        },
+                        {
+                            "amount": "1",
+                            "name": "Colby Jack",
+                            "unit": "slice"
+                        },
+                        {
+                            "amount": "1",
+                            "name": "real mayonnaise",
+                            "unit": "tablespoon"
+                        }
+                    ]
                 }
             ],
             "meal_times": {

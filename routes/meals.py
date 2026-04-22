@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, request
 from Backend.user_loader import load_user_data, save_user_data
 from Backend.food_loader import load_foods
+from Backend.recipe import generate_recipe
 from utils.helpers import has_ingredients_for_recipe
 import json
 from datetime import datetime
@@ -131,90 +132,182 @@ def delete_meal():
 
     return redirect("/meals")
 
-# from flask import Blueprint, render_template, session, redirect, request
-# from Backend.user_loader import load_user_data, save_user_data
-# from Backend.food_loader import load_foods
-# from utils.helpers import has_ingredients_for_recipe
-# import json
-# from datetime import datetime
+@meals_bp.route("/generate_recipe", methods=["POST"])
+def generate_recipe_route():
+    if not session.get("user"):
+        return redirect("/login")
 
-# meals_bp = Blueprint("meals", __name__)
+    # Load user data (same as /meals)
+    session_user = session["user"]
+    data = load_user_data()
+    user_id = session["user"]["id"]
+    user = None
 
-# @meals_bp.route("/meals", methods=["GET", "POST"])
-# def meals():
-#     if not session.get("user"):
-#         return redirect("/login")
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u["id"] == user_id:
+            user = u
+            break
 
-#     data = load_user_data()
-#     user_id = session["user"]["id"]
+    user_meals = user.get("meals", []) if user else []
 
-#     user = next((u for u in data["elderly_users"] if u["id"] == user_id), None)
-#     user_meals = user.get("meals", []) if user else []
+    foods = load_foods()
 
-#     foods = load_foods()
+    # ✅ FILTER FOODS (same as your route)
+    user_allergies = []
+    if user:
+        user_allergies = user.get("allergies", [])
+        filtered_foods = []
 
-#     # 🔹 ADD MEAL
-#     if request.method == "POST":
-#         food_id = int(request.form["food_id"])
-#         quantity = float(request.form["quantity"])
-#         meal_type = request.form["meal_type"]
+        for f in foods:
+            safe = True
+            for allergen in user_allergies:
+                for a in f.get("allergens", []):
+                    if allergen.lower() == a.lower():
+                        safe = False
+                        break
+                if not safe:
+                    break
+            if safe:
+                filtered_foods.append(f)
 
-#         food = next((f for f in foods if f["id"] == food_id), None)
-#         if not food:
-#             return redirect("/meals")
+        foods = filtered_foods
 
-#         meal = {
-#             "food_id": food_id,
-#             "name": food["name"],
-#             "quantity": quantity,
-#             "meal_type": meal_type,
-#             "calories": float(food.get("calories", 0)),
-#             "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p")
-#         }
+    # ✅ LOAD SAVED RECIPES (same as your route)
+    with open("data/saved_recipes.json") as f:
+        recipe_data = json.load(f)
 
-#         user.setdefault("meals", []).append(meal)
-#         save_user_data(data)
+    recipes = recipe_data.get("recipes", [])
 
-#         return redirect("/meals")
+    recipe_availability = []
+    for recipe in recipes:
+        has_all, missing = has_ingredients_for_recipe(recipe)
+        recipe_availability.append({
+            "recipe": recipe,
+            "has_all": has_all,
+            "missing": missing
+        })
 
-#     # 🔹 LOAD RECIPES
-#     with open("data/saved_recipes.json") as f:
-#         recipe_data = json.load(f)
+    # 🔥 NEW: GENERATE AI RECIPE
+    meal_type = request.form.get("meal_type", "dinner")
+    recipe_json = generate_recipe(meal_type)
 
-#     recipes = recipe_data.get("recipes", [])
+    try:
+        recipe_json = generate_recipe(meal_type)
 
-#     recipe_availability = []
-#     for recipe in recipes:
-#         has_all, missing = has_ingredients_for_recipe(recipe)
-#         recipe_availability.append({
-#             "recipe": recipe,
-#             "has_all": has_all,
-#             "missing": missing
-#         })
+        print("RAW AI RESPONSE:")
+        print(recipe_json)
 
-#     return render_template(
-#         "meals.html",
-#         foods=foods,
-#         user_meals=user_meals,
-#         recipes=recipes,
-#         recipe_availability=recipe_availability
-#     )
+        # 🔥 REMOVE ```json and ```
+        if recipe_json.startswith("```"):
+            recipe_json = recipe_json.strip("`")          # remove backticks
+            recipe_json = recipe_json.replace("json\n", "")  # remove 'json\n'
 
+        generated_recipe = json.loads(recipe_json)
 
-# @meals_bp.post("/delete_meal")
-# def delete_meal():
-#     if not session.get("user"):
-#         return redirect("/login")
+    except Exception as e:
+        print("AI ERROR:", e)
+        print("CLEANED RESPONSE:", recipe_json)
+        generated_recipe = None
 
-#     timestamp = request.form["timestamp"]
+    # ✅ RETURN SAME TEMPLATE + ONE EXTRA VARIABLE
+    return render_template(
+    "meals.html",
+    foods=foods,
+    user_meals=user_meals,
+    user_allergies=user_allergies,
+    recipes=recipes,
+    recipe_availability=recipe_availability,
+    generated_recipe=generated_recipe,
+    viewer=session_user,   # ✅ ADD THIS
+    user=user              # ✅ ADD THIS
+)
 
-#     data = load_user_data()
-#     user_id = session["user"]["id"]
+@meals_bp.post("/log_recipe_meal")
+def log_recipe_meal():
+    if not session.get("user"):
+        return redirect("/login")
 
-#     user = next((u for u in data["elderly_users"] if u["id"] == user_id), None)
+    recipe_index = int(request.form["recipe_index"])
+    meal_type = request.form.get("meal_type", "dinner")
 
-#     if user:
-#         user["meals"] = [m for m in user.get("meals", []) if m["timestamp"] != timestamp]
-#         save_user_data(data)
+    # Load recipes
+    with open("data/saved_recipes.json") as f:
+        data = json.load(f)
 
-#     return redirect("/meals")
+    recipes = data.get("recipes", [])
+
+    if recipe_index >= len(recipes):
+        return redirect("/meals")
+
+    recipe = recipes[recipe_index]
+
+    # Check ingredients
+    has_all, missing = has_ingredients_for_recipe(recipe)
+
+    if not has_all:
+        return f"Missing ingredients: {', '.join(missing)} <br><a href='/meals'>Go back</a>"
+
+    meal = {
+        "name": recipe["recipe_name"],
+        "meal_type": meal_type,
+        "calories": 0,
+        "protein": 0,
+        "sodium": 0,
+        "sugar": 0,
+        "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),
+        "ingredients": recipe["ingredients"]
+    }
+
+    data = load_user_data()
+    user_id = session["user"]["id"]
+
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u["id"] == user_id:
+            u.setdefault("meals", []).append(meal)
+            break
+
+    save_user_data(data)
+
+    return redirect("/meals")
+
+@meals_bp.post("/log_generated_meal")
+def log_generated_meal():
+    if not session.get("user"):
+        return redirect("/login")
+
+    import json
+    from datetime import datetime
+
+    # Parse recipe safely
+    try:
+        recipe = json.loads(request.form.get("recipe_json", "{}"))
+    except Exception:
+        return redirect("/meals")
+
+    meal_type = request.form.get("meal_type", "dinner")
+
+    # Build meal safely (AI may miss fields)
+    meal = {
+        "name": recipe.get("recipe_name", "Generated Meal"),
+        "meal_type": meal_type,
+        "calories": recipe.get("calories", 0),
+        "protein": recipe.get("protein", 0),
+        "sodium": recipe.get("sodium", 0),
+        "sugar": recipe.get("sugar", 0),
+        "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),
+        "ingredients": recipe.get("ingredients", [])
+    }
+
+    # Load users
+    data = load_user_data()
+    user_id = session["user"]["id"]
+
+    # Find user safely
+    for u in data.get("elderly_users", []) + data.get("caretaker_users", []):
+        if u.get("id") == user_id:
+            u.setdefault("meals", []).append(meal)
+            break
+
+    save_user_data(data)
+
+    return redirect("/meals")
