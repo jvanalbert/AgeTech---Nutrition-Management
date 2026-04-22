@@ -262,6 +262,7 @@ def log_recipe_meal():
         "protein": 0,
         "sodium": 0,
         "sugar": 0,
+        "date": datetime.now().strftime("%Y-%m-%d"),  # ✅ ADD THIS
         "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),
         "ingredients": recipe["ingredients"]
     }
@@ -302,6 +303,7 @@ def log_generated_meal():
         "protein": recipe.get("protein", 0),
         "sodium": recipe.get("sodium", 0),
         "sugar": recipe.get("sugar", 0),
+        "date": datetime.now().strftime("%Y-%m-%d"),  # ✅ ADD THIS
         "timestamp": datetime.now().strftime("%B %d, %Y at %I:%M:%S %p"),
         "ingredients": recipe.get("ingredients", [])
     }
