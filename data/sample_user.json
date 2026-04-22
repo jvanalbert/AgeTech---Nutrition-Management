@@ -60,52 +60,66 @@
                     "allergens": []
                 },
                 {
-                    "food_id": 4,
-                    "name": "Strawberry",
-                    "quantity": 20.0,
-                    "meal_type": "breakfast",
-                    "calories": 32.0,
+                    "food_id": 21,
+                    "name": "Lowfat Cottage Cheese Small Curd 2% Milkfat",
+                    "quantity": 10.0,
+                    "meal_type": "snack",
+                    "calories": 88.5,
                     "sugar": 0.0,
                     "sodium": 0.0,
                     "date": "2026-04-22",
-                    "timestamp": "April 22, 2026 at 04:39:13 PM",
+                    "timestamp": "April 22, 2026 at 01:48:04 PM",
                     "allergens": []
                 },
                 {
-                    "name": "Chicken and Rice Dinner Bowl",
+                    "food_id": 1,
+                    "name": "Apple",
+                    "quantity": 10.0,
+                    "meal_type": "breakfast",
+                    "calories": 95.0,
+                    "sugar": 0.0,
+                    "sodium": 0.0,
+                    "date": "2026-04-22",
+                    "timestamp": "April 22, 2026 at 01:48:37 PM",
+                    "allergens": []
+                },
+                {
+                    "food_id": 10,
+                    "name": "Oats",
+                    "quantity": 10.0,
+                    "meal_type": "breakfast",
+                    "calories": 138.0,
+                    "sugar": 0.5,
+                    "sodium": 0.0,
+                    "date": "2026-04-22",
+                    "timestamp": "April 22, 2026 at 01:50:35 PM",
+                    "allergens": []
+                },
+                {
+                    "food_id": 21,
+                    "name": "Lowfat Cottage Cheese Small Curd 2% Milkfat",
+                    "quantity": 25.0,
                     "meal_type": "dinner",
-                    "calories": 0,
-                    "protein": 0,
-                    "sodium": 0,
-                    "sugar": 0,
-                    "timestamp": "April 22, 2026 at 04:43:28 PM",
-                    "ingredients": [
-                        {
-                            "amount": "1",
-                            "name": "rice",
-                            "unit": "cup"
-                        },
-                        {
-                            "amount": "1",
-                            "name": "chicken breast",
-                            "unit": "piece"
-                        },
-                        {
-                            "amount": "2",
-                            "name": "vodka sauce",
-                            "unit": "tablespoons"
-                        },
-                        {
-                            "amount": "1",
-                            "name": "Colby Jack",
-                            "unit": "slice"
-                        },
-                        {
-                            "amount": "1",
-                            "name": "real mayonnaise",
-                            "unit": "tablespoon"
-                        }
-                    ]
+                    "calories": 88.5,
+                    "sugar": 3.5,
+                    "sodium": 354.0,
+                    "date": "2026-04-22",
+                    "timestamp": "April 22, 2026 at 01:50:51 PM",
+                    "allergens": []
+                },
+                {
+                    "food_id": 21,
+                    "name": "Lowfat Cottage Cheese Small Curd 2% Milkfat",
+                    "quantity": 50.0,
+                    "meal_type": "breakfast",
+                    "calories": 88.5,
+                    "protein": 11.0,
+                    "cholesterol": 8.8,
+                    "sugar": 3.5,
+                    "sodium": 354.0,
+                    "date": "2026-04-22",
+                    "timestamp": "April 22, 2026 at 01:54:16 PM",
+                    "allergens": []
                 }
             ],
             "meal_times": {
@@ -140,7 +154,7 @@
                 "preferred_cuisines": [],
                 "dark_mode": false,
                 "language": "en",
-                "notifications": false
+                "notifications": true
             }
         },
         {
