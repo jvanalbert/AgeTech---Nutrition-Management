@@ -94,11 +94,17 @@ def meals():
             "has_all": has_all,
             "missing": missing
         })
+    
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    todays_meals = [
+        m for m in target_user.get("meals", []) 
+        if m.get("date") == today_str
+    ]
 
     return render_template(
         "meals.html",
         foods=foods,
-        user_meals=target_user.get("meals", []),
+        user_meals=todays_meals,
         recipes=recipes,
         recipe_availability=recipe_availability,
         viewer=session_user,
