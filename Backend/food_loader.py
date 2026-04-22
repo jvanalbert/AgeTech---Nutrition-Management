@@ -19,6 +19,10 @@ def load_foods(path="data/sample_food.json"):
             "id": food_id,
             "name": product["name"],
             "calories": product["calories"],
+            "protein": product.get("protein", 0),
+            "cholesterol": product.get("cholesterol", 0),
+            "sugar": product.get("sugar", 0),
+            "sodium": product.get("sodium", 0),
             "category": product["category"],
             "allergens": product.get("allergens", [])
         })

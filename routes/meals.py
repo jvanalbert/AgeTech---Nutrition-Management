@@ -64,6 +64,8 @@ def meals():
             "quantity": quantity,
             "meal_type": meal_type,
             "calories": float(food.get("calories", 0)),
+            "protein": float(food.get("protein", 0)),
+            "cholesterol": float(food.get("cholesterol", 0)),
             "sugar": float(food.get("sugar", 0)),
             "sodium": float(food.get("sodium", 0)),
             "date": datetime.now().strftime("%Y-%m-%d"),
