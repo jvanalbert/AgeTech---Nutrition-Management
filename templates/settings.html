@@ -9,117 +9,135 @@
 {% block content %}
 <div class="container">
     <div class="card">
+
         <h2 class="page-title">Settings</h2>
 
         <!-- Tabs -->
         <div style="margin-top: 20px;">
-            <button class="tab-btn active" onclick="openTab(event, 'interface')">Interface</button>
+            <button class="tab-btn active" onclick="openTab(event, 'meal')">Preferences</button>
             <button class="tab-btn" onclick="openTab(event, 'privacy')">Privacy</button>
-            <button class="tab-btn" onclick="openTab(event, 'meal')">Meal Preferences</button>
         </div>
 
-        <!-- Tab Contents -->
-        <div id="interface" class="tab-content active">
-            <form method="POST" action="{{ url_for('settings.settings') }}?tab=interface">
-                <div class="setting-item" style="margin-bottom: 15px;">
-                    <label>
-                        Language:
-                        <select name="language" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
-                            <option value="en" {% if preferences.get('language') == 'en' %}selected{% endif %}>English</option>
-                            <option value="es" {% if preferences.get('language') == 'es' %}selected{% endif %}>Spanish</option>
-                            <option value="fr" {% if preferences.get('language') == 'fr' %}selected{% endif %}>French</option>
-                        </select>
-                    </label>
-                </div>
-                
-                <div class="setting-item" style="margin-bottom: 15px;">
-                    <label>
-                        <input type="checkbox" name="dark_mode" value="1" {% if preferences.get('dark_mode') %}checked{% endif %}>
-                        Dark Mode
-                    </label>
-                </div>
+        <!-- ===================== -->
+        <!-- PREFERENCES TAB -->
+        <!-- ===================== -->
+        <div id="meal" class="tab-content active">
 
-                <div class="setting-item" style="margin-bottom: 15px;">
-                    <label>
-                        <input type="checkbox" name="notifications" value="1" {% if preferences.get('notifications') %}checked{% endif %}>
-                        Show Notifications
-                    </label>
-                </div>
-
-                <button type="submit" class="nav-btn" style="background-color:#2c7be5; color:white;">Save Interface</button>
-            </form>
-        </div>
-
-        <div id="privacy" class="tab-content">
-            <form method="POST" action="{{ url_for('settings.settings') }}?tab=privacy">
-                <div class="setting-item" style="margin-bottom: 15px;">
-                    <label>
-                        Username:
-                        <input type="text" value="{{ session.user.username }}" readonly style="padding: 8px; border-radius:6px; border:1px solid #ccc;">
-                    </label>
-                </div>
-
-                <div class="setting-item" style="margin-bottom: 15px;">
-                    <label>
-                        New Password:
-                        <input type="password" name="new_password" placeholder="Enter new password" style="padding:8px; border-radius:6px; border:1px solid #ccc;">
-                    </label>
-                </div>
-
-                <button type="submit" class="nav-btn" style="background-color:#2c7be5; color:white;">Update Password</button>
-            </form>
-        </div>
-
-        <div id="meal" class="tab-content">
             <form method="POST" action="{{ url_for('settings.settings') }}?tab=meal">
-                <h3>Meal Times</h3>
+
+                <h3 class="section-title">Meal Schedule</h3>
+
                 {% set mt = preferences.get('meal_times', {
                     'breakfast': {'hour':8,'minute':0},
                     'lunch': {'hour':12,'minute':0},
                     'dinner': {'hour':18,'minute':0}
                 }) %}
-                {% for meal, time in mt.items() %}
-                    <div class="setting-item" style="margin-bottom: 10px;">
-                        <label>
-                            {{ meal|capitalize }}:
-                            <input type="number" name="{{ meal }}_hour" min="0" max="23" value="{{ time.hour }}" style="width:60px; padding:5px; border-radius:6px; border:1px solid #ccc;"> :
-                            <input type="number" name="{{ meal }}_minute" min="0" max="59" value="{{ time.minute }}" style="width:60px; padding:5px; border-radius:6px; border:1px solid #ccc;">
-                        </label>
-                    </div>
-                {% endfor %}
 
-                <h3>Preferred Cuisines</h3>
-                {% set cuisines = ['Italian','Chinese','Mexican','American','Indian','Mediterranean'] %}
-                <div class="setting-item" style="margin-bottom:15px;">
-                    {% for c in cuisines %}
-                        <label style="margin-right:10px;">
-                            <input type="checkbox" name="cuisines" value="{{ c }}" {% if c in preferences.get('preferred_cuisines',[]) %}checked{% endif %}> {{ c }}
-                        </label>
+                <div class="settings-group meal-group">
+                    {% for meal, time in mt.items() %}
+                    <div class="meal-row">
+                        <div class="meal-name">
+                            {{ meal|capitalize }}
+                        </div>
+
+                        <div class="meal-inputs">
+                            <input type="number" name="{{ meal }}_hour" min="0" max="23" value="{{ time.hour }}">
+                            <span>:</span>
+                            <input type="number" name="{{ meal }}_minute" min="0" max="59" value="{{ time.minute }}">
+                        </div>
+                    </div>
                     {% endfor %}
                 </div>
 
-                <button type="submit" class="nav-btn" style="background-color:#2c7be5; color:white;">Save Meal Preferences</button>
+                <h3 class="section-title">Diet Preferences</h3>
+
+                <div class="settings-group">
+                    <div class="setting-column">
+                        <label>Dietary Restrictions</label>
+                        <input type="text" name="dietary_restrictions"
+                            value="{{ preferences.get('dietary_restrictions','') }}"
+                            placeholder="e.g. low sodium, diabetic-friendly">
+                    </div>
+
+                    <div class="setting-column">
+                        <label>Preferred Cuisines</label>
+                        <div class="checkbox-group">
+                            {% for c in cuisines %}
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="cuisines" value="{{ c }}"
+                                {% if c in preferences.get('preferred_cuisines',[]) %}checked{% endif %}>
+                                {{ c }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DARK MODE -->
+                <div class="toggle-row">
+                    <label>Dark Mode</label>
+                    <input type="checkbox" name="dark_mode"
+                    {% if preferences.get('dark_mode') %}checked{% endif %}>
+                </div>
+
+                <button type="submit" class="primary-btn">
+                    Save Preferences
+                </button>
+
             </form>
         </div>
+
+        <!-- ===================== -->
+        <!-- PRIVACY TAB -->
+        <!-- ===================== -->
+        <div id="privacy" class="tab-content">
+
+            <form method="POST" action="{{ url_for('settings.settings') }}?tab=privacy">
+
+                <div class="setting-item" style="margin-bottom: 15px;">
+                    <label>Username</label><br>
+                    <input type="text"
+                           value="{{ user.get('username','') }}"
+                           readonly
+                           style="padding: 8px; border-radius:6px; border:1px solid #ccc;">
+                </div>
+
+                <div class="setting-item" style="margin-bottom: 15px;">
+                    <label>New Password</label><br>
+                    <input type="password"
+                           name="new_password"
+                           placeholder="Enter new password"
+                           style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+                </div>
+
+                <button type="submit"
+                        class="nav-btn"
+                        style="background-color:#2c7be5; color:white;">
+                    Update Password
+                </button>
+
+            </form>
+        </div>
+
     </div>
 </div>
 
+<!-- ===================== -->
+<!-- TAB SCRIPT -->
+<!-- ===================== -->
 <script>
 function openTab(evt, tabName) {
     const tabcontent = document.getElementsByClassName("tab-content");
     const tabbtns = document.getElementsByClassName("tab-btn");
 
-    // Hide all tab content
     for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].classList.remove("active");
     }
 
-    // Remove active state from all buttons
     for (let i = 0; i < tabbtns.length; i++) {
         tabbtns[i].classList.remove("active");
     }
 
-    // Show selected tab
     document.getElementById(tabName).classList.add("active");
     evt.currentTarget.classList.add("active");
 }

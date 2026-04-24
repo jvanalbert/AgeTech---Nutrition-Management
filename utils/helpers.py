@@ -17,3 +17,22 @@ def has_ingredients_for_recipe(recipe):
             missing.append(ing["name"])
 
     return len(missing) == 0, missing
+
+def get_target_user(data, session_user):
+    role = session_user.get("role", "").lower()
+
+    if role == "caretaker":
+        return next(
+            (u for u in data.get("elderly_users", [])
+             if u.get("caretaker_id") == session_user["id"]),
+            None
+        )
+
+    elif role == "elderly":
+        return next(
+            (u for u in data.get("elderly_users", [])
+             if u["id"] == session_user["id"]),
+            None
+        )
+
+    return None

@@ -74,7 +74,7 @@
 
             {% if (session.user.role == "caretaker" and user.caretaker and user.caretaker.id == session.user.id)
                 or (session.user.role == "elderly" and user.id == session.user.id) %}
-                <a href="/edit_meal_times/{{ user.id }}" class="btn">Edit Meal Times</a>
+                <a href="{{ url_for('settings.settings', tab='meal') }}" class="btn">Edit Meal Times</a>
             {% endif %}
         </div>
 

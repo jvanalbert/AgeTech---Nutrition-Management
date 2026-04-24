@@ -1,4 +1,6 @@
-from flask import Flask
+from flask import Flask, session
+from Backend.user_loader import load_user_data
+from utils.helpers import get_target_user
 from extensions import bcrypt
 
 def create_app():
@@ -9,9 +11,7 @@ def create_app():
 
     @app.context_processor
     def inject_user_data():
-        from flask import session
         from Backend.user_loader import load_user_data
-        from routes.settings import get_target_user
 
         user = session.get("user")
 
@@ -28,6 +28,24 @@ def create_app():
             "preferences": {},
             "viewer": None
         }
+    
+    @app.context_processor
+    def inject_meal_times():
+        if not session.get("user"):
+            return {}
+
+        data = load_user_data()
+        session_user = session.get("user")
+
+        # reuse your helper
+        user = get_target_user(data, session_user)
+
+        if not user:
+            return {}
+
+        meal_times = user.get("preferences", {}).get("meal_times", {})
+
+        return dict(meal_times=meal_times)
 
     # Register blueprints
     from routes.auth import auth_bp

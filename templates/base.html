@@ -50,8 +50,8 @@
 
 {% block scripts %}{% endblock %}
 
-{% if session.user and session.user.role == "elderly" and session.meal_times %}
-<div id="meal-times-data" style="display:none;">{{ session.meal_times | tojson }}</div>
+{% if session.user and session.user.role == "elderly" and meal_times %}
+<div id="meal-times-data" style="display:none;">{{ meal_times | tojson }}</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Get meal times from session

@@ -120,6 +120,71 @@
                     "date": "2026-04-22",
                     "timestamp": "April 22, 2026 at 01:54:16 PM",
                     "allergens": []
+                },
+                {
+                    "name": "Fruit and Cream Cheese Breakfast Toast",
+                    "meal_type": "breakfast",
+                    "calories": 0,
+                    "protein": 0,
+                    "sodium": 0,
+                    "sugar": 0,
+                    "date": "2026-04-24",
+                    "timestamp": "April 24, 2026 at 09:17:50 AM",
+                    "ingredients": [
+                        {
+                            "amount": "1",
+                            "name": "bread",
+                            "unit": "slice"
+                        },
+                        {
+                            "amount": "2",
+                            "name": "cream cheese spread",
+                            "unit": "tablespoons"
+                        },
+                        {
+                            "amount": "1",
+                            "name": "strawberry",
+                            "unit": "piece"
+                        },
+                        {
+                            "amount": "1",
+                            "name": "banana",
+                            "unit": "piece"
+                        },
+                        {
+                            "amount": "2",
+                            "name": "organic blackberries",
+                            "unit": "pieces"
+                        }
+                    ]
+                },
+                {
+                    "food_id": 13,
+                    "name": "Chicken",
+                    "quantity": 5.0,
+                    "meal_type": "lunch",
+                    "calories": 335.0,
+                    "protein": 25.0,
+                    "cholesterol": 85.0,
+                    "sugar": 0.0,
+                    "sodium": 74.0,
+                    "date": "2026-04-24",
+                    "timestamp": "April 24, 2026 at 09:18:49 AM",
+                    "allergens": []
+                },
+                {
+                    "food_id": 16,
+                    "name": "Strawberries",
+                    "quantity": 5.0,
+                    "meal_type": "snack",
+                    "calories": 32.0,
+                    "protein": 0.7,
+                    "cholesterol": 0.0,
+                    "sugar": 4.9,
+                    "sodium": 1.0,
+                    "date": "2026-04-24",
+                    "timestamp": "April 24, 2026 at 09:19:17 AM",
+                    "allergens": []
                 }
             ],
             "meal_times": {
@@ -139,22 +204,23 @@
             "preferences": {
                 "meal_times": {
                     "breakfast": {
-                        "hour": 8,
-                        "minute": 0
+                        "hour": 9,
+                        "minute": 48
                     },
                     "lunch": {
                         "hour": 12,
                         "minute": 0
                     },
                     "dinner": {
-                        "hour": 18,
-                        "minute": 0
+                        "hour": 17,
+                        "minute": 46
                     }
                 },
                 "preferred_cuisines": [],
                 "dark_mode": false,
                 "language": "en",
-                "notifications": true
+                "notifications": true,
+                "dietary_restrictions": ""
             }
         },
         {
