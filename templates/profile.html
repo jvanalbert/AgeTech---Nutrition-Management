@@ -61,16 +61,23 @@
             <p><strong>Calories:</strong> {{ user.daily_calories }}</p>
             <p><strong>Medications:</strong> {{ user.medications | join(', ') }}</p>
             <p><strong>Allergies:</strong> {{ user.allergies | join(', ') }}</p>
-            <p><strong>Restrictions:</strong> {{ user.dietary_restrictions | join(', ') }}</p>
-            <p><strong>Cuisines:</strong> {{ user.preferred_cuisines | join(', ') }}</p>
+            {% set prefs = user.get('preferences', {}) %}
+            <p><strong>Restrictions:</strong>
+                {{ (prefs.get('dietary_restrictions') or user.get('dietary_restrictions', [])) | join(', ') }}
+            </p>
+
+            {% set prefs = user.get('preferences', {}) %}
+            <p><strong>Cuisines:</strong>
+                {{ (prefs.get('preferred_cuisines') or user.get('preferred_cuisines', [])) | join(', ') }}
+            </p>
         </div>
 
         <!-- MEAL TIMES -->
         <div class="info-box">
             <h4>Meal Schedule</h4>
-            <p><strong>Breakfast:</strong> {{ user.meal_times.breakfast.hour }}:{{ "%02d"|format(user.meal_times.breakfast.minute) }}</p>
-            <p><strong>Lunch:</strong> {{ user.meal_times.lunch.hour }}:{{ "%02d"|format(user.meal_times.lunch.minute) }}</p>
-            <p><strong>Dinner:</strong> {{ user.meal_times.dinner.hour }}:{{ "%02d"|format(user.meal_times.dinner.minute) }}</p>
+            {% set mt = user.get('preferences', {}).get('meal_times') or user.get('meal_times') %}            <p><strong>Breakfast:</strong> {{ mt.breakfast.hour }}:{{ "%02d"|format(mt.breakfast.minute) }}</p>
+            <p><strong>Lunch:</strong> {{ mt.lunch.hour }}:{{ "%02d"|format(mt.lunch.minute) }}</p>
+            <p><strong>Dinner:</strong> {{ mt.dinner.hour }}:{{ "%02d"|format(mt.dinner.minute) }}</p>
 
             {% if (session.user.role == "caretaker" and user.caretaker and user.caretaker.id == session.user.id)
                 or (session.user.role == "elderly" and user.id == session.user.id) %}

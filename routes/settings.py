@@ -25,6 +25,10 @@ def settings():
         "lunch": {"hour": 12, "minute": 0},
         "dinner": {"hour": 18, "minute": 0}
     })
+    cuisines = [
+        "Italian", "Chinese", "Mexican", "Indian",
+        "American", "Mediterranean", "Japanese"
+    ]
 
     tab = request.args.get("tab", "meal")
 
@@ -71,6 +75,7 @@ def settings():
     return render_template(
         "settings.html",
         preferences=prefs or {},
+        cuisines=cuisines,
         meal_times=meal_times,
         active_tab=tab,
         user=user,
