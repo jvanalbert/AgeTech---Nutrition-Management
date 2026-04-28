@@ -185,6 +185,33 @@
                     "date": "2026-04-24",
                     "timestamp": "April 24, 2026 at 09:19:17 AM",
                     "allergens": []
+                },
+                {
+                    "name": "Fruit Bowl",
+                    "meal_type": "breakfast",
+                    "calories": 183,
+                    "protein": 2.8,
+                    "sodium": 2,
+                    "sugar": 28.5,
+                    "date": "2026-04-28",
+                    "timestamp": "April 28, 2026 at 01:18:54 PM",
+                    "ingredients": [
+                        {
+                            "amount": "1",
+                            "unit": "serving",
+                            "name": "banana"
+                        },
+                        {
+                            "amount": "4",
+                            "unit": "pieces",
+                            "name": "strawberries"
+                        },
+                        {
+                            "amount": "1",
+                            "unit": "serving",
+                            "name": "orange"
+                        }
+                    ]
                 }
             ],
             "meal_times": {
